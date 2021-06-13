@@ -1,0 +1,23 @@
+services:
+    mongodb:
+        container_name: mongodb
+        build: ./config/db-seed
+        ports:
+            - 27017-27019:27017-27019
+        environment:
+            MONGO_INITDB_DATABASE: 'trellzo'
+
+    mongo-seed:
+        container_name: mongodb-seed
+        image: stefanwalther/mongo-seed
+        environment:
+            - MONGODB_HOST=mongodb
+            - MONGODB_PORT=27017
+        volumes:
+            - ./config/db-seed:/data
+        depends_on:
+            - mongodb
+        command:
+            [
+                'mongoimport --host mongodb --port 27017 --db trellzo -c users --mode upsert --type json --file /data/user.json --jsonArray',
+            ]
