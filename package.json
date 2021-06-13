@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "mongo-up": "docker-compose up -d",
-    "mongo-down": "docker-compose down",
+    "mongo-down": "docker-compose down -v",
     "api-dev": "nodemon",
     "api-test": "jest ./api",
     "api-build": "tsc ./api",
