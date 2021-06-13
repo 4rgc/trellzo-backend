@@ -1,0 +1,20 @@
+{
+  "name": "trellzo-backend",
+  "version": "1.0.0",
+  "description": "Trellzo backend.",
+  "main": "index.js",
+  "scripts": {
+    "mongo-up": "docker-compose up -d",
+    "mongo-down": "docker-compose down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4rgc/trellzo-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/4rgc/trellzo-backend/issues"
+  },
+  "homepage": "https://github.com/4rgc/trellzo-backend#readme"
+}
