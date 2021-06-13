@@ -1,7 +1,7 @@
 services:
     mongodb:
         container_name: mongodb
-        build: ./mongo/db-seed
+        build: ./mongo
         ports:
             - 27017-27019:27017-27019
         environment:
@@ -19,5 +19,6 @@ services:
             - mongodb
         command:
             [
-                'mongoimport --host mongodb --port 27017 --db trellzo -c users --mode upsert --type json --file /data/user.json --jsonArray',
+                'mongoimport --host mongodb --port 27017 --db trellzo -c users
+                --mode upsert --type json --file /data/user.json --jsonArray',
             ]
