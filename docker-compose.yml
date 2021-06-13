@@ -1,7 +1,7 @@
 services:
     mongodb:
         container_name: mongodb
-        build: ./config/db-seed
+        build: ./mongo/db-seed
         ports:
             - 27017-27019:27017-27019
         environment:
@@ -14,7 +14,7 @@ services:
             - MONGODB_HOST=mongodb
             - MONGODB_PORT=27017
         volumes:
-            - ./config/db-seed:/data
+            - ./mongo/db-seed:/data
         depends_on:
             - mongodb
         command:
