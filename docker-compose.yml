@@ -1,7 +1,19 @@
 services:
+    api:
+        container_name: api
+        build:
+            context: ./
+            dockerfile: ./api/Dockerfile.dev
+        image: 4rgc/trellzo-backend-api:dev
+        ports:
+            - 3000:8080
+
     mongodb:
         container_name: mongodb
-        build: ./mongo
+        build:
+            context: ./
+            dockerfile: ./mongo/Dockerfile.dev
+        image: 4rgc/trellzo-backend-mongo:dev
         ports:
             - 27017-27019:27017-27019
         environment:
