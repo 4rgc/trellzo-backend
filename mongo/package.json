@@ -1,0 +1,10 @@
+{
+  "name": "mongo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build-dev": "docker build -t 4rgc/trellzo-backend-mongo:dev -f ./Dockerfile.dev ."
+  },
+  "author": "",
+  "license": "ISC"
+}
