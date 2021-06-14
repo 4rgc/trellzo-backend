@@ -2,14 +2,15 @@
   "name": "trellzo-backend",
   "version": "1.0.0",
   "description": "Trellzo backend.",
-  "main": "index.js",
   "scripts": {
-    "mongo-up": "docker-compose up -d",
-    "mongo-down": "docker-compose down -v",
-    "api-dev": "nodemon",
-    "api-test": "jest ./api",
-    "api-build": "tsc ./api",
-    "api-run": "node ./api/dist/index.js"
+    "dev-up": "docker-compose up -d",
+    "dev-down": "docker-compose down -v",
+    "mongo-build-dev": "npm explore mongo -- npm run build-dev",
+    "api-dev": "npm explore api -- npm run dev",
+    "api-test": "npm explore api -- npm test",
+    "api-build": "npm explore api -- npm run build",
+    "api-build-dev": "npm explore api -- npm run build-dev",
+    "api-start": "npm explore api -- npm start"
   },
   "repository": {
     "type": "git",
