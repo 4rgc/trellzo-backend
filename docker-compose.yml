@@ -5,6 +5,8 @@ services:
             context: ./
             dockerfile: ./api/Dockerfile.dev
         image: 4rgc/trellzo-backend-api:dev
+        volumes:
+            - ./api:/app:ro
         ports:
             - 3000:8080
 
@@ -12,7 +14,7 @@ services:
         container_name: mongodb
         build:
             context: ./
-            dockerfile: ./mongo/Dockerfile.dev
+            dockerfile: ./mongo/Dockerfile.compose-dev
         image: 4rgc/trellzo-backend-mongo:dev
         ports:
             - 27017-27019:27017-27019
@@ -29,8 +31,7 @@ services:
             - ./mongo/db-seed:/data
         depends_on:
             - mongodb
-        command:
-            [
+        command: [
                 'mongoimport --host mongodb --port 27017 --db trellzo -c users
                 --mode upsert --type json --file /data/user.json --jsonArray',
             ]
