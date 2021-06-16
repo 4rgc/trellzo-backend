@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "express-query-parser": "^1.2.0",
     "mongoose": "^5.12.13",
     "nodemon": "^2.0.7"
   },
