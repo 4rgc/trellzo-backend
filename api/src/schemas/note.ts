@@ -9,10 +9,10 @@ const NoteSchema = new Schema<INote>({
 	description: { type: String, required: true },
 	startDate: { type: Date, required: true },
 	dueDate: { type: Date, required: true },
-	checklists: { type: [ChecklistSchema], required: true },
-	comments: { type: [CommentSchema], required: true },
-	tagIds: { type: [Schema.Types.ObjectId], required: true },
-	checklistOrder: { type: [OrderSchema], required: true },
+	checklists: { type: [ChecklistSchema], default: [] },
+	comments: { type: [CommentSchema], default: [] },
+	tagIds: { type: [Schema.Types.ObjectId], default: [] },
+	checklistOrder: { type: [OrderSchema], default: [] },
 });
 
 export default NoteSchema;

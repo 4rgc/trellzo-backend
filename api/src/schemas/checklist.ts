@@ -5,8 +5,8 @@ import CheckItemSchema from './checkItem';
 
 const ChecklistSchema = new Schema<IChecklist>({
 	name: { type: String, required: true },
-	checkItems: { type: [CheckItemSchema], required: true },
-	checkItemsOrder: { type: [OrderSchema], required: true },
+	checkItems: { type: [CheckItemSchema], default: [] },
+	checkItemsOrder: { type: [OrderSchema], default: [] },
 });
 
 export default ChecklistSchema;

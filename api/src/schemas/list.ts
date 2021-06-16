@@ -5,8 +5,8 @@ import OrderSchema from './order';
 
 const ListSchema = new Schema<IList>({
 	name: { type: String, required: true },
-	notes: { type: [NoteSchema], required: true },
-	notesOrder: { type: [OrderSchema], required: true },
+	notes: { type: [NoteSchema], default: [] },
+	notesOrder: { type: [OrderSchema], default: [] },
 });
 
 export default ListSchema;
