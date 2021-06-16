@@ -7,6 +7,7 @@
         "email": "johndoe@example.com",
         "boards": [
             {
+                "_id": {"$oid": "60c9cdae9c9ae6133cdcd03b"},
                 "name": "Board 1",
                 "description": "This is a board.",
                 "lists": [
@@ -54,6 +55,7 @@
         "email": "davem@example.com",
         "boards": [
             {
+                "_id": {"$oid": "60c9cd419c9ae6133cdcd03a"},
                 "name": "My Board",
                 "description": "My board.",
                 "lists": [
