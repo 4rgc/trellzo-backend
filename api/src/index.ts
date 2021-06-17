@@ -31,6 +31,8 @@ app.post('/user/new', userController.createNewUser);
 app.post('/user/:userId', userController.updateUser);
 app.post('/board/:userId', boardController.createNewBoard);
 app.post('/board/:userId/:boardId', boardController.updateBoard);
+app.use(handleValidationError);
+app.use(internalErrorHandler);
 
 app.listen(8080, () => {
 	console.log('Listening on port 8080...');
