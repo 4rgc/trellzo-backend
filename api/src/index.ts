@@ -3,6 +3,9 @@ import { queryParser } from 'express-query-parser';
 import mongoose from 'mongoose';
 import userController from './data-controllers/user';
 import boardController from './data-controllers/board';
+import usersRouter from './routes/users';
+import userRouter from './routes/user';
+import { handleValidationError, internalErrorHandler } from './routes/util';
 
 const app = express();
 
@@ -19,18 +22,13 @@ mongoose
 	});
 mongoose.set('runValidators', true);
 
+app.use('/user', userRouter);
+app.use('/users', usersRouter);
+
 app.get('/', (req, res) => {
 	res.send('Well done!');
 });
 
-app.get('/users', userController.getAllUsers);
-app.get('/user', userController.getUserByEmail);
-app.get('/boards', userController.getUserBoards);
-app.get('/board/:userId', boardController.getBoardData);
-app.post('/user/new', userController.createNewUser);
-app.post('/user/:userId', userController.updateUser);
-app.post('/board/:userId', boardController.createNewBoard);
-app.post('/board/:userId/:boardId', boardController.updateBoard);
 app.use(handleValidationError);
 app.use(internalErrorHandler);
 
