@@ -5,6 +5,7 @@
         },
         "name": "John Doe",
         "email": "johndoe@example.com",
+        "pass": "$2b$07$7taK9myHz4/8T/qt5nXeBeZkAbuVZJQ3bQSUHDmzmc62x7ATrkBre",
         "boards": [
             {
                 "_id": {"$oid": "60c9cdae9c9ae6133cdcd03b"},
@@ -53,6 +54,7 @@
         },
         "name": "Dave Mayer",
         "email": "davem@example.com",
+        "pass": "$2b$07$7a1cLS4/deh804TsvO6eQOEzv2s4LWYIujK4U4Zv/e/piELILGbbe",
         "boards": [
             {
                 "_id": {"$oid": "60c9cd419c9ae6133cdcd03a"},
