@@ -1,34 +1,40 @@
 import { Request, Response, NextFunction } from 'express';
+import { UpdateQuery } from 'mongoose';
+import IUser from '../interfaces/user';
 import User from '../models/user';
 
 const getAllUsers = () => User.find().lean().exec();
 
-const getUserByEmail = (req: Request) =>
-	User.findOne({ email: req.query.email as string }, { boards: 0 })
+const getUserByEmail = (email: string) =>
+	User.findOne({ email: email as string }, { boards: 0 })
 		.lean()
 		.exec();
 
-const getUserBoards = (req: Request) =>
+const getUserBoards = (userId: string) =>
 	User.findOne(
-		{ _id: req.query.userId },
+		{ _id: userId },
 		{ _id: 0, name: 0, email: 0, boards: { lists: 0, listsOrder: 0 } }
 	)
 		.lean()
 		.exec();
 
-const createNewUser = (req: Request) =>
+const createNewUser = (name: string, email: string) =>
 	User.create({
-		name: req.body.name,
-		email: req.body.email,
-	}).then(() => User.findOne({ email: req.body.email }).exec());
+		name: name,
+		email: email,
+	}).then(() => User.findOne({ email: email }).exec());
 
-const updateUser = (req: Request) =>
+const updateUser = (
+	userId: string,
+	name: string | undefined,
+	email: string | undefined
+) =>
 	User.findByIdAndUpdate(
-		req.params.userId,
+		userId,
 		{
-			email: req.body.email,
-			name: req.body.name,
-		},
+			email,
+			name,
+		} as UpdateQuery<IUser>,
 		{ new: true, omitUndefined: true }
 	);
 

@@ -10,7 +10,9 @@ const boardValidator = (data: IUser) => !!(data as IUser).boards;
 
 router.get(
 	'/:userId/:boardId',
-	saveDbDataHandler(boardDataController.getBoardData),
+	saveDbDataHandler((req) =>
+		boardDataController.getBoardData(req.params.userId, req.params.boardId)
+	),
 	notFoundHandler(userValidator, 'User'),
 	notFoundHandler(boardValidator, 'Board'),
 	wrapAsHandler(
@@ -27,7 +29,9 @@ router.get(
 
 router.post(
 	'/:userId',
-	saveDbDataHandler(boardDataController.createNewBoard),
+	saveDbDataHandler((req) =>
+		boardDataController.createNewBoard(req.params.userId, req.body.name)
+	),
 	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(
 		({
@@ -43,7 +47,14 @@ router.post(
 
 router.post(
 	'/:userId/:boardId',
-	saveDbDataHandler(boardDataController.updateBoard),
+	saveDbDataHandler((req) =>
+		boardDataController.updateBoard(
+			req.params.userId,
+			req.params.boardId,
+			req.body.name,
+			req.body.description
+		)
+	),
 	notFoundHandler(userValidator, 'User'),
 	notFoundHandler(boardValidator, 'Board'),
 	wrapAsHandler(

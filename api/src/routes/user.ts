@@ -18,7 +18,9 @@ router.get(
 		(req: Request) => !!req.query.email && req.query.email !== '',
 		'email'
 	),
-	saveDbDataHandler(userDataController.getUserByEmail),
+	saveDbDataHandler((req) =>
+		userDataController.getUserByEmail(req.query.email as string)
+	),
 	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.json({
@@ -29,7 +31,9 @@ router.get(
 
 router.get(
 	'/boards',
-	saveDbDataHandler(userDataController.getUserBoards),
+	saveDbDataHandler((req) =>
+		userDataController.getUserBoards(req.query.userId as string)
+	),
 	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.json({ ...res.locals.data })
@@ -38,7 +42,9 @@ router.get(
 
 router.post(
 	'/new',
-	saveDbDataHandler(userDataController.createNewUser),
+	saveDbDataHandler((req) =>
+		userDataController.createNewUser(req.body.name, req.body.email)
+	),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.status(201).json({ user: res.locals.data })
 	)
@@ -46,7 +52,13 @@ router.post(
 
 router.post(
 	'/:userId',
-	saveDbDataHandler(userDataController.updateUser),
+	saveDbDataHandler((req) =>
+		userDataController.updateUser(
+			req.params.userId,
+			req.body.name,
+			req.body.email
+		)
+	),
 	notFoundHandler(userValidator, 'User'),
 	({ res }: { res: Response }) => res.json({ user: res.locals.data })
 );

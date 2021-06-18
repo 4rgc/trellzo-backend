@@ -1,45 +1,50 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/user';
 
-const getBoardData = (req: Request) =>
+const getBoardData = (userId: string, boardId: string) =>
 	User.findOne(
 		{
-			_id: req.params.userId,
+			_id: userId,
 		},
 		{
 			name: 0,
 			email: 0,
-			boards: { $elemMatch: { _id: req.params.boardId } },
+			boards: { $elemMatch: { _id: boardId } },
 		}
 	)
 		.lean()
 		.exec();
 
-const createNewBoard = (req: Request) =>
-	User.findByIdAndUpdate(req.params.userId, {
-		$push: { boards: { name: req.body.name } },
+const createNewBoard = (userId: string, name: string) =>
+	User.findByIdAndUpdate(userId, {
+		$push: { boards: { name: name } },
 	}).then(() =>
-		User.findById(req.params.userId, {
-			boards: { $elemMatch: { name: req.body.name } },
+		User.findById(userId, {
+			boards: { $elemMatch: { name: name } },
 			email: 0,
 			name: 0,
 		})
 	);
 
-const updateBoard = (req: Request) =>
+const updateBoard = (
+	userId: string,
+	boardId: string,
+	name: string | undefined,
+	description: string | undefined
+) =>
 	User.findByIdAndUpdate(
-		req.params.userId,
+		userId,
 		{
-			'boards.$[boardField].name': req.body.name,
-			'boards.$[boardField].description': req.body.description,
+			'boards.$[boardField].name': name,
+			'boards.$[boardField].description': description,
 		},
 		{
-			arrayFilters: [{ 'boardField._id': req.params.boardId }],
+			arrayFilters: [{ 'boardField._id': boardId }],
 			omitUndefined: true,
 		}
 	).then(() =>
-		User.findById(req.params.userId, {
-			boards: { $elemMatch: { _id: req.params.boardId } },
+		User.findById(userId, {
+			boards: { $elemMatch: { _id: boardId } },
 			email: 0,
 			name: 0,
 		})
