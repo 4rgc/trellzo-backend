@@ -1,4 +1,4 @@
-import boardController from '../data-controllers/board';
+import boardDataController from '../data-controllers/board';
 
 import { Router, Response } from 'express';
 import { notFoundHandler, saveDbDataHandler, wrapAsHandler } from './util';
@@ -10,7 +10,7 @@ const boardValidator = (data: IUser) => !!(data as IUser).boards;
 
 router.get(
 	'/:userId',
-	saveDbDataHandler(boardController.getBoardData),
+	saveDbDataHandler(boardDataController.getBoardData),
 	notFoundHandler(userValidator, 'User'),
 	notFoundHandler(boardValidator, 'Board'),
 	wrapAsHandler(
@@ -27,7 +27,7 @@ router.get(
 
 router.post(
 	'/:userId',
-	saveDbDataHandler(boardController.createNewBoard),
+	saveDbDataHandler(boardDataController.createNewBoard),
 	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(
 		({
@@ -43,7 +43,7 @@ router.post(
 
 router.post(
 	'/:userId/:boardId',
-	saveDbDataHandler(boardController.updateBoard),
+	saveDbDataHandler(boardDataController.updateBoard),
 	notFoundHandler(userValidator, 'User'),
 	notFoundHandler(boardValidator, 'Board'),
 	wrapAsHandler(

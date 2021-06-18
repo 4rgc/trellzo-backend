@@ -1,4 +1,4 @@
-import userController from '../data-controllers/user';
+import userDataController from '../data-controllers/user';
 import {
 	invalidQueryParamHandler,
 	wrapAsHandler,
@@ -18,7 +18,7 @@ router.get(
 		(req: Request) => !!req.query.email && req.query.email !== '',
 		'email'
 	),
-	saveDbDataHandler(userController.getUserByEmail),
+	saveDbDataHandler(userDataController.getUserByEmail),
 	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.json({
@@ -29,7 +29,7 @@ router.get(
 
 router.get(
 	'/boards',
-	saveDbDataHandler(userController.getUserBoards),
+	saveDbDataHandler(userDataController.getUserBoards),
 	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.json({ ...res.locals.data })
@@ -38,7 +38,7 @@ router.get(
 
 router.post(
 	'/new',
-	saveDbDataHandler(userController.createNewUser),
+	saveDbDataHandler(userDataController.createNewUser),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.status(201).json({ user: res.locals.data })
 	)
@@ -46,7 +46,7 @@ router.post(
 
 router.post(
 	'/:userId',
-	saveDbDataHandler(userController.updateUser),
+	saveDbDataHandler(userDataController.updateUser),
 	notFoundHandler(userValidator, 'User'),
 	({ res }: { res: Response }) => res.json({ user: res.locals.data })
 );
