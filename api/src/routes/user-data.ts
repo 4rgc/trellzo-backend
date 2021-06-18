@@ -43,7 +43,11 @@ router.get(
 router.post(
 	'/new',
 	saveDbDataHandler((req) =>
-		userDataController.createNewUser(req.body.name, req.body.email)
+		userDataController.createUser(
+			req.body.name,
+			req.body.email,
+			req.body.password
+		)
 	),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.status(201).json({ user: res.locals.data })
