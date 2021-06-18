@@ -42,8 +42,10 @@ const updateBoard = (req: Request) =>
 		})
 	);
 
-export default {
+const boardDataController = {
 	getBoardData,
 	createNewBoard,
 	updateBoard,
 };
+
+export default boardDataController;
