@@ -1,15 +1,18 @@
 import boardController from '../data-controllers/board';
 
-import { Router, Request, Response } from 'express';
+import { Router, Response } from 'express';
 import { notFoundHandler, saveDbDataHandler, wrapAsHandler } from './util';
 import IUser from '../interfaces/user';
 const router = Router();
 
+const userValidator = (data: IUser) => !!data;
+const boardValidator = (data: IUser) => !!(data as IUser).boards;
+
 router.get(
 	'/:userId',
 	saveDbDataHandler(boardController.getBoardData),
-	notFoundHandler((data) => !!data, 'User'),
-	notFoundHandler((data) => !!(data as IUser).boards, 'Board'),
+	notFoundHandler(userValidator, 'User'),
+	notFoundHandler(boardValidator, 'Board'),
 	wrapAsHandler(
 		({
 			res: {
@@ -25,7 +28,7 @@ router.get(
 router.post(
 	'/:userId',
 	saveDbDataHandler(boardController.createNewBoard),
-	notFoundHandler((data) => !!data, 'User'),
+	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(
 		({
 			res: {
@@ -41,8 +44,8 @@ router.post(
 router.post(
 	'/:userId/:boardId',
 	saveDbDataHandler(boardController.updateBoard),
-	notFoundHandler((data) => !!data, 'User'),
-	notFoundHandler((data) => !!(data as IUser).boards, 'Board'),
+	notFoundHandler(userValidator, 'User'),
+	notFoundHandler(boardValidator, 'Board'),
 	wrapAsHandler(
 		({
 			res: {

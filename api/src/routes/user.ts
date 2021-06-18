@@ -7,7 +7,10 @@ import {
 } from './util';
 
 import { Router, Request, Response } from 'express';
+import IUser from '../interfaces/user';
 const router = Router();
+
+const userValidator = (data: IUser) => !!data;
 
 router.get(
 	'/',
@@ -16,7 +19,7 @@ router.get(
 		'email'
 	),
 	saveDbDataHandler(userController.getUserByEmail),
-	notFoundHandler((data: any) => data !== null, 'User'),
+	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.json({
 			user: res.locals.data,
@@ -27,7 +30,7 @@ router.get(
 router.get(
 	'/boards',
 	saveDbDataHandler(userController.getUserBoards),
-	notFoundHandler((data: any) => data !== null, 'User'),
+	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(({ res }: { res: Response }) =>
 		res.json({ ...res.locals.data })
 	)
@@ -44,7 +47,7 @@ router.post(
 router.post(
 	'/:userId',
 	saveDbDataHandler(userController.updateUser),
-	notFoundHandler((data) => !!data, 'User'),
+	notFoundHandler(userValidator, 'User'),
 	({ res }: { res: Response }) => res.json({ user: res.locals.data })
 );
 
