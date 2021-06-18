@@ -9,7 +9,7 @@ const userValidator = (data: IUser) => !!data;
 const boardValidator = (data: IUser) => !!(data as IUser).boards;
 
 router.get(
-	'/:userId',
+	'/:userId/:boardId',
 	saveDbDataHandler(boardDataController.getBoardData),
 	notFoundHandler(userValidator, 'User'),
 	notFoundHandler(boardValidator, 'Board'),

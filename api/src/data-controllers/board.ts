@@ -5,9 +5,12 @@ const getBoardData = (req: Request) =>
 	User.findOne(
 		{
 			_id: req.params.userId,
-			boards: { $elemMatch: { _id: req.query.boardId } },
 		},
-		{ _id: 0, name: 0, email: 0 }
+		{
+			name: 0,
+			email: 0,
+			boards: { $elemMatch: { _id: req.params.boardId } },
+		}
 	)
 		.lean()
 		.exec();
