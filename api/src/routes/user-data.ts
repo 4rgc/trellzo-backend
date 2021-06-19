@@ -4,7 +4,7 @@ import {
 	wrapAsHandler,
 	saveDbDataHandler,
 	notFoundHandler,
-} from './util';
+} from '../util/route-handling';
 
 import { Router, Request, Response } from 'express';
 import IUser from '../interfaces/user';

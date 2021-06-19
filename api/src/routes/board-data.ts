@@ -1,7 +1,11 @@
 import boardDataController from '../data-controllers/board';
 
 import { Router, Response } from 'express';
-import { notFoundHandler, saveDbDataHandler, wrapAsHandler } from './util';
+import {
+	notFoundHandler,
+	saveDbDataHandler,
+	wrapAsHandler,
+} from '../util/route-handling';
 import IUser from '../interfaces/user';
 const router = Router();
 

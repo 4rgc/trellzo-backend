@@ -1,7 +1,7 @@
 import userController from '../data-controllers/user';
 
 import { Router, Response } from 'express';
-import { wrapAsHandler, saveDbDataHandler } from './util';
+import { wrapAsHandler, saveDbDataHandler } from '../util/route-handling';
 const router = Router();
 
 router.get(

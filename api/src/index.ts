@@ -4,7 +4,10 @@ import mongoose from 'mongoose';
 import boardRouter from './routes/board-data';
 import usersRouter from './routes/users-data';
 import userRouter from './routes/user-data';
-import { handleValidationError, internalErrorHandler } from './routes/util';
+import {
+	handleValidationError,
+	internalErrorHandler,
+} from './util/route-handling';
 
 const app = express();
 
