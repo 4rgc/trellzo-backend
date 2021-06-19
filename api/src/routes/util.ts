@@ -34,7 +34,7 @@ const saveDbData = async <T>(
 	next();
 };
 
-const validateQueryParam = (
+export const validateQueryParam = (
 	{ req, res, next }: { req: Request; res: Response; next: NextFunction },
 	validate: (req: Request) => boolean,
 	paramName: string
@@ -46,7 +46,7 @@ const validateQueryParam = (
 	next();
 };
 
-const handleNotFound = <T>(
+export const ensureFound = <T>(
 	{ res, next }: { res: Response; next: NextFunction },
 	validate: (data: T) => boolean,
 	entityName: string
@@ -96,4 +96,4 @@ export const invalidQueryParamHandler = (
 export const notFoundHandler = <T>(
 	validate: (data: T) => boolean,
 	entityName: string
-) => wrapAsHandler(handleNotFound, validate, entityName);
+) => wrapAsHandler(ensureFound, validate, entityName);
