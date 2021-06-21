@@ -2,17 +2,23 @@ import { NextFunction, Response, Request } from 'express';
 
 type DataMethod<T> = (req: Request) => Promise<T> | T;
 
-export const wrapAsHandler = (fn: any, ...params: any[]) => {
+export const wrapAsHandler = <Y>(
+	fn: (
+		obj: { req: Request; res: Response; next: NextFunction },
+		...params: any[]
+	) => Y,
+	...params: any[]
+) => {
 	return (req: Request, res: Response, next: NextFunction) =>
 		fn({ req, res, next }, ...params);
 };
 
-export const wrapAsAsyncHandler = <T, Y>(
+export const wrapAsAsyncHandler = <Y>(
 	fn: (
 		obj: { req: Request; res: Response; next: NextFunction },
-		params: T
+		...params: any[]
 	) => Y,
-	...params: [T]
+	...params: any[]
 ) => {
 	return async (req: Request, res: Response, next: NextFunction) =>
 		await fn({ req, res, next }, ...params);
