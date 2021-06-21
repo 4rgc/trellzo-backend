@@ -5,6 +5,9 @@ import User from '../models/user';
 
 const getAllUsers = () => User.find().lean().exec();
 
+const getUser = (userId: string) =>
+	User.findById(userId, { _id: 0, boards: 0, pass: 0 }).lean().exec();
+
 const getUserByEmail = (email: string) =>
 	User.findOne({ email }, { boards: 0 }).lean().exec();
 
@@ -26,7 +29,7 @@ const createUser = (name: string, email: string, password: string) =>
 	User.create({
 		name,
 		email,
-		password,
+		pass: password,
 	}).then(() => User.findOne({ email }, { pass: 0, boards: 0 }).exec());
 
 const updateUser = (
@@ -40,11 +43,16 @@ const updateUser = (
 			email,
 			name,
 		} as UpdateQuery<IUser>,
-		{ new: true, omitUndefined: true, fields: { boards: 0, pass: 0 } }
+		{
+			new: true,
+			omitUndefined: true,
+			fields: { boards: 0, pass: 0, _id: 0 },
+		}
 	);
 
 const userDataController = {
 	getAllUsers,
+	getUser,
 	getUserByEmail,
 	getUserBoards,
 	createUser,
