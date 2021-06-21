@@ -6,7 +6,7 @@ services:
             dockerfile: ./api/Dockerfile.compose-dev
         image: 4rgc/trellzo-backend-api:dev
         volumes:
-            - ./api:/app:ro
+            - ./api:/app
         ports:
             - 3000:8080
 
