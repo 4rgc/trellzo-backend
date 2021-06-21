@@ -1,9 +1,9 @@
 import express from 'express';
 import { queryParser } from 'express-query-parser';
 import mongoose from 'mongoose';
-import boardRouter from './routes/board-data';
-import usersRouter from './routes/users-data';
-import userRouter from './routes/user-data';
+import boardDataRouter from './routes/board-data';
+import usersDataRouter from './routes/users-data';
+import userDataRouter from './routes/user-data';
 import {
 	handleValidationError,
 	internalErrorHandler,
@@ -21,12 +21,13 @@ mongoose
 	})
 	.catch((err) => {
 		console.error(err.message);
+		process.exit();
 	});
 mongoose.set('runValidators', true);
 
-app.use('/data/user', userRouter);
-app.use('/data/users', usersRouter);
-app.use('/data/board', boardRouter);
+app.use('/data/user', userDataRouter);
+app.use('/data/users', usersDataRouter);
+app.use('/data/board', boardDataRouter);
 
 app.get('/', (req, res) => {
 	res.send('Well done!');
