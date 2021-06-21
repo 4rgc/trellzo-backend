@@ -1,5 +1,6 @@
 import express from 'express';
 import { queryParser } from 'express-query-parser';
+import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import boardDataRouter from './routes/board-data';
 import usersDataRouter from './routes/users-data';
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(queryParser({ parseNull: true, parseBoolean: true }));
+app.use(cookieParser());
 
 mongoose
 	.connect('mongodb://mongodb:27017/trellzo', {
