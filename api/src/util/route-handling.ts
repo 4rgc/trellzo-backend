@@ -40,7 +40,11 @@ const saveDbData = async <T>(
 	next();
 };
 
-export const validateQueryParam = (
+const sendSuccessMessage = ({ res }: { res: Response }, message: string) => {
+	return res.json({ message });
+};
+
+const validateQueryParam = (
 	{ req, res, next }: { req: Request; res: Response; next: NextFunction },
 	validate: (req: Request) => boolean,
 	paramName: string
@@ -52,7 +56,19 @@ export const validateQueryParam = (
 	next();
 };
 
-export const ensureFound = <T>(
+const validateUrlParam = <T>(
+	{ req, res, next }: { req: Request; res: Response; next: NextFunction },
+	validate: (req: Request) => boolean,
+	paramName: string
+) => {
+	if (!validate(req))
+		return res.status(400).json({
+			message: 'invalid url parameter: ' + paramName,
+		});
+	next();
+};
+
+const ensureFound = <T>(
 	{ res, next }: { res: Response; next: NextFunction },
 	validate: (data: T) => boolean,
 	entityName: string
@@ -64,22 +80,26 @@ export const ensureFound = <T>(
 	next();
 };
 
+export const sendSuccessHandler = (_: any, res: Response) => {
+	return res.send();
+};
+
 export const internalErrorHandler = (
 	err: any,
-	req: Request,
+	_req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	if (res.headersSent) {
 		return next(err);
 	}
-	console.error(err.message);
+	console.error(err);
 	res.status(500).json({ message: err.message, err });
 };
 
 export const handleValidationError = (
 	err: any,
-	req: Request,
+	_req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -99,7 +119,33 @@ export const invalidQueryParamHandler = (
 	paramName: string
 ) => wrapAsHandler(validateQueryParam, validate, paramName);
 
+export const invalidUrlParamHandler = (
+	validate: (req: Request) => boolean,
+	paramName: string
+) => wrapAsHandler(validateUrlParam, validate, paramName);
+
 export const notFoundHandler = <T>(
 	validate: (data: T) => boolean,
 	entityName: string
 ) => wrapAsHandler(ensureFound, validate, entityName);
+
+export const sendSuccessMessageHandler = (message: string) =>
+	wrapAsHandler(sendSuccessMessage, message);
+
+export const authErrorHandler = (
+	err: any,
+	_req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	if (
+		err.name === 'JsonWebTokenError' ||
+		err.name === 'TokenExpiredError' ||
+		err.name === 'NotBeforeError'
+	) {
+		res.status(401).json({
+			message: 'Unauthorized: ' + err.message,
+		});
+	}
+	next();
+};
