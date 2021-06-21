@@ -6,9 +6,12 @@ import boardDataRouter from './routes/board-data';
 import usersDataRouter from './routes/users-data';
 import userDataRouter from './routes/user-data';
 import {
+	authErrorHandler,
 	handleValidationError,
 	internalErrorHandler,
 } from './util/route-handling';
+import userRouter from './routes/user';
+import authRouter from './routes/auth';
 
 const app = express();
 
@@ -30,12 +33,15 @@ mongoose.set('runValidators', true);
 app.use('/data/user', userDataRouter);
 app.use('/data/users', usersDataRouter);
 app.use('/data/board', boardDataRouter);
+app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 app.get('/', (req, res) => {
 	res.send('Well done!');
 });
 
 app.use(handleValidationError);
+app.use(authErrorHandler);
 app.use(internalErrorHandler);
 
 app.listen(8080, () => {
