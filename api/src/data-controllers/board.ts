@@ -66,7 +66,7 @@ const updateBoard = (
 		)
 		.then((res) => res?.boards[0]);
 
-const deleteBoard = (userId: string, boardId: string) => {
+const deleteBoard = async (userId: string, boardId: string) => {
 	User.findByIdAndUpdate(
 		userId,
 		{ $pull: { boards: { $elemMatch: { _id: boardId } } } },
