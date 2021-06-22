@@ -40,7 +40,7 @@ const updateBoard = async (req: Request, res: Response, next: NextFunction) => {
 	if (!userId) return res.status(400).json({ message: 'userId was null' });
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
 
-	const updatedBoard = boardDataController
+	const updatedBoard = await boardDataController
 		.updateBoard(userId, boardId, name, description)
 		.catch(next);
 
