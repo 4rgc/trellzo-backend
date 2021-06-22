@@ -12,6 +12,7 @@ import {
 } from './util/route-handling';
 import userRouter from './routes/user';
 import authRouter from './routes/auth';
+import boardRouter from './routes/board';
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/data/users', usersDataRouter);
 app.use('/data/board', boardDataRouter);
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
+app.use('/board', boardRouter);
 
 app.get('/', (req, res) => {
 	res.send('Well done!');
