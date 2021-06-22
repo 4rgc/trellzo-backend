@@ -4,6 +4,8 @@ const boardRouter = Router();
 import authController from '../controllers/auth';
 import boardController from '../controllers/board';
 
+boardRouter.get('/', authController.verifyToken, boardController.getBoards);
+
 boardRouter.get(
 	'/:boardId',
 	authController.verifyToken,

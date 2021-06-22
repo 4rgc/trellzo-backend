@@ -6,7 +6,7 @@ const getBoards = async (req: Request, res: Response, next: NextFunction) => {
 
 	if (!userId) return res.status(400).json({ message: 'userId was null' });
 
-	const boards = boardDataController.getUserBoards(userId).catch(next);
+	const boards = await boardDataController.getUserBoards(userId).catch(next);
 
 	res.json({
 		boards,
