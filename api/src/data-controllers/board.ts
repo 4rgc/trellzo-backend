@@ -1,6 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/user';
 
+const getUserBoards = (userId: string) =>
+	User.findOne(
+		{ _id: userId },
+		{
+			_id: 0,
+			name: 0,
+			email: 0,
+			pass: 0,
+			boards: { lists: 0, listsOrder: 0 },
+		}
+	)
+		.lean()
+		.exec()
+		.then((res) => res?.boards);
+
 const getBoardData = (userId: string, boardId: string) =>
 	User.findOne(
 		{

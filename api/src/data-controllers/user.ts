@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from 'express';
 import { UpdateQuery } from 'mongoose';
 import IUser from '../interfaces/user';
 import User from '../models/user';
@@ -10,20 +9,6 @@ const getUser = (userId: string) =>
 
 const getUserByEmail = (email: string) =>
 	User.findOne({ email }, { boards: 0 }).lean().exec();
-
-const getUserBoards = (userId: string) =>
-	User.findOne(
-		{ _id: userId },
-		{
-			_id: 0,
-			name: 0,
-			email: 0,
-			pass: 0,
-			boards: { lists: 0, listsOrder: 0 },
-		}
-	)
-		.lean()
-		.exec();
 
 const createUser = (name: string, email: string, password: string) =>
 	User.create({
@@ -54,7 +39,6 @@ const userDataController = {
 	getAllUsers,
 	getUser,
 	getUserByEmail,
-	getUserBoards,
 	createUser,
 	updateUser,
 };
