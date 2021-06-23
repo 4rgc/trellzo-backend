@@ -79,7 +79,7 @@ const refreshAuthToken = (req: Request, res: Response, next: NextFunction) => {
 	let newAuthToken = '';
 
 	try {
-		newAuthToken = refreshAccessToken(authToken, refreshToken);
+		newAuthToken = 'JWT ' + refreshAccessToken(authToken, refreshToken);
 	} catch (err) {
 		return next(err);
 	}

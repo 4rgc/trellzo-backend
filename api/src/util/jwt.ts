@@ -55,7 +55,10 @@ export const refreshAccessToken = (authToken: string, refreshToken: string) => {
 		throw err;
 	}
 
-	if (typeof authPayload === 'object') delete authPayload.exp;
+	if (typeof authPayload === 'object') {
+		delete authPayload.exp;
+		delete authPayload.iat;
+	}
 
 	return generateAuthToken(authPayload);
 };
