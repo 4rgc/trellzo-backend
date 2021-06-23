@@ -8,6 +8,7 @@ import {
 
 import { Router, Request, Response } from 'express';
 import IUser from '../interfaces/user';
+import boardDataController from '../data-controllers/board';
 const router = Router();
 
 const userValidator = (data: IUser) => !!data;
@@ -32,7 +33,7 @@ router.get(
 router.get(
 	'/boards',
 	saveDbDataHandler((req) =>
-		userDataController.getUserBoards(req.query.userId as string)
+		boardDataController.getUserBoards(req.query.userId as string)
 	),
 	notFoundHandler(userValidator, 'User'),
 	wrapAsHandler(({ res }: { res: Response }) =>
