@@ -6,6 +6,8 @@ import boardController from '../controllers/board';
 
 boardRouter.get('/', authController.verifyToken, boardController.getBoards);
 
+boardRouter.post('/', authController.verifyToken, boardController.createBoard);
+
 boardRouter.get(
 	'/:boardId',
 	authController.verifyToken,

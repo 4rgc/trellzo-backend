@@ -65,11 +65,26 @@ const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
 	});
 };
 
+const createBoard = async (req: Request, res: Response, next: NextFunction) => {
+	const { userId } = res.locals.auth;
+	const { name } = req.body;
+
+	if (!userId) return res.status(400).json({ message: 'userId was null' });
+	if (!name) return res.status(400).json({ message: 'Board name was null' });
+
+	const newBoard = await boardDataController.createNewBoard(userId, name);
+
+	res.json({
+		board: newBoard,
+	});
+};
+
 const boardController = {
 	getBoard,
 	updateBoard,
 	deleteBoard,
 	getBoards,
+	createBoard,
 };
 
 export default boardController;
