@@ -38,12 +38,13 @@ const updateList = (
 const deleteList = (userId: string, boardId: string, listId: string) =>
 	User.findByIdAndUpdate(
 		userId,
-		{ 'boards.$[boardField].lists.$[listField]': null },
 		{
-			arrayFilters: [
-				{ 'boardField._id': boardId },
-				{ 'listField._id': listId },
-			],
+			$pull: {
+				'boards.$[boardField].lists': { $elemMatch: { _id: listId } },
+			},
+		},
+		{
+			arrayFilters: [{ 'boardField._id': boardId }],
 		}
 	)
 		.exec()
