@@ -1,15 +1,22 @@
 import User from '../models/user';
 
-const createList = (userId: string, boardId: string, listName: string) =>
+const createList = async (userId: string, boardId: string, listName: string) =>
 	User.findByIdAndUpdate(
 		userId,
 		{
 			$push: { 'boards.$[boardField].lists': { name: listName } },
 		},
-		{ arrayFilters: [{ 'boardField._id': boardId }], new: true }
+		{
+			arrayFilters: [{ 'boardField._id': boardId }],
+			new: true,
+		}
 	)
+		.lean()
 		.exec()
-		.then((user) => user?.boards[0].lists[0]);
+		.then(
+			(user) =>
+				user?.boards.find((b) => b._id == boardId)?.lists.slice(-1)[0]
+		);
 
 const updateList = (
 	userId: string,
@@ -32,8 +39,13 @@ const updateList = (
 			new: true,
 		}
 	)
+		.lean()
 		.exec()
-		.then((user) => user?.boards[0].lists[0]);
+		.then((user) =>
+			user?.boards
+				.find((b) => b._id == boardId)
+				?.lists.find((l) => l._id == listId)
+		);
 
 const deleteList = (userId: string, boardId: string, listId: string) =>
 	User.findByIdAndUpdate(
@@ -47,8 +59,13 @@ const deleteList = (userId: string, boardId: string, listId: string) =>
 			arrayFilters: [{ 'boardField._id': boardId }],
 		}
 	)
+		.lean()
 		.exec()
-		.then((user) => user?.boards[0].lists[0]);
+		.then((user) =>
+			user?.boards
+				.find((b) => b._id === boardId)
+				?.lists.find((l) => l._id === listId)
+		);
 
 const listDataController = {
 	createList,
