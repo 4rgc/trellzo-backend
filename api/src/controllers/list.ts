@@ -14,6 +14,8 @@ const addList = async (req: Request, res: Response, next: NextFunction) => {
 		.createList(userId, boardId, name)
 		.catch(next);
 
+	if (!newList) res.status(404).json({ message: 'Board not found' });
+
 	res.status(201).json({
 		list: newList,
 	});
@@ -30,13 +32,11 @@ const updateList = async (req: Request, res: Response, next: NextFunction) => {
 
 	if (!name && !description) return res.send();
 
-	const updatedList = await listDataController.updateList(
-		userId,
-		boardId,
-		listId,
-		name,
-		description
-	);
+	const updatedList = await listDataController
+		.updateList(userId, boardId, listId, name, description)
+		.catch(next);
+
+	if (!updatedList) res.status(404).json({ message: 'Board/list not found' });
 
 	res.json({
 		list: updatedList,
@@ -51,11 +51,11 @@ const removeList = async (req: Request, res: Response, next: NextFunction) => {
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
 	if (!listId) return res.status(400).json({ message: 'listId was null' });
 
-	const deletedList = await listDataController.deleteList(
-		userId,
-		boardId,
-		listId
-	);
+	const deletedList = await listDataController
+		.deleteList(userId, boardId, listId)
+		.catch(next);
+
+	if (!deletedList) res.status(404).json({ message: 'Board/list not found' });
 
 	res.json({
 		list: deletedList,
