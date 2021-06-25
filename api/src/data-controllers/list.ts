@@ -1,6 +1,6 @@
 import User from '../models/user';
 
-const createList = async (userId: string, boardId: string, listName: string) =>
+const createList = (userId: string, boardId: string, listName: string) =>
 	User.findByIdAndUpdate(
 		userId,
 		{
@@ -33,8 +33,10 @@ const updateList = (
 		},
 		{
 			arrayFilters: [
-				{ 'boardField._id': boardId, 'listField._id': listId },
+				{ 'boardField._id': boardId },
+				{ 'listField._id': listId },
 			],
+			fields: { boards: { lists: { notes: 0, notesOrder: 0 } } },
 			omitUndefined: true,
 			new: true,
 		}
@@ -52,7 +54,7 @@ const deleteList = (userId: string, boardId: string, listId: string) =>
 		userId,
 		{
 			$pull: {
-				'boards.$[boardField].lists': { $elemMatch: { _id: listId } },
+				'boards.$[boardField].lists': { _id: listId },
 			},
 		},
 		{
@@ -63,8 +65,8 @@ const deleteList = (userId: string, boardId: string, listId: string) =>
 		.exec()
 		.then((user) =>
 			user?.boards
-				.find((b) => b._id === boardId)
-				?.lists.find((l) => l._id === listId)
+				.find((b) => b._id == boardId)
+				?.lists.find((l) => l._id == listId)
 		);
 
 const listDataController = {
