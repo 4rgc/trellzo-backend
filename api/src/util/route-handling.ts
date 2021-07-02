@@ -147,5 +147,5 @@ export const authErrorHandler = (
 			message: 'Unauthorized: ' + err.message,
 		});
 	}
-	next();
+	next(err);
 };

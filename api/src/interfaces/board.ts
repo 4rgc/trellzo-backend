@@ -3,7 +3,7 @@ import IList from './list';
 import ITag from './tag';
 import IOrder from './order';
 
-export default interface IBoard {
+export default interface IBoard extends Document {
 	name: string;
 	description: string;
 	lists: IList[];
