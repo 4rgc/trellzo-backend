@@ -6,9 +6,9 @@ import { Schema } from 'mongoose';
 
 const NoteSchema = new Schema<INote>({
 	name: { type: String, required: true },
-	description: { type: String, required: true },
-	startDate: { type: Date, required: true },
-	dueDate: { type: Date, required: true },
+	description: { type: String, default: '' },
+	startDate: { type: Date, default: null },
+	dueDate: { type: Date, default: null },
 	checklists: { type: [ChecklistSchema], default: [] },
 	comments: { type: [CommentSchema], default: [] },
 	tagIds: { type: [Schema.Types.ObjectId], default: [] },
