@@ -1,0 +1,68 @@
+[
+    {
+        "_id": {"$oid": "60c9cdae9c9ae6133cdcd03b"},
+        "name": "Board 1",
+        "description": "This is a board.",
+        "lists": [
+            {
+                "_id": {
+                    "$oid": "60c5d161a6c781e43c11a5a3"
+                },
+                "name": "List 1",
+                "notes": [
+                    {
+                        "_id": {"$oid": "60c5d167a6c781e43c11a5a4"},
+                        "name": "Note Something",
+                        "description": "Buy something",
+                        "tags": []
+                    }
+                ],
+                "notesOrder": [
+                    {
+                        "$oid": "60c5d167a6c781e43c11a5a4"
+                    }
+                ]
+            }
+        ],
+        "tags": [],
+        "listsOrder": [
+            {
+                "$oid": "60c5d161a6c781e43c11a5a3"
+            }
+        ]
+    },
+    {
+        "_id": {"$oid": "60c9cd419c9ae6133cdcd03a"},
+        "name": "My Board",
+        "description": "My board.",
+        "lists": [
+            {
+                "_id": {
+                    "$oid": "60c5d161a6c781e43c11a5c3"
+                },
+                "name": "To-do list",
+                "notes": [
+                    {
+                        "_id": {
+                            "$oid": "60c5f167a6c781e43cf1a5a4"
+                        },
+                        "name": "Get groceries",
+                        "description": "Go to buy groceries.",
+                        "tags": []
+                    }
+                ],
+                "notesOrder": [
+                    {
+                        "$oid": "60c5f167a6c781e43cf1a5a4"
+                    }
+                ]
+            }
+        ],
+        "tags": [],
+        "listsOrder": [
+            {
+                "$oid": "60c5d161a6c781e43c11a5c3"
+            }
+        ]
+    }
+]

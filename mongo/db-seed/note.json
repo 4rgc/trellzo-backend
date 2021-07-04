@@ -1,0 +1,73 @@
+[
+    {
+        "_id": {
+            "$oid": "60c5d167a6c781e43c11a5a4"
+        },
+        "name": "Note Something",
+        "description": "Buy something",
+        "startDate": null,
+        "dueDate": null,
+        "checklists": [],
+        "comments": [],
+        "tags": [],
+        "checklistsOrder": []
+    },
+    {
+        "_id": {
+            "$oid": "60c5f167a6c781e43cf1a5a4"
+        },
+        "name": "Get groceries",
+        "description": "Go to buy groceries.",
+        "startDate": null,
+        "dueDate": null,
+        "checklists": [
+            {
+                "_id": {
+                    "$oid": "70c5692d95fcb90ae7a0c353"
+                },
+                "name": "To buy:",
+                "checkItems": [
+                    {
+                        "_id": {
+                            "$oid": "60c5692d95fcb90ae7a0c353"
+                        },
+                        "name": "eggs",
+                        "checked": true
+                    },
+                    {
+                        "_id": {
+                            "$oid": "60c5792d95fcb90ae7a0c353"
+                        },
+                        "name": "tomatoes",
+                        "checked": false
+                    },
+                    {
+                        "_id": {
+                            "$oid": "60c5782d95fcb90ae7a0c353"
+                        },
+                        "name": "bread",
+                        "checked": false
+                    }
+                ],
+                "checkItemsOrder": [
+                    {
+                        "$oid": "60c5792d95fcb90ae7a0c353"
+                    },
+                    {
+                        "$oid": "60c5782d95fcb90ae7a0c353"
+                    },
+                    {
+                        "$oid": "60c5692d95fcb90ae7a0c353"
+                    }
+                ]
+            }
+        ],
+        "comments": [],
+        "tags": [],
+        "checklistsOrder": [
+            {
+                "$oid": "70c5692d95fcb90ae7a0c353"
+            }
+        ]
+    }
+]
