@@ -13,6 +13,7 @@ import {
 import userRouter from './routes/user';
 import authRouter from './routes/auth';
 import boardRouter from './routes/board';
+import listRouter from './routes/list';
 import noteRouter from './routes/note';
 
 const app = express();
@@ -38,6 +39,7 @@ app.use('/data/board', boardDataRouter);
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/board', boardRouter);
+app.use('/list', listRouter);
 app.use('/note', noteRouter);
 
 app.get('/', (req, res) => {
