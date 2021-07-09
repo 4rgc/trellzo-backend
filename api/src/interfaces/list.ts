@@ -1,9 +1,9 @@
 import { Document, Types } from 'mongoose';
-import INote from './note';
+import IPartialNote from './partialNote';
 import IOrder from './order';
 
 export default interface IList extends Document {
 	name: string;
-	notes: INote[];
+	notes: IPartialNote[];
 	notesOrder: IOrder[];
 }
