@@ -2,6 +2,7 @@ import { Document, Types } from 'mongoose';
 import IChecklist from './checklist';
 import IComment from './comment';
 import IOrder from './order';
+import ITag from './tag';
 
 export default interface INote extends Document {
 	name: string;
@@ -10,6 +11,6 @@ export default interface INote extends Document {
 	dueDate: Date;
 	checklists: IChecklist[];
 	comments: IComment[];
-	tags: Types.ObjectId[];
+	tags: ITag[];
 	checklistOrder: IOrder[];
 }

@@ -3,6 +3,7 @@ import CommentSchema from './comment';
 import ChecklistSchema from './checklist';
 import OrderSchema from './order';
 import { Schema } from 'mongoose';
+import TagSchema from './tag';
 
 const NoteSchema = new Schema<INote>({
 	name: { type: String, required: true },
@@ -11,7 +12,7 @@ const NoteSchema = new Schema<INote>({
 	dueDate: { type: Date, default: null },
 	checklists: { type: [ChecklistSchema], default: [] },
 	comments: { type: [CommentSchema], default: [] },
-	tagIds: { type: [Schema.Types.ObjectId], default: [] },
+	tags: { type: [TagSchema], default: [] },
 	checklistOrder: { type: [OrderSchema], default: [] },
 });
 
