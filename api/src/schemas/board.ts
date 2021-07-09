@@ -10,6 +10,7 @@ const BoardSchema = new Schema<IBoard>({
 	lists: { type: [ListSchema], default: [] },
 	tags: { type: [TagSchema], default: [] },
 	listsOrder: { type: [OrderSchema], default: [] },
+	userIds: { type: [Schema.Types.ObjectId], required: true },
 });
 
 export default BoardSchema;
