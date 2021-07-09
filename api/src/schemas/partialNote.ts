@@ -9,3 +9,5 @@ const PartialNoteSchema = new Schema<IPartialNote>({
 	dueDate: { type: Schema.Types.Date, default: null },
 	tags: { type: [TagSchema], default: [] },
 });
+
+export default PartialNoteSchema;
