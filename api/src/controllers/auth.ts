@@ -21,8 +21,8 @@ const generateTokens = (_req: Request, res: Response, next: NextFunction) => {
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 	const { auth } = req.cookies;
-	if (!auth)
-		res.status(401).json({
+	if (!auth || auth === '')
+		return res.status(401).json({
 			message: 'Unauthorized: no token',
 		});
 
