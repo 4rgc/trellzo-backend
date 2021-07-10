@@ -1,37 +1,13 @@
 import { ObjectId } from 'mongoose';
-import User from '../models/user';
+import ITag from '../interfaces/tag';
+import Board from '../models/board';
+import Note from '../models/note';
 
-const getNote = (
-	userId: string,
-	boardId: string,
-	listId: string,
-	noteId: string
-) =>
-	User.findById(userId, {
-		boards: {
-			_id: boardId,
-			lists: {
-				_id: listId,
-				notes: {
-					_id: noteId,
-					name: 1,
-					description: 1,
-					startDate: 1,
-					dueDate: 1,
-					checklists: 1,
-					comments: 1,
-					tags: 1,
-					checklistOrder: 1,
-				},
-			},
-		},
-	})
-		.lean()
-		.exec()
-		.then((user) => user?.boards[0].lists[0].notes[0]);
+const getNote = (noteId: string) => Note.findById(noteId).lean().exec();
 
+///TODO: Instead of accepting boardId and listId, this can be implemented by storing boardId and listId in the note object
+/// although this would mean we have to update the note object whenever we move it from one list to another
 const updateNote = (
-	userId: string,
 	boardId: string,
 	listId: string,
 	noteId: string,
@@ -39,112 +15,99 @@ const updateNote = (
 	description: string,
 	startDate: Date,
 	dueDate: Date,
-	tagIds: string[]
+	tags: ITag[]
 ) =>
-	User.findByIdAndUpdate(
-		userId,
+	Note.findByIdAndUpdate(
+		noteId,
 		{
-			'boards.$[boardField].lists.$[listField].notes.$[noteField].name':
-				name,
-			'boards.$[boardField].lists.$[listField].notes.$[noteField].description':
-				description,
-			'boards.$[boardField].lists.$[listField].notes.$[noteField].startDate':
-				startDate,
-			'boards.$[boardField].lists.$[listField].notes.$[noteField].dueDate':
-				dueDate,
-			'boards.$[boardField].lists.$[listField].notes.$[noteField].tagIds':
-				tagIds,
+			name,
+			description,
+			startDate,
+			dueDate,
+			tags,
 		},
-		{
-			arrayFilters: [
-				{ 'boardField._id': boardId },
-				{ 'listField._id': listId },
-				{ 'noteField._id': noteId },
-			],
-			new: true,
-			omitUndefined: true,
-		}
+		{ new: true, omitUndefined: true }
 	)
 		.lean()
 		.exec()
-		.then((user) =>
-			user?.boards
-				.find((b) => b._id == boardId)
-				?.lists.find((l) => l._id == listId)
-				?.notes.find((n) => n._id == noteId)
+		.then((n) =>
+			Board.findByIdAndUpdate(
+				boardId,
+				{
+					'lists.$[listField].notes.$[noteField]': {
+						name: n?.name,
+						description: n?.description,
+						startDate: n?.startDate,
+						dueDate: n?.dueDate,
+						tags: n?.tags,
+					},
+				},
+				{
+					omitUndefined: true,
+					arrayFilters: [
+						{ 'listField._id': listId },
+						{ 'noteField._id': noteId },
+					],
+				}
+			).then(() => n)
 		);
 
 const addNote = (
-	userId: string,
 	boardId: string,
 	listId: string,
 	name: string,
 	description: string,
 	startDate: Date,
 	dueDate: Date,
-	tagIds: ObjectId[]
+	tags: ITag[]
 ) =>
-	User.findByIdAndUpdate(
-		userId,
-		{
-			$push: {
-				'boards.$[boardField].lists.$[listField].notes': {
-					name,
-					description,
-					startDate,
-					dueDate,
-					tagIds,
+	Note.create({
+		name,
+		description,
+		startDate,
+		dueDate,
+		tags,
+	}).then((n) =>
+		Board.updateOne(
+			{ _id: boardId, 'lists._id': listId },
+			{
+				$push: {
+					'lists.$.notes': {
+						_id: n?._id,
+						name,
+						description,
+						startDate,
+						dueDate,
+						tags,
+					},
 				},
 			},
-		},
-		{
-			arrayFilters: [
-				{ 'boardField._id': boardId },
-				{ 'listField._id': listId },
-			],
-			new: true,
-			omitUndefined: true,
-		}
-	)
-		.lean()
-		.exec()
-		.then(
-			(user) =>
-				user?.boards
-					.find((b) => b._id == boardId)
-					?.lists.find((l) => l._id == listId)
-					?.notes.slice(-1)[0]
-		);
+			{
+				arrayFilters: [
+					{ 'boardField._id': boardId },
+					{ 'listField._id': listId },
+				],
+				new: true,
+				omitUndefined: true,
+			}
+		).then(() => n)
+	);
 
-const deleteNote = (
-	userId: string,
-	boardId: string,
-	listId: string,
-	noteId: string
-) =>
-	User.findByIdAndUpdate(
-		userId,
-		{
-			$pull: {
-				'boards.$[boardField].lists.$[listField].notes': {
-					_id: noteId,
-				},
-			},
-		},
-		{
-			arrayFilters: [
-				{ 'boardField._id': boardId },
-				{ 'listField._id': listId },
-			],
-		}
-	)
+const deleteNote = (boardId: string, listId: string, noteId: string) =>
+	Note.findByIdAndDelete(noteId)
 		.lean()
 		.exec()
-		.then((user) =>
-			user?.boards
-				.find((b) => b._id == boardId)
-				?.lists.find((l) => l._id == listId)
-				?.notes.find((n) => n._id == noteId)
+		.then((n) =>
+			Board.updateOne(
+				{ _id: boardId, 'lists._id': listId },
+				{
+					$pull: {
+						'lists.$.notes': {
+							_id: noteId,
+						},
+					},
+				}
+			).then(() => n)
 		);
 
 const noteDataController = {

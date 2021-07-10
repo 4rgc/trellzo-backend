@@ -1,73 +1,53 @@
+import Board from '../models/board';
 import User from '../models/user';
 
-const createList = (userId: string, boardId: string, listName: string) =>
-	User.findByIdAndUpdate(
-		userId,
-		{
-			$push: { 'boards.$[boardField].lists': { name: listName } },
-		},
-		{
-			arrayFilters: [{ 'boardField._id': boardId }],
-			new: true,
-		}
+const createList = (boardId: string, listName: string) =>
+	Board.findByIdAndUpdate(
+		boardId,
+		{ $push: { lists: { name: listName } } },
+		{ new: true, fields: { lists: { $elemMatch: { name: listName } } } }
 	)
 		.lean()
 		.exec()
-		.then(
-			(user) =>
-				user?.boards.find((b) => b._id == boardId)?.lists.slice(-1)[0]
-		);
+		.then((b) => b?.lists[0]);
 
 const updateList = (
-	userId: string,
 	boardId: string,
 	listId: string,
 	name: string,
 	description: string
 ) =>
-	User.findByIdAndUpdate(
-		userId,
+	Board.findOneAndUpdate(
+		{ _id: boardId, 'lists._id': listId },
 		{
-			'boards.$[boardField].lists.$[listField].name': name,
-			'boards.$[boardField].lists.$[listField].description': description,
+			'lists.$.name': name,
+			'lists.$.description': description,
 		},
 		{
-			arrayFilters: [
-				{ 'boardField._id': boardId },
-				{ 'listField._id': listId },
-			],
-			fields: { boards: { lists: { notes: 0, notesOrder: 0 } } },
 			omitUndefined: true,
 			new: true,
+			fields: { lists: { $elemMatch: { _id: listId } } },
 		}
 	)
 		.lean()
 		.exec()
-		.then((user) =>
-			user?.boards
-				.find((b) => b._id == boardId)
-				?.lists.find((l) => l._id == listId)
-		);
+		.then((b) => b?.lists[0]);
 
-const deleteList = (userId: string, boardId: string, listId: string) =>
-	User.findByIdAndUpdate(
-		userId,
+const deleteList = (boardId: string, listId: string) =>
+	Board.findByIdAndUpdate(
+		boardId,
 		{
 			$pull: {
-				'boards.$[boardField].lists': { _id: listId },
+				lists: { _id: listId },
 			},
 		},
 		{
-			arrayFilters: [{ 'boardField._id': boardId }],
+			fields: { lists: { $elemMatch: { _id: listId } } },
 		}
 	)
 		.lean()
 		.exec()
-		.then((user) =>
-			user?.boards
-				.find((b) => b._id == boardId)
-				?.lists.find((l) => l._id == listId)
-		);
+		.then((b) => b?.lists[0]);
 
 const listDataController = {
 	createList,

@@ -1,4 +1,5 @@
 import User from '../models/user';
+import Board from '../models/board';
 
 const getUserBoards = (userId: string) =>
 	User.findOne(
@@ -15,31 +16,25 @@ const getUserBoards = (userId: string) =>
 		.exec()
 		.then((res) => res?.boards);
 
-const getBoardData = (userId: string, boardId: string) =>
-	User.findOne(
-		{
-			_id: userId,
-		},
-		{
-			name: 0,
-			email: 0,
-			boards: { $elemMatch: { _id: boardId } },
-		}
-	)
+const getBoardData = (boardId: string) =>
+	Board.findOne({
+		_id: boardId,
+	})
 		.lean()
-		.exec()
-		.then((user) => user?.boards[0]);
+		.exec();
 
 const createNewBoard = (userId: string, name: string) =>
-	User.findByIdAndUpdate(userId, {
-		$push: { boards: { name: name } },
-	})
-		.then(() =>
-			User.findById(userId, {
-				boards: { $elemMatch: { name: name } },
-			})
-		)
-		.then((res) => res?.boards[0]);
+	Board.create({ name, userIds: [userId] }).then((b) =>
+		User.findByIdAndUpdate(userId, {
+			$push: {
+				boards: {
+					_id: b._id,
+					name: b.name,
+					description: b.description,
+				},
+			},
+		}).then(() => b)
+	);
 
 const updateBoard = (
 	userId: string,
@@ -47,37 +42,39 @@ const updateBoard = (
 	name: string | undefined,
 	description: string | undefined
 ) =>
-	User.findByIdAndUpdate(
-		userId,
-		{
-			'boards.$[boardField].name': name,
-			'boards.$[boardField].description': description,
-		},
-		{
-			arrayFilters: [{ 'boardField._id': boardId }],
-			omitUndefined: true,
-		}
+	Board.findByIdAndUpdate(
+		boardId,
+		{ name, description },
+		{ omitUndefined: true, new: true }
 	)
-		.then(() =>
-			User.findById(userId, {
-				boards: { $elemMatch: { _id: boardId } },
-			}).lean()
-		)
-		.then((res) => res?.boards[0]);
+		.lean()
+		.then((b) =>
+			User.updateMany(
+				{ boards: { $elemMatch: { _id: boardId } } },
+				{
+					'boards.$[boardField]': {
+						_id: b?._id,
+						name: b?.name,
+						description: b?.description,
+					},
+				},
+				{
+					arrayFilters: [{ 'boardField._id': b?._id }],
+					omitUndefined: true,
+				}
+			).then(() => b)
+		);
 
-const deleteBoard = async (userId: string, boardId: string) => {
-	User.findByIdAndUpdate(
-		userId,
-		{ $pull: { boards: { $elemMatch: { _id: boardId } } } },
-		{ omitUndefined: true }
-	)
-		.then(() =>
-			User.findById(userId, {
-				boards: { $elemMatch: { _id: boardId } },
-			}).lean()
-		)
-		.then((res) => res?.boards[0]);
-};
+const deleteBoard = async (boardId: string) =>
+	Board.findByIdAndDelete(boardId)
+		.lean()
+		.then((b) =>
+			User.updateMany(
+				{ _id: { $in: b?.userIds } },
+				{ $pull: { boards: { _id: boardId } } },
+				{ omitUndefined: true }
+			).then(() => b)
+		);
 
 const boardDataController = {
 	getBoardData,

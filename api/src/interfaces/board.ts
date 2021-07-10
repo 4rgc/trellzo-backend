@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import IList from './list';
 import ITag from './tag';
 import IOrder from './order';
@@ -9,4 +9,5 @@ export default interface IBoard extends Document {
 	lists: IList[];
 	tags: ITag[];
 	listsOrder: IOrder[];
+	userIds: Types.ObjectId[];
 }

@@ -21,9 +21,7 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
 
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
 
-	const board = await boardDataController
-		.getBoardData(userId, boardId)
-		.catch(next);
+	const board = await boardDataController.getBoardData(boardId).catch(next);
 
 	if (!board) return res.status(404).json({ message: 'Board not found' });
 
@@ -57,7 +55,7 @@ const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
 	if (!userId) return res.status(400).json({ message: 'userId was null' });
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
 
-	const deletedBoard = await boardDataController.deleteBoard(userId, boardId);
+	const deletedBoard = await boardDataController.deleteBoard(boardId);
 
 	res.json({
 		message: 'Deleted board',

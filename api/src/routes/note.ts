@@ -4,11 +4,7 @@ import noteController from '../controllers/note';
 import { Router } from 'express';
 const noteRouter = Router();
 
-noteRouter.get(
-	'/:boardId/:listId',
-	authController.verifyToken,
-	noteController.getNote
-);
+noteRouter.get('/:noteId', authController.verifyToken, noteController.getNote);
 noteRouter.post(
 	'/:boardId/:listId/:noteId',
 	authController.verifyToken,

@@ -34,4 +34,10 @@ services:
         command: [
                 'mongoimport --host mongodb --port 27017 --db trellzo -c users
                 --mode upsert --type json --file /data/user.json --jsonArray',
+                '&&',
+                'mongoimport --host mongodb --port 27017 --db trellzo -c boards
+                --mode upsert --type json --file /data/board.json --jsonArray',
+                '&&',
+                'mongoimport --host mongodb --port 27017 --db trellzo -c notes
+                --mode upsert --type json --file /data/note.json --jsonArray',
             ]
