@@ -15,6 +15,7 @@ import authRouter from './routes/auth';
 import boardRouter from './routes/board';
 import listRouter from './routes/list';
 import noteRouter from './routes/note';
+import checklistRouter from './routes/checklist';
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/user', userRouter);
 app.use('/board', boardRouter);
 app.use('/list', listRouter);
 app.use('/note', noteRouter);
+app.use('/checklist', checklistRouter);
 
 app.get('/', (req, res) => {
 	res.send('Well done!');
