@@ -35,6 +35,7 @@ const updateNote = (
 				boardId,
 				{
 					'lists.$[listField].notes.$[noteField]': {
+						_id: n?._id,
 						name: n?.name,
 						description: n?.description,
 						startDate: n?.startDate,
