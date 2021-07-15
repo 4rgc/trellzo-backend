@@ -29,11 +29,8 @@ const patchComment = (noteId: string, commentId: string, content: string) =>
 	Note.findByIdAndUpdate(
 		noteId,
 		{
-			'comments.$[commentField]': {
-				_id: commentId,
-				content,
-				timestamp: Date.now(),
-			},
+			'comments.$[commentField].content': content,
+			'comments.$[commentField].timestamp': Date.now(),
 		},
 		{
 			new: true,
