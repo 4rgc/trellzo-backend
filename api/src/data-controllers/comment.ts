@@ -1,7 +1,10 @@
 import Note from '../models/note';
 
 const getComments = (noteId: string) =>
-	Note.findById(noteId, { comments: 1 }).lean().exec();
+	Note.findById(noteId, { comments: 1 })
+		.lean()
+		.exec()
+		.then((n) => n?.comments);
 
 const postComment = (noteId: string, userId: string, contents: string) =>
 	Note.findByIdAndUpdate(
@@ -23,7 +26,8 @@ const postComment = (noteId: string, userId: string, contents: string) =>
 		}
 	)
 		.lean()
-		.exec();
+		.exec()
+		.then((n) => n?.comments.slice(-1)[0]);
 
 const patchComment = (noteId: string, commentId: string, contents: string) =>
 	Note.findByIdAndUpdate(
@@ -39,7 +43,8 @@ const patchComment = (noteId: string, commentId: string, contents: string) =>
 		}
 	)
 		.lean()
-		.exec();
+		.exec()
+		.then((n) => n?.comments.filter((c) => c._id == commentId)[0]);
 
 const deleteComment = (noteId: string, commentId: string) =>
 	Note.findByIdAndUpdate(
@@ -54,7 +59,8 @@ const deleteComment = (noteId: string, commentId: string) =>
 		}
 	)
 		.lean()
-		.exec();
+		.exec()
+		.then((n) => n?.comments?.filter((c) => c._id == commentId)[0]);
 
 const commentDataController = {
 	getComments,
