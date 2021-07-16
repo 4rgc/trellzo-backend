@@ -3,14 +3,14 @@ import Note from '../models/note';
 const getComments = (noteId: string) =>
 	Note.findById(noteId, { comments: 1 }).lean().exec();
 
-const postComment = (noteId: string, userId: string, content: string) =>
+const postComment = (noteId: string, userId: string, contents: string) =>
 	Note.findByIdAndUpdate(
 		noteId,
 		{
 			$push: {
 				comments: {
 					userId,
-					content,
+					contents,
 					timestamp: Date.now(),
 				},
 			},
@@ -25,16 +25,17 @@ const postComment = (noteId: string, userId: string, content: string) =>
 		.lean()
 		.exec();
 
-const patchComment = (noteId: string, commentId: string, content: string) =>
+const patchComment = (noteId: string, commentId: string, contents: string) =>
 	Note.findByIdAndUpdate(
 		noteId,
 		{
-			'comments.$[commentField].content': content,
+			'comments.$[commentField].contents': contents,
 			'comments.$[commentField].timestamp': Date.now(),
 		},
 		{
 			new: true,
 			arrayFilters: [{ 'commentField._id': commentId }],
+			fields: { comments: 1 },
 		}
 	)
 		.lean()
@@ -53,8 +54,7 @@ const deleteComment = (noteId: string, commentId: string) =>
 		}
 	)
 		.lean()
-		.exec()
-		.then((n) => n?.comments?.filter((c) => c._id == commentId)[0]);
+		.exec();
 
 const commentDataController = {
 	getComments,
