@@ -22,22 +22,23 @@ const getComments = async (req: Request, res: Response, next: NextFunction) => {
 const postComment = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId } = res.locals.auth;
 	const { noteId } = req.params;
-	const { content } = req.body;
+	const { contents } = req.body;
 
 	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-	if (!content) return res.status(400).json({ message: 'content was empty' });
+	if (!contents)
+		return res.status(400).json({ message: 'contents were empty' });
 
-	const { comments, err } = await commentDataController
-		.postComment(noteId, userId, content)
+	const { comment, err } = await commentDataController
+		.postComment(noteId, userId, contents)
 		.then(
-			(comments) => ({ comments, err: undefined }),
-			(err) => ({ err, comments: undefined })
+			(comment) => ({ comment, err: undefined }),
+			(err) => ({ err, comment: undefined })
 		);
 
 	if (err) return next(err);
-	if (!comments) return res.status(404).json({ message: 'Note not found' });
+	if (!comment) return res.status(404).json({ message: 'Note not found' });
 
-	return res.json({ comments });
+	return res.json({ comment });
 };
 
 const patchComment = async (
@@ -46,24 +47,24 @@ const patchComment = async (
 	next: NextFunction
 ) => {
 	const { noteId, commentId } = req.params;
-	const { content } = req.body;
+	const { contents } = req.body;
 
 	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
 	if (!commentId) return res.status(400).json({ message: 'noteId was null' });
-	if (!content) return res.status(400).json({ message: 'content was empty' });
+	if (!contents)
+		return res.status(400).json({ message: 'contents was empty' });
 
-	const { comments, err } = await commentDataController
-		.patchComment(noteId, commentId, content)
+	const { comment, err } = await commentDataController
+		.patchComment(noteId, commentId, contents)
 		.then(
-			(comments) => ({ comments, err: undefined }),
-			(err) => ({ err, comments: undefined })
+			(comment) => ({ comment, err: undefined }),
+			(err) => ({ err, comment: undefined })
 		);
 
 	if (err) return next(err);
-	if (!comments)
-		return res.status(404).json({ message: 'Comment not found' });
+	if (!comment) return res.status(404).json({ message: 'Comment not found' });
 
-	return res.json({ comments });
+	return res.json({ comment });
 };
 
 const deleteComment = async (
@@ -76,18 +77,17 @@ const deleteComment = async (
 	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
 	if (!commentId) return res.status(400).json({ message: 'noteId was null' });
 
-	const { comments, err } = await commentDataController
+	const { comment, err } = await commentDataController
 		.deleteComment(noteId, commentId)
 		.then(
-			(comments) => ({ comments, err: undefined }),
-			(err) => ({ err, comments: undefined })
+			(comment) => ({ comment, err: undefined }),
+			(err) => ({ err, comment: undefined })
 		);
 
 	if (err) return next(err);
-	if (!comments)
-		return res.status(404).json({ message: 'Comment not found' });
+	if (!comment) return res.status(404).json({ message: 'Comment not found' });
 
-	return res.json({ comments });
+	return res.json({ comment });
 };
 
 const commentController = {
