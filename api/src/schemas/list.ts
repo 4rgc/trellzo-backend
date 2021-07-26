@@ -7,6 +7,7 @@ const ListSchema = new Schema<IList>({
 	name: { type: String, required: true },
 	notes: { type: [PartialNoteSchema], default: [] },
 	notesOrder: { type: [OrderSchema], default: [] },
+	boardId: { type: Schema.Types.ObjectId, required: true },
 });
 
 export default ListSchema;
