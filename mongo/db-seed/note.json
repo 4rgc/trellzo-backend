@@ -72,6 +72,6 @@
             }
         ],
         "boardId": {"$oid": "60c9cd419c9ae6133cdcd03a"},
-        "listId": { "$oid": "60c5d161a6c781e43c11a5a3" }
+        "listId": { "$oid": "60c5d161a6c781e43c11a5c3" }
     }
 ]
