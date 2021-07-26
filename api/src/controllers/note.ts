@@ -19,26 +19,15 @@ const getNote = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updateNote = async (req: Request, res: Response, next: NextFunction) => {
-	const { boardId, listId, noteId } = req.params;
+	const { noteId } = req.params;
 	const { name, description, startDate, dueDate, tags } = req.body;
 
-	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
-	if (!listId) return res.status(400).json({ message: 'listId was null' });
 	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
 	if (!name || name === '')
 		return res.status(400).json({ message: 'Name was null or empty' });
 
 	const { updatedNote, err } = await noteDataController
-		.updateNote(
-			boardId,
-			listId,
-			noteId,
-			name,
-			description,
-			startDate,
-			dueDate,
-			tags
-		)
+		.updateNote(noteId, name, description, startDate, dueDate, tags)
 		.then(
 			(updatedNote) => ({ updatedNote, err: undefined }),
 			(err) => ({ err, updatedNote: undefined })
@@ -78,14 +67,12 @@ const addNote = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const deleteNote = async (req: Request, res: Response, next: NextFunction) => {
-	const { boardId, listId, noteId } = req.params;
+	const { noteId } = req.params;
 
-	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
-	if (!listId) return res.status(400).json({ message: 'listId was null' });
 	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
 
 	const { deletedNote, err } = await noteDataController
-		.deleteNote(boardId, listId, noteId)
+		.deleteNote(noteId)
 		.then(
 			(deletedNote) => ({ deletedNote, err: undefined }),
 			(err) => ({ err, deletedNote: undefined })
