@@ -10,7 +10,9 @@
         "checklists": [],
         "comments": [],
         "tags": [],
-        "checklistsOrder": []
+        "checklistsOrder": [],
+        "boardId": {"$oid": "60c9cdae9c9ae6133cdcd03b"},
+        "listId": { "$oid": "60c5d161a6c781e43c11a5a3" }
     },
     {
         "_id": {
@@ -68,6 +70,8 @@
             {
                 "$oid": "70c5692d95fcb90ae7a0c353"
             }
-        ]
+        ],
+        "boardId": {"$oid": "60c9cd419c9ae6133cdcd03a"},
+        "listId": { "$oid": "60c5d161a6c781e43c11a5a3" }
     }
 ]

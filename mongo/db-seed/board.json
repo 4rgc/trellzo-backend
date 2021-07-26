@@ -21,7 +21,10 @@
                     {
                         "$oid": "60c5d167a6c781e43c11a5a4"
                     }
-                ]
+                ],
+                "boardId": {
+                    "$oid": "60c9cdae9c9ae6133cdcd03b"
+                }
             }
         ],
         "tags": [],
@@ -58,7 +61,10 @@
                     {
                         "$oid": "60c5f167a6c781e43cf1a5a4"
                     }
-                ]
+                ],
+                "boardId": {
+                    "$oid": "60c9cd419c9ae6133cdcd03a"
+                }
             }
         ],
         "tags": [],
