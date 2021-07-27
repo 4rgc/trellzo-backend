@@ -12,7 +12,7 @@ export default interface INote extends Document {
 	checklists: IChecklist[];
 	comments: IComment[];
 	tags: ITag[];
-	checklistOrder: IOrder[];
+	checklistsOrder: string[];
 	boardId: Types.ObjectId;
 	listId: Types.ObjectId;
 }

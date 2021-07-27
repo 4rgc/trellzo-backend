@@ -13,7 +13,7 @@ const NoteSchema = new Schema<INote>({
 	checklists: { type: [ChecklistSchema], default: [] },
 	comments: { type: [CommentSchema], default: [] },
 	tags: { type: [TagSchema], default: [] },
-	checklistOrder: { type: [OrderSchema], default: [] },
+	checklistsOrder: { type: [Schema.Types.ObjectId], default: [] },
 	boardId: { type: Schema.Types.ObjectId, required: true },
 	listId: { type: Schema.Types.ObjectId, required: true },
 });
