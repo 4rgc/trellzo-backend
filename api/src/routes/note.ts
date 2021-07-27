@@ -6,7 +6,7 @@ const noteRouter = Router();
 
 noteRouter.get('/:noteId', authController.verifyToken, noteController.getNote);
 noteRouter.post(
-	'/:boardId/:listId/:noteId',
+	'/:noteId',
 	authController.verifyToken,
 	noteController.updateNote
 );
@@ -18,7 +18,7 @@ noteRouter.post(
 );
 
 noteRouter.delete(
-	'/:boardId/:listId/:noteId',
+	'/:noteId',
 	authController.verifyToken,
 	noteController.deleteNote
 );
