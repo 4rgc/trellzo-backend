@@ -30,7 +30,7 @@ const createChecklist = (
 	noteId: string,
 	name: string,
 	checkItems: ICheckItem[],
-	checkItemsOrder: IOrder[]
+	checkItemsOrder: string[]
 ) =>
 	Note.findByIdAndUpdate(
 		noteId,

@@ -5,5 +5,5 @@ import IOrder from './order';
 export default interface IChecklist extends Document {
 	name: string;
 	checkItems: ICheckItem[];
-	checkItemsOrder: IOrder[];
+	checkItemsOrder: string[];
 }
