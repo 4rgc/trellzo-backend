@@ -20,14 +20,23 @@ const getNote = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateNote = async (req: Request, res: Response, next: NextFunction) => {
 	const { noteId } = req.params;
-	const { name, description, startDate, dueDate, tags } = req.body;
+	const { name, description, startDate, dueDate, tags, checklistsOrder } =
+		req.body;
 
 	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
 	if (!name || name === '')
 		return res.status(400).json({ message: 'Name was null or empty' });
 
 	const { updatedNote, err } = await noteDataController
-		.updateNote(noteId, name, description, startDate, dueDate, tags)
+		.updateNote(
+			noteId,
+			name,
+			description,
+			startDate,
+			dueDate,
+			tags,
+			checklistsOrder
+		)
 		.then(
 			(updatedNote) => ({ updatedNote, err: undefined }),
 			(err) => ({ err, updatedNote: undefined })

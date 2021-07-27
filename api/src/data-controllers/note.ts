@@ -10,7 +10,8 @@ const updateNote = (
 	description: string,
 	startDate: Date,
 	dueDate: Date,
-	tags: ITag[]
+	tags: ITag[],
+	checklistsOrder: string[]
 ) =>
 	Note.findByIdAndUpdate(
 		noteId,
@@ -20,6 +21,7 @@ const updateNote = (
 			startDate,
 			dueDate,
 			tags,
+			checklistsOrder,
 		},
 		{ new: true, omitUndefined: true }
 	)
