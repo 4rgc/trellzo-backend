@@ -33,13 +33,13 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
 const updateBoard = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId } = res.locals.auth;
 	const { boardId } = req.params;
-	const { name, description } = req.body;
+	const { name, description, listsOrder } = req.body;
 
 	if (!userId) return res.status(400).json({ message: 'userId was null' });
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
 
 	const updatedBoard = await boardDataController
-		.updateBoard(userId, boardId, name, description)
+		.updateBoard(userId, boardId, name, description, listsOrder)
 		.catch(next);
 
 	if (!updatedBoard)
