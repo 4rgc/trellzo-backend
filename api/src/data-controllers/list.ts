@@ -8,8 +8,13 @@ const createList = (boardId: string, listName: string) =>
 		{ new: true, fields: { lists: { $elemMatch: { name: listName } } } }
 	)
 		.lean()
-		.exec()
-		.then((b) => b?.lists[0]);
+		.then((b) => b?.lists[0])
+		.then((l) =>
+			Board.updateOne(
+				{ _id: boardId },
+				{ $push: { listsOrder: l?._id } }
+			).then(() => l)
+		);
 
 const updateList = (
 	boardId: string,
@@ -39,6 +44,7 @@ const deleteList = (boardId: string, listId: string) =>
 		{
 			$pull: {
 				lists: { _id: listId },
+				listsOrder: listId,
 			},
 		},
 		{
