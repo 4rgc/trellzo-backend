@@ -9,7 +9,7 @@ const BoardSchema = new Schema<IBoard>({
 	description: { type: String, default: '' },
 	lists: { type: [ListSchema], default: [] },
 	tags: { type: [TagSchema], default: [] },
-	listsOrder: { type: [OrderSchema], default: [] },
+	listsOrder: { type: [Schema.Types.ObjectId], default: [] },
 	userIds: { type: [Schema.Types.ObjectId], required: true },
 });
 

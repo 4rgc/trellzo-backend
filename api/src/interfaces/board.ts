@@ -8,6 +8,6 @@ export default interface IBoard extends Document {
 	description: string;
 	lists: IList[];
 	tags: ITag[];
-	listsOrder: IOrder[];
+	listsOrder: Types.ObjectId[];
 	userIds: Types.ObjectId[];
 }
