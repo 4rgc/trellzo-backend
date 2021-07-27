@@ -20,13 +20,15 @@ const updateList = (
 	boardId: string,
 	listId: string,
 	name: string,
-	description: string
+	description: string,
+	notesOrder: string[]
 ) =>
 	Board.findOneAndUpdate(
 		{ _id: boardId, 'lists._id': listId },
 		{
 			'lists.$.name': name,
 			'lists.$.description': description,
+			'lists.$.notesOrder': notesOrder,
 		},
 		{
 			omitUndefined: true,
