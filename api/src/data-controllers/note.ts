@@ -5,11 +5,7 @@ import Note from '../models/note';
 
 const getNote = (noteId: string) => Note.findById(noteId).lean().exec();
 
-///TODO: Instead of accepting boardId and listId, this can be implemented by storing boardId and listId in the note object
-/// although this would mean we have to update the note object whenever we move it from one list to another
 const updateNote = (
-	boardId: string,
-	listId: string,
 	noteId: string,
 	name: string,
 	description: string,
@@ -32,7 +28,7 @@ const updateNote = (
 		.exec()
 		.then((n) =>
 			Board.findByIdAndUpdate(
-				boardId,
+				n?.boardId,
 				{
 					'lists.$[listField].notes.$[noteField]': {
 						_id: n?._id,
@@ -46,7 +42,7 @@ const updateNote = (
 				{
 					omitUndefined: true,
 					arrayFilters: [
-						{ 'listField._id': listId },
+						{ 'listField._id': n?.listId },
 						{ 'noteField._id': noteId },
 					],
 				}
@@ -68,6 +64,8 @@ const addNote = (
 		startDate,
 		dueDate,
 		tags,
+		boardId,
+		listId,
 	}).then((n) =>
 		Board.updateOne(
 			{ _id: boardId, 'lists._id': listId },
@@ -84,23 +82,19 @@ const addNote = (
 				},
 			},
 			{
-				arrayFilters: [
-					{ 'boardField._id': boardId },
-					{ 'listField._id': listId },
-				],
 				new: true,
 				omitUndefined: true,
 			}
 		).then(() => n)
 	);
 
-const deleteNote = (boardId: string, listId: string, noteId: string) =>
+const deleteNote = (noteId: string) =>
 	Note.findByIdAndDelete(noteId)
 		.lean()
 		.exec()
 		.then((n) =>
 			Board.updateOne(
-				{ _id: boardId, 'lists._id': listId },
+				{ _id: n?.boardId, 'lists._id': n?.listId },
 				{
 					$pull: {
 						'lists.$.notes': {

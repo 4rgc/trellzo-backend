@@ -4,7 +4,7 @@ import User from '../models/user';
 const createList = (boardId: string, listName: string) =>
 	Board.findByIdAndUpdate(
 		boardId,
-		{ $push: { lists: { name: listName } } },
+		{ $push: { lists: { name: listName, boardId } } },
 		{ new: true, fields: { lists: { $elemMatch: { name: listName } } } }
 	)
 		.lean()

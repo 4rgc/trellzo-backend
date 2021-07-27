@@ -6,4 +6,5 @@ export default interface IList extends Document {
 	name: string;
 	notes: IPartialNote[];
 	notesOrder: IOrder[];
+	boardId: Types.ObjectId;
 }

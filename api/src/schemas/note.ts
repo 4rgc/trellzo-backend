@@ -14,6 +14,8 @@ const NoteSchema = new Schema<INote>({
 	comments: { type: [CommentSchema], default: [] },
 	tags: { type: [TagSchema], default: [] },
 	checklistOrder: { type: [OrderSchema], default: [] },
+	boardId: { type: Schema.Types.ObjectId, required: true },
+	listId: { type: Schema.Types.ObjectId, required: true },
 });
 
 export default NoteSchema;
