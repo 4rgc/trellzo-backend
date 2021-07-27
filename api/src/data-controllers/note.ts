@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongoose';
 import ITag from '../interfaces/tag';
 import Board from '../models/board';
 import Note from '../models/note';
@@ -79,6 +78,7 @@ const addNote = (
 						dueDate,
 						tags,
 					},
+					'lists.$.notesOrder': n?._id,
 				},
 			},
 			{
@@ -100,6 +100,7 @@ const deleteNote = (noteId: string) =>
 						'lists.$.notes': {
 							_id: noteId,
 						},
+						'lists.$.notesOrder': noteId,
 					},
 				}
 			).then(() => n)
