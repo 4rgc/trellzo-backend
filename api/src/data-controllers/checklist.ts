@@ -46,7 +46,6 @@ const createChecklist = (
 		{
 			new: true,
 			omitUndefined: true,
-			fields: { checklists: { $elemMatch: { name } } },
 		}
 	)
 		.lean()
