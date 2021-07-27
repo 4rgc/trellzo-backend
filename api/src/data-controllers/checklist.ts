@@ -30,7 +30,7 @@ const createChecklist = (
 	noteId: string,
 	name: string,
 	checkItems: ICheckItem[],
-	checkItemsOrder: IOrder[]
+	checkItemsOrder: string[]
 ) =>
 	Note.findByIdAndUpdate(
 		noteId,
@@ -46,7 +46,6 @@ const createChecklist = (
 		{
 			new: true,
 			omitUndefined: true,
-			fields: { checklists: { $elemMatch: { name } } },
 		}
 	)
 		.lean()

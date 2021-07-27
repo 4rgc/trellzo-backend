@@ -40,11 +40,12 @@ const updateBoard = (
 	userId: string,
 	boardId: string,
 	name: string | undefined,
-	description: string | undefined
+	description: string | undefined,
+	listsOrder: string[]
 ) =>
 	Board.findByIdAndUpdate(
 		boardId,
-		{ name, description },
+		{ name, description, listsOrder },
 		{ omitUndefined: true, new: true }
 	)
 		.lean()
