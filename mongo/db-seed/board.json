@@ -15,6 +15,12 @@
                         "name": "Note Something",
                         "description": "Buy something",
                         "tags": []
+                    },
+                    {
+                        "_id": {"$oid": "6106f35927d5f4001d197e65"},
+                        "name": "Delete me",
+                        "description": "",
+                        "tags": []
                     }
                 ],
                 "notesOrder": [
@@ -25,12 +31,23 @@
                 "boardId": {
                     "$oid": "60c9cdae9c9ae6133cdcd03b"
                 }
+            },
+            {
+                "_id": "6106ed7f27d5f4001d197e62",
+                "name": "Delete me",
+                "description": "",
+                "notes": [],
+                "notesOrder": [],
+                "boardId": {"$oid": "60c9cdae9c9ae6133cdcd03b"}
             }
         ],
         "tags": [],
         "listsOrder": [
             {
                 "$oid": "60c5d161a6c781e43c11a5a3"
+            },
+            {
+                "$oid": "6106ed7f27d5f4001d197e62"
             }
         ],
         "userIds": [
@@ -76,5 +93,18 @@
         "userIds": [
             {"$oid": "60c5b92d95fcb90ae7a0c359"}
         ]
+    },
+    {
+        "_id": {
+            "$oid": "6105aad027d5f4001d197e60"
+        },
+        "description": "",
+        "listsOrder": [],
+        "userIds": [{
+            "$oid": "60c5b92d95fcb90ae7a0c353"
+        }],
+        "name": "Delete me",
+        "lists": [],
+        "tags": []
     }
 ]

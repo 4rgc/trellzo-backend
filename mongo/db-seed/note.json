@@ -7,8 +7,38 @@
         "description": "Buy something",
         "startDate": null,
         "dueDate": null,
-        "checklists": [],
-        "comments": [],
+        "checklists": [
+            {
+                "_id": "6106f65027d5f4001d197e67",
+                "name": "Conquer the galaxy",
+                "checkItems": [],
+                "checkItemsOrder": []
+            },
+            {
+                "_id": "6106f67627d5f4001d197e68",
+                "name": "Delete me",
+                "checkItems": [],
+                "checkItemsOrder": []
+            }
+        ],
+        "comments": [
+            {
+                "_id": {"$oid": "610977a5217f5b00205a6368"},
+                "userId": {"$oid": "60c5b92d95fcb90ae7a0c353"},
+                "contents": "Patch me!",
+                "timestamp": {"$date": "2021-08-03T17:06:45.606Z"},
+                "updatedAt": {"$date": "2021-08-03T17:06:45.609Z"},
+                "createdAt": {"$date": "2021-08-03T17:06:45.609Z"}
+            },
+            {
+                "_id": {"$oid": "610977a5217f5b00205a6369"},
+                "userId": {"$oid": "60c5b92d95fcb90ae7a0c353"},
+                "contents": "Delete me!",
+                "timestamp": {"$date": "2021-08-03T17:06:45.606Z"},
+                "updatedAt": {"$date": "2021-08-03T17:06:45.609Z"},
+                "createdAt": {"$date": "2021-08-03T17:06:45.609Z"}
+            }
+        ],
         "tags": [],
         "checklistsOrder": [],
         "boardId": {"$oid": "60c9cdae9c9ae6133cdcd03b"},
@@ -73,5 +103,18 @@
         ],
         "boardId": {"$oid": "60c9cd419c9ae6133cdcd03a"},
         "listId": { "$oid": "60c5d161a6c781e43c11a5c3" }
+    },
+    {
+        "_id": "6106f35927d5f4001d197e65",
+        "name": "Delete me",
+        "description": "",
+        "startDate": null,
+        "dueDate": null,
+        "checklists": [],
+        "comments": [],
+        "tags": [],
+        "checklistsOrder": [],
+        "boardId": "60c9cdae9c9ae6133cdcd03b",
+        "listId": "60c5d161a6c781e43c11a5a3"
     }
 ]
