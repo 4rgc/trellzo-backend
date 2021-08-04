@@ -33,7 +33,7 @@
                 }
             },
             {
-                "_id": "6106ed7f27d5f4001d197e62",
+                "_id": {"$oid": "6106ed7f27d5f4001d197e62"},
                 "name": "Delete me",
                 "description": "",
                 "notes": [],

@@ -9,13 +9,13 @@
         "dueDate": null,
         "checklists": [
             {
-                "_id": "6106f65027d5f4001d197e67",
+                "_id": {"$oid": "6106f65027d5f4001d197e67"},
                 "name": "Conquer the galaxy",
                 "checkItems": [],
                 "checkItemsOrder": []
             },
             {
-                "_id": "6106f67627d5f4001d197e68",
+                "_id": {"$oid": "6106f67627d5f4001d197b67"},
                 "name": "Delete me",
                 "checkItems": [],
                 "checkItemsOrder": []
@@ -105,7 +105,7 @@
         "listId": { "$oid": "60c5d161a6c781e43c11a5c3" }
     },
     {
-        "_id": "6106f35927d5f4001d197e65",
+        "_id": {"$oid": "6106f35927d5f4001d197e65"},
         "name": "Delete me",
         "description": "",
         "startDate": null,
@@ -114,7 +114,7 @@
         "comments": [],
         "tags": [],
         "checklistsOrder": [],
-        "boardId": "60c9cdae9c9ae6133cdcd03b",
-        "listId": "60c5d161a6c781e43c11a5a3"
+        "boardId": {"$oid": "60c9cdae9c9ae6133cdcd03b"},
+        "listId": {"$oid": "60c5d161a6c781e43c11a5a3"}
     }
 ]
