@@ -1,25 +1,26 @@
 name: Continuous Integration
-on: push
+on:
+    push:
+        branches: '*'
+    pull_request:
+        branches: '*'
 jobs:
     test:
         runs-on: ubuntu-latest
+
         steps:
             - uses: actions/checkout@v2
-
             - name: Create env file
-            run: |
-              touch api/.env
-              echo BCRYPT_SALT_ROUNDS=${{ secrets.BCRYPT_SALT_ROUNDS }} >> api/.env
-              echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> api/.env
-              echo REFRESH_SECRET_KEY=${{ secrets.REFRESH_SECRET_KEY }} >> api/.env
-              cat api/.env
-
+              run: |
+                  touch api/.env
+                  echo BCRYPT_SALT_ROUNDS=${{ secrets.BCRYPT_SALT_ROUNDS }} >> api/.env
+                  echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> api/.env
+                  echo REFRESH_SECRET_KEY=${{ secrets.REFRESH_SECRET_KEY }} >> api/.env
+                  cat api/.env
             - name: Build the stack
               run: docker-compose up -d
-
             - name: API smoke test
               run: docker run --network trellzo-backend_default appropriate/curl --retry 10 --retry-connrefused http://192.168.16.3:8080
-
             - name: API Test
               uses: matt-ball/newman-action@master
               with:
