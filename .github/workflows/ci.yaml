@@ -6,6 +6,7 @@ on:
         branches: '*'
 jobs:
     test:
+        environment: Continuous Integration
         runs-on: ubuntu-latest
 
         steps:
