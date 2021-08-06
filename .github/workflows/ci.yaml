@@ -31,7 +31,7 @@ jobs:
             - name: API smoke test
               run: |
                   docker logs api --timestamps
-                  docker stats
+                  docker stats --no-stream
                   docker container ls -a
                   docker exec api ps -l | grep node
                   docker exec api ping 192.168.2.3 -c 8
@@ -45,7 +45,7 @@ jobs:
               if: always()
               run: |
                   docker logs api --timestamps
-                  docker stats
+                  docker stats --no-stream
                   docker container ls -a
                   docker exec api ps -l | grep node
                   docker exec api ping 192.168.2.3 -c 8
