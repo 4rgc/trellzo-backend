@@ -39,3 +39,9 @@ jobs:
               with:
                   collection: api/Trellzo.postman_collection.json
                   iterationData: api/postman-test-data.json
+            - name: Final smoke test
+              if: always()
+              run: |
+                  docker container ls -a
+                  docker exec api ps -l | grep node
+                  docker exec api ping 192.168.2.3 -c 8
