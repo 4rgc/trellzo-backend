@@ -17,14 +17,16 @@ jobs:
                   REFRESH_SECRET_KEY: ${{ secrets.REFRESH_SECRET_KEY }}
               run: |
                   touch api/.env
-                  echo BCRYPT_SALT_ROUNDS=$BCRYPT_SALT_ROUNDS >> api/.env
-                  echo JWT_SECRET_KEY=$JWT_SECRET_KEY >> api/.env
-                  echo REFRESH_SECRET_KEY=$REFRESH_SECRET_KEY >> api/.env
+                  echo BCRYPT_SALT_ROUNDS="$BCRYPT_SALT_ROUNDS" >> api/.env
+                  echo JWT_SECRET_KEY="$JWT_SECRET_KEY" >> api/.env
+                  echo REFRESH_SECRET_KEY="$REFRESH_SECRET_KEY" >> api/.env
                   cat api/.env
             - name: Build the stack
               run: docker-compose up -d
             - name: API smoke test
-              run: docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
+              run: |
+                  ping 192.168.2.3 -c 4
+                  docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
             - name: API Test
               uses: matt-ball/newman-action@master
               with:
