@@ -30,6 +30,7 @@ jobs:
                   docker network inspect trellzo-backend_def
             - name: API smoke test
               run: |
+                  docker logs api --timestamps
                   docker stats
                   docker container ls -a
                   docker exec api ps -l | grep node
@@ -43,6 +44,7 @@ jobs:
             - name: Final smoke test
               if: always()
               run: |
+                  docker logs api --timestamps
                   docker stats
                   docker container ls -a
                   docker exec api ps -l | grep node
