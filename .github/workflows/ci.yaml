@@ -30,6 +30,7 @@ jobs:
                   docker network inspect trellzo-backend_def
             - name: API smoke test
               run: |
+                  docker container ls -a
                   docker exec -it api ps -l | grep node
                   docker exec -it api ping 192.168.2.3 -c 8
                   docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
