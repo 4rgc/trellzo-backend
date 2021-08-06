@@ -23,10 +23,6 @@ jobs:
                   cat api/.env
             - name: Build the stack
               run: docker-compose up -d
-            - name: Check containers in network
-              run: |
-                  docker network ls
-                  docker network inspect trellzo-backend_default
             - name: API smoke test
               run: docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
             - name: API Test
