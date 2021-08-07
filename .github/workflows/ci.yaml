@@ -41,6 +41,7 @@ jobs:
               run: sleep 10s
             - name: API smoke test
               run: |
+                  newman -v
                   docker logs api --timestamps
                   docker stats --no-stream
                   docker container ls -a
@@ -48,7 +49,6 @@ jobs:
                   docker exec api ping 192.168.2.3 -c 8
                   docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
             - name: API Test
-              run: newman -v
               uses: matt-ball/newman-action@master
               with:
                   collection: api/Trellzo.postman_collection.json
