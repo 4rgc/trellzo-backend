@@ -19,6 +19,7 @@ jobs:
                   node -v
                   npm install
                   npm --prefix ./api install ./api
+                  npm i newman
 
             - name: Create env file
               env:
@@ -49,10 +50,7 @@ jobs:
                   docker exec api ping 192.168.2.3 -c 8
                   docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
             - name: API Test
-              uses: matt-ball/newman-action@master
-              with:
-                  collection: api/Trellzo.postman_collection.json
-                  iterationData: api/postman-test-data.json
+              run: npx newman run -d api/postman-test-data.json api/Trellzo.postman_collection.json
             - name: Final smoke test
               if: always()
               run: |
