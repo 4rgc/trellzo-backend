@@ -18,9 +18,8 @@ jobs:
               run: |
                   node -v
                   npm install
-                  npm --prefix ./api install ./api
                   npm i newman
-
+                  npm --prefix ./api install ./api
             - name: Create env file
               env:
                   BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS }}
