@@ -36,6 +36,8 @@ jobs:
               run: |
                   docker network ls
                   docker network inspect trellzo-backend_def
+            - name: Sleep for 10s
+              run: sleep 10s
             - name: API smoke test
               run: |
                   docker logs api --timestamps
