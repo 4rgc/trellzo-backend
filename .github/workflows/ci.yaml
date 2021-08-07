@@ -33,28 +33,21 @@ jobs:
                   cat api/.env
             - name: Build the stack
               run: docker-compose up -d
-            - name: Inspect the network
-              run: |
-                  docker network ls
-                  docker network inspect trellzo-backend_def
             - name: Sleep for 10s
               run: sleep 10s
             - name: API smoke test
               run: |
-                  newman -v
-                  docker logs api --timestamps
-                  docker stats --no-stream
                   docker container ls -a
                   docker exec api ps -l | grep node
-                  docker exec api ping 192.168.2.3 -c 8
+                  docker exec api ping 192.168.2.3 -c 4
                   docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
             - name: API Test
-              run: npx newman run -d api/postman-test-data.json api/Trellzo.postman_collection.json
+              run: |
+                  npx newman -v
+                  npx newman run -d api/postman-test-data.json api/Trellzo.postman_collection.json
             - name: Final smoke test
               if: always()
               run: |
-                  docker logs api --timestamps
-                  docker stats --no-stream
                   docker container ls -a
                   docker exec api ps -l | grep node
                   docker exec api ping 192.168.2.3 -c 8
