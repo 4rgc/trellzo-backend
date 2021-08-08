@@ -20,6 +20,8 @@ const registerNewUser = async (
 	if (!passwordValid)
 		return res.status(400).json({ message: 'Password not strong enough' });
 
+	if (!name || name === '')
+		return res.status(400).json({ message: 'Name was invalid' });
 	const existingUser = await userDataController
 		.getUserByEmail(email)
 		.catch(next);
