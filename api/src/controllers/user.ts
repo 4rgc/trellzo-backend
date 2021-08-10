@@ -69,6 +69,10 @@ const registerNewUser = async (
 const verifyLogin = async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password } = req.body;
 
+	if (!email) return res.status(400).json({ message: 'Email was null' });
+	if (!password)
+		return res.status(400).json({ message: 'Password was null' });
+
 	const { user, errUser } = await userDataController
 		.getUserByEmail(email)
 		.then(
@@ -77,10 +81,7 @@ const verifyLogin = async (req: Request, res: Response, next: NextFunction) => {
 		);
 
 	if (errUser) return next(errUser);
-
 	if (!user) return res.status(401).json({ message: 'User not found' });
-	if (!password)
-		return res.status(400).json({ message: 'Password was null' });
 
 	const { pwIsValid, errPwValidation } = await compare(
 		password,
