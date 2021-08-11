@@ -64,13 +64,14 @@ const logout = (req: Request, res: Response, next: NextFunction) => {
 
 const refreshAuthToken = (req: Request, res: Response, next: NextFunction) => {
 	const { auth, reft } = req.cookies;
+
 	if (!auth)
-		res.status(401).json({
-			message: 'Unauthorized: no access token',
+		return res.status(400).json({
+			message: 'Bad Request: no access token',
 		});
 	if (!reft)
-		res.status(401).json({
-			message: 'Unauthorized: no refresh token',
+		return res.status(400).json({
+			message: 'Bad Request: no refresh token',
 		});
 
 	const authToken = auth.replace('JWT ', '');
