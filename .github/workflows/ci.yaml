@@ -38,7 +38,6 @@ jobs:
             - name: API smoke test
               run: |
                   docker container ls -a
-                  docker exec api ps -l | grep node
                   docker exec api ping 192.168.2.3 -c 4
                   docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
             - name: API Test
@@ -49,5 +48,4 @@ jobs:
               if: always()
               run: |
                   docker container ls -a
-                  docker exec api ps -l | grep node
                   docker exec api ping 192.168.2.3 -c 8
