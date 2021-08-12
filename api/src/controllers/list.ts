@@ -6,7 +6,8 @@ const addList = async (req: Request, res: Response, next: NextFunction) => {
 	const { name } = req.body;
 
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
-	if (!name) return res.status(400).json({ message: 'List name was null' });
+	if (!name)
+		return res.status(400).json({ message: 'List name was null or empty' });
 
 	const newList = await listDataController
 		.createList(boardId, name)
