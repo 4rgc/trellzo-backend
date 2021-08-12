@@ -32,26 +32,26 @@ const updateNote = (
 				//If the note wasn't found, we will get a validation error here, and a rejection as a result
 				//To fix this, we remove the partial note object only if the note was found
 				n &&
-			Board.findByIdAndUpdate(
-				n?.boardId,
-				{
-					'lists.$[listField].notes.$[noteField]': {
-						_id: n?._id,
+				Board.findByIdAndUpdate(
+					n?.boardId,
+					{
+						'lists.$[listField].notes.$[noteField]': {
+							_id: n?._id,
 							name,
 							description,
 							startDate,
 							dueDate,
 							tags,
+						},
 					},
-				},
-				{
-					omitUndefined: true,
-					arrayFilters: [
-						{ 'listField._id': n?.listId },
-						{ 'noteField._id': noteId },
-					],
-				}
-			).then(() => n)
+					{
+						omitUndefined: true,
+						arrayFilters: [
+							{ 'listField._id': n?.listId },
+							{ 'noteField._id': noteId },
+						],
+					}
+				).then(() => n)
 		);
 
 const addNote = (
@@ -74,26 +74,41 @@ const addNote = (
 	}).then(
 		(n) =>
 			n &&
-		Board.updateOne(
-			{ _id: boardId, 'lists._id': listId },
-			{
-				$push: {
-					'lists.$.notes': {
-						_id: n?._id,
-						name,
-						description,
-						startDate,
-						dueDate,
-						tags,
+			Board.updateOne(
+				{ _id: boardId, 'lists._id': listId },
+				{
+					$push: {
+						'lists.$.notes': {
+							_id: n?._id,
+							name,
+							description,
+							startDate,
+							dueDate,
+							tags,
+						},
+						'lists.$.notesOrder': n?._id,
 					},
-					'lists.$.notesOrder': n?._id,
 				},
-			},
-			{
-				new: true,
-				omitUndefined: true,
-			}
-		).then(() => n)
+				{
+					new: true,
+					omitUndefined: true,
+				}
+			)
+				// In case boardId/listId was invalid and no records were updated, or any
+				// other error occurred, roll back note creation by deleting the document
+				// SHOULD be done using transactions
+				.then(
+					(res) =>
+						!res.n
+							? Note.deleteOne({ _id: n?._id }).then(
+									() => undefined
+							  )
+							: n,
+					(err) =>
+						Note.deleteOne({ _id: n?._id }).then(() => {
+							throw err;
+						})
+				)
 	);
 
 const deleteNote = (noteId: string) =>
