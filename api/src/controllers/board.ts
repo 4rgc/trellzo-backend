@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { isValidObjectId } from 'mongoose';
 import boardDataController from '../data-controllers/board';
 
 const getBoards = async (req: Request, res: Response, next: NextFunction) => {
@@ -25,8 +26,11 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
 	const { boardId } = req.params;
 
 	if (!userId) return res.status(400).json({ message: 'userId was null' });
-
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
+	if (!isValidObjectId(boardId))
+		return res
+			.status(400)
+			.json({ message: 'boardId was not a valid ObjectId' });
 
 	const { board, err } = await boardDataController.getBoardData(boardId).then(
 		(board) => ({ board, err: undefined }),
@@ -49,6 +53,10 @@ const updateBoard = async (req: Request, res: Response, next: NextFunction) => {
 
 	if (!userId) return res.status(400).json({ message: 'userId was null' });
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
+	if (!isValidObjectId(boardId))
+		return res
+			.status(400)
+			.json({ message: 'boardId was not a valid ObjectId' });
 
 	const { board, err } = await boardDataController
 		.updateBoard(userId, boardId, name, description, listsOrder)
@@ -70,6 +78,10 @@ const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
 
 	if (!userId) return res.status(400).json({ message: 'userId was null' });
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
+	if (!isValidObjectId(boardId))
+		return res
+			.status(400)
+			.json({ message: 'boardId was not a valid ObjectId' });
 
 	const { board, err } = await boardDataController.deleteBoard(boardId).then(
 		(board) => ({ board, err: undefined }),
