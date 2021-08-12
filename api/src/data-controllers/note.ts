@@ -27,17 +27,21 @@ const updateNote = (
 	)
 		.lean()
 		.exec()
-		.then((n) =>
+		.then(
+			(n) =>
+				//If the note wasn't found, we will get a validation error here, and a rejection as a result
+				//To fix this, we remove the partial note object only if the note was found
+				n &&
 			Board.findByIdAndUpdate(
 				n?.boardId,
 				{
 					'lists.$[listField].notes.$[noteField]': {
 						_id: n?._id,
-						name: n?.name,
-						description: n?.description,
-						startDate: n?.startDate,
-						dueDate: n?.dueDate,
-						tags: n?.tags,
+							name,
+							description,
+							startDate,
+							dueDate,
+							tags,
 					},
 				},
 				{
@@ -67,7 +71,9 @@ const addNote = (
 		tags,
 		boardId,
 		listId,
-	}).then((n) =>
+	}).then(
+		(n) =>
+			n &&
 		Board.updateOne(
 			{ _id: boardId, 'lists._id': listId },
 			{
