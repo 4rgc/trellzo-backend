@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3d12f42b-7ec5-46fc-9fff-850a06383055",
+		"_postman_id": "73ead849-f249-419d-8b3c-1e61b0502011",
 		"name": "Trellzo",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -74,12 +74,13 @@
 							"    pm.response.to.have.status(expectedCode);",
 							"});",
 							"",
-							"pm.test('Access token changed', () => {",
-							"    const curCookie = pm.cookies.get('auth');",
-							"    const coookieChanged = prevCookie != curCookie;",
+							"if(expectedCode === 200)",
+							"    pm.test('Access token changed', () => {",
+							"        const curCookie = pm.cookies.get('auth');",
+							"        const coookieChanged = prevCookie != curCookie;",
 							"",
-							"    pm.expect(coookieChanged).to.be.true",
-							"})",
+							"        pm.expect(coookieChanged).to.be.true",
+							"    })",
 							"",
 							"const requestsData = pm.variables.get('requestsData');",
 							"pm.variables.clear()",
