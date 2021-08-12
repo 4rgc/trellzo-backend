@@ -1270,13 +1270,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseURL}}/checklist/{{note1_1_1_1}}",
+					"raw": "{{baseURL}}/checklist/:noteId",
 					"host": [
 						"{{baseURL}}"
 					],
 					"path": [
 						"checklist",
-						"{{note1_1_1_1}}"
+						":noteId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						}
 					]
 				}
 			},
@@ -1472,7 +1478,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"contents\": \"My actual first comment!!\"\n}",
+					"raw": "{\n    \"contents\": \"{{contents}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
