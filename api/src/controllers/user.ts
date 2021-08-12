@@ -127,8 +127,6 @@ const updateUserProfile = async (
 	const { email, name } = req.body;
 	const { userId } = res.locals.auth;
 
-	if (!email && !name) return res.send();
-
 	if (email) {
 		if (!emailRegex.test(email))
 			return res.status(400).json({
