@@ -97,15 +97,6 @@ const logout = (req: Request, res: Response, next: NextFunction) => {
 const refreshAuthToken = (req: Request, res: Response, next: NextFunction) => {
 	const { auth, reft } = req.cookies;
 
-	if (!auth)
-		return res.status(400).json({
-			message: 'Bad Request: no access token',
-		});
-	if (!reft)
-		return res.status(400).json({
-			message: 'Bad Request: no refresh token',
-		});
-
 	const authToken = auth.replace('JWT ', '');
 	const refreshToken = reft;
 
