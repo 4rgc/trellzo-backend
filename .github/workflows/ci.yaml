@@ -14,16 +14,18 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: '14'
-                  cache: 'npm'
-                  cache-dependency-path: |
-                      ./package-lock.json
-                      ./api/package-lock.json
+            - name: Cache dependencies
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
             - name: Install nodejs packages
               run: |
                   node -v
-                  npm install
-                  npm i newman
-                  npm --prefix ./api install ./api
+                  npm i -g newman
+                  npm --prefix ./api ci ./api
             - name: Create env file
               env:
                   BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS }}
