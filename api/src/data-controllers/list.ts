@@ -55,7 +55,7 @@ const deleteList = (boardId: string, listId: string) =>
 	)
 		.lean()
 		.exec()
-		.then((b) => b?.lists[0]);
+		.then((b) => (b?.lists ? b?.lists[0] : null));
 
 const listDataController = {
 	createList,
