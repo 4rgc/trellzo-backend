@@ -2,26 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import userDataController from '../data-controllers/user';
 import { compare, hash } from '../util/crypt';
 
-const emailRegex =
-	/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-
 const registerNewUser = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	const { name, email, password } = req.body;
-
-	const emailValid = emailRegex.test(email);
-	if (!emailValid) return res.status(400).json({ message: 'Invalid email' });
-
-	const passwordValid = passwordRegex.test(password);
-	if (!passwordValid)
-		return res.status(400).json({ message: 'Password not strong enough' });
-
-	if (!name || name === '')
-		return res.status(400).json({ message: 'Name was invalid' });
 
 	const { existingUser, errGetUser } = await userDataController
 		.getUserByEmail(email)
@@ -128,11 +114,6 @@ const updateUserProfile = async (
 	const { userId } = res.locals.auth;
 
 	if (email) {
-		if (!emailRegex.test(email))
-			return res.status(400).json({
-				message: 'Invalid email',
-			});
-
 		const { existingUser, err } = await userDataController
 			.getUserByEmail(email)
 			.then(
@@ -147,9 +128,6 @@ const updateUserProfile = async (
 				message: 'Conflict: email already in use',
 			});
 	}
-
-	if (name === '')
-		return res.status(400).json({ message: 'Name was invalid' });
 
 	const { updatedUser, errUpdateUser } = await userDataController
 		.updateUser(userId, name, email)
