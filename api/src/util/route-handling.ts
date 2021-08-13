@@ -143,7 +143,7 @@ export const authErrorHandler = (
 		err.name === 'TokenExpiredError' ||
 		err.name === 'NotBeforeError'
 	) {
-		res.status(401).json({
+		return res.status(401).json({
 			message: 'Unauthorized: ' + err.message,
 		});
 	}

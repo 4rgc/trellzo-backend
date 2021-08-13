@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
     api:
         container_name: api
@@ -9,6 +11,9 @@ services:
             - ./api:/app
         ports:
             - 3000:8080
+        networks:
+            def:
+                ipv4_address: 192.168.2.3
 
     mongodb:
         container_name: mongodb
@@ -20,6 +25,9 @@ services:
             - 27017-27019:27017-27019
         environment:
             MONGO_INITDB_DATABASE: 'trellzo'
+        networks:
+            def:
+                ipv4_address: 192.168.2.2
 
     mongo-seed:
         container_name: mongodb-seed
@@ -31,6 +39,9 @@ services:
             - ./mongo/db-seed:/data
         depends_on:
             - mongodb
+        networks:
+            def:
+                ipv4_address: 192.168.2.4
         command: [
                 'mongoimport --host mongodb --port 27017 --db trellzo -c users
                 --mode upsert --type json --file /data/user.json --jsonArray',
@@ -41,3 +52,10 @@ services:
                 'mongoimport --host mongodb --port 27017 --db trellzo -c notes
                 --mode upsert --type json --file /data/note.json --jsonArray',
             ]
+
+networks:
+    def:
+        ipam:
+            driver: default
+            config:
+                - subnet: "192.168.2.0/24"

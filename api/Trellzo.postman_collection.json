@@ -1,0 +1,1722 @@
+{
+	"info": {
+		"_postman_id": "73ead849-f249-419d-8b3c-1e61b0502011",
+		"name": "Trellzo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/auth/login",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh access token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const prevCookie = pm.variables.get('auth');",
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"if(expectedCode === 200)",
+							"    pm.test('Access token changed', () => {",
+							"        const curCookie = pm.cookies.get('auth');",
+							"        const coookieChanged = prevCookie != curCookie;",
+							"",
+							"        pm.expect(coookieChanged).to.be.true",
+							"    })",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/auth/refresh",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/auth/logout",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedEmail = pm.variables.get('exp_email');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"console.log('debug: variables')",
+							"",
+							"const res = pm.response.json()",
+							"",
+							"console.log('debug: response')",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"console.log('debug: expected code test')",
+							"",
+							"pm.test(`Name in the response is ${expectedName}`, function () {",
+							"    pm.expect(res?.user?.name || null).to.equal(expectedName)",
+							"});",
+							"",
+							"console.log('debug: name test')",
+							"",
+							"pm.test(`Email in the response is ${expectedEmail}`, function () {",
+							"    pm.expect(res?.user?.email || null).to.equal(expectedEmail)",
+							"});",
+							"",
+							"console.log('debug: email test')",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);",
+							"",
+							"console.log('debug: clear variables')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/user/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\",\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/user/register",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user profile",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"const email = pm.variables.get('email')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"let newReq = Object.assign({}, req);",
+							"",
+							"if (!name) {",
+							"    delete newReq.name",
+							"}",
+							"if (!email) {",
+							"    delete newReq.email",
+							"}",
+							"",
+							"pm.request.body.raw = JSON.stringify(newReq);",
+							"    "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedEmail = pm.variables.get('exp_email');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"const {user} = pm.response.json();",
+							"",
+							"if (expectedName !== \"\" && expectedName !== null)",
+							"    pm.test(`Name in the response is ${expectedName}`, () => {",
+							"        pm.expect(user?.name || null).to.equal(expectedName)",
+							"    })",
+							"",
+							"if (expectedEmail !== \"\" && expectedEmail !== null)",
+							"    pm.test(`Email in the response is ${expectedEmail}`, () => {",
+							"        pm.expect(user?.email || null).to.equal(expectedEmail)",
+							"    })",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\",\n    \"email\": \"{{email}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/user/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user boards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/board/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"board",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/board/:boardId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"board",
+						":boardId"
+					],
+					"variable": [
+						{
+							"key": "boardId",
+							"value": "{{boardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"const {board} = pm.response.json()",
+							"",
+							"if(expectedName !== null && expectedName !== '')",
+							"    pm.test(`Board name in response is ${expectedName}`, () => {",
+							"        pm.expect(board?.name || null).to.equal(expectedName);",
+							"    })",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"",
+							"if (name === null) {",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{name}}\"', \"null\")",
+							"}",
+							"",
+							"if (name === undefined) {",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.name",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/board/:boardId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"board",
+						":boardId"
+					],
+					"variable": [
+						{
+							"key": "boardId",
+							"value": "{{boardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"const {board} = pm.response.json()",
+							"",
+							"if(expectedName !== null && expectedName !== '')",
+							"    pm.test(`Board name in response is ${expectedName}`, () => {",
+							"        pm.expect(board?.name || null).to.equal(expectedName);",
+							"    })",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"",
+							"if (name === null) {",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{name}}\"', \"null\")",
+							"}",
+							"",
+							"if (name === undefined) {",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.name",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/board/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"board",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code')",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/board/:boardId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"board",
+						":boardId"
+					],
+					"variable": [
+						{
+							"key": "boardId",
+							"value": "{{boardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add list",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"",
+							"if (name === null) {",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{name}}\"', \"null\")",
+							"}",
+							"",
+							"if (name === undefined) {",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.name",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"const {list} = pm.response.json()",
+							"",
+							"if(expectedName && expectedName !== '')",
+							"    pm.test(`List name in response is ${expectedName}`, () => {",
+							"        pm.expect(list?.name || null).to.equal(expectedName);",
+							"    })",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/list/:boardId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"list",
+						":boardId"
+					],
+					"variable": [
+						{
+							"key": "boardId",
+							"value": "{{boardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update list",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"",
+							"if (name === null) {",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{name}}\"', \"null\");",
+							"}",
+							"",
+							"if (name === undefined) {",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.name",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"const {list} = pm.response.json()",
+							"",
+							"if(expectedName && expectedName !== '')",
+							"    pm.test(`List name in response is ${expectedName}`, () => {",
+							"        pm.expect(list?.name || null).to.equal(expectedName);",
+							"    })",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/list/:boardId/:listId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"list",
+						":boardId",
+						":listId"
+					],
+					"variable": [
+						{
+							"key": "boardId",
+							"value": "{{boardId}}"
+						},
+						{
+							"key": "listId",
+							"value": "{{listId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete list",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/list/:boardId/:listId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"list",
+						":boardId",
+						":listId"
+					],
+					"variable": [
+						{
+							"key": "boardId",
+							"value": "{{boardId}}"
+						},
+						{
+							"key": "listId",
+							"value": "{{listId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get note",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/note/:noteId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"note",
+						":noteId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update note",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"",
+							"if (name === null) {",
+							"    console.log('name was null')",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{name}}\"', \"null\");",
+							"}",
+							"",
+							"if (name === undefined) {",
+							"    console.log('name was undefined')",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.name",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"const {note} = pm.response.json()",
+							"",
+							"if(expectedName && expectedName !== '')",
+							"    pm.test(`Note name in response is ${expectedName}`, () => {",
+							"        pm.expect(note?.name || null).to.equal(expectedName);",
+							"    })",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\",\n    \"dueDate\": 1627330074107,\n    \"checklistsOrder\": [\"6100807e59293a01d1321625\", \"6100807659293a01d1321624\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/note/:noteId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"note",
+						":noteId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add note",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"",
+							"if (name === null) {",
+							"    console.log('name was null')",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{name}}\"', \"null\");",
+							"}",
+							"",
+							"if (name === undefined) {",
+							"    console.log('name was undefined')",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.name",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"const {note} = pm.response.json()",
+							"",
+							"if(expectedName && expectedName !== '')",
+							"    pm.test(`Note name in response is ${expectedName}`, () => {",
+							"        pm.expect(note?.name || null).to.equal(expectedName);",
+							"    })",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\",\n    \"startDate\": \"Sun Jun 28 2021 10:54:44 GMT+0300 (Eastern European Summer Time)\",\n    \"dueDate\": \"Sun Jun 28 2021 10:54:54 GMT+0300 (Eastern European Summer Time)\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/note/:boardId/:listId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"note",
+						":boardId",
+						":listId"
+					],
+					"variable": [
+						{
+							"key": "boardId",
+							"value": "{{boardId}}"
+						},
+						{
+							"key": "listId",
+							"value": "{{listId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/note/:noteId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"note",
+						":noteId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update checklist",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"",
+							"if (name === null) {",
+							"    console.log('name was null')",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{name}}\"', \"null\");",
+							"}",
+							"",
+							"if (name === undefined) {",
+							"    console.log('name was undefined')",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.name",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"const expectedName = pm.variables.get('exp_name');",
+							"",
+							"const {checklist} = pm.response.json()",
+							"",
+							"if(expectedName)",
+							"    pm.test(`Checklist name in response is ${expectedName}`, () => {",
+							"        pm.expect(checklist?.name || null).to.equal(expectedName);",
+							"    })",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/checklist/:noteId/:checklistId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"checklist",
+						":noteId",
+						":checklistId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						},
+						{
+							"key": "checklistId",
+							"value": "{{checklistId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add checklist",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const name = pm.variables.get('name')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"",
+							"if (name === null) {",
+							"    console.log('name was null')",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{name}}\"', \"null\");",
+							"}",
+							"",
+							"if (name === undefined) {",
+							"    console.log('name was undefined')",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.name",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/checklist/:noteId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"checklist",
+						":noteId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove checklist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/checklist/:noteId/:checklistId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"checklist",
+						":noteId",
+						":checklistId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						},
+						{
+							"key": "checklistId",
+							"value": "{{checklistId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get comments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/comment/:noteId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"comment",
+						":noteId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"contents\": \"{{contents}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/comment/:noteId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"comment",
+						":noteId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const contents = pm.variables.get('contents')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"",
+							"if (contents === null) {",
+							"    pm.request.body.raw = pm.request.body.raw.replace('\"{{contents}}\"', \"null\");",
+							"}",
+							"",
+							"if (contents === undefined) {",
+							"    const newReq = Object.assign({}, req);",
+							"    delete newReq.contents",
+							"    pm.request.body.raw = JSON.stringify(newReq);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"contents\": \"{{contents}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/comment/:noteId/:commentId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"comment",
+						":noteId",
+						":commentId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						},
+						{
+							"key": "commentId",
+							"value": "{{commentId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/comment/:noteId/:commentId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"comment",
+						":noteId",
+						":commentId"
+					],
+					"variable": [
+						{
+							"key": "noteId",
+							"value": "{{noteId}}"
+						},
+						{
+							"key": "commentId",
+							"value": "{{commentId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Load data from file",
+					"if (typeof pm.variables.get('requestsData') !== 'object') {",
+					"    pm.variables.set('requestsData', pm.iterationData.toObject())",
+					"}",
+					"",
+					"const requestsData = pm.variables.get('requestsData')",
+					"",
+					"if(typeof requestsData !== 'object' || Object.keys(requestsData).length === 0) {",
+					"    console.log('No external data provided or object is empty')",
+					"}",
+					"",
+					"//Find the current request",
+					"const currentRequest = requestsData.requests.filter(({name}) => name === pm.info.requestName)[0];",
+					"",
+					"// Skip the rest since we have no data",
+					"if (!currentRequest) {",
+					"    console.log(`Request ${pm.info.requestName} has no data defined`)",
+					"    return",
+					"}",
+					"",
+					"// Expose variables",
+					"const variables = currentRequest.data.shift()",
+					"",
+					"for (const [key, value] of Object.entries(variables)) {",
+					"    pm.variables.set(key, value)",
+					"}",
+					"",
+					"pm.variables.set('requestsData', requestsData);",
+					"",
+					"// Decide where to go next",
+					"if (currentRequest.data.length > 0) {",
+					"    postman.setNextRequest(pm.info.requestName)",
+					"}",
+					"",
+					"// Set values for auth and refresh cookies",
+					"const cookieJar = pm.cookies.jar();",
+					"const URL = 'localhost'",
+					"",
+					"const authToken = pm.variables.get('auth');",
+					"const refToken = pm.variables.get('reft');",
+					"",
+					"// Tell postman runner to wait until cookieJar.set finishes its job",
+					"// Will break execution otherwise, leaving the cookies empty",
+					"const p = new Promise((res, rej) => setTimeout(()=>{res()}, 20))",
+					"",
+					"cookieJar.clear(URL, (err) => {if(err) console.error(err)})",
+					"",
+					"if(authToken && authToken !== '') {",
+					"    cookieJar.set(URL, 'auth', authToken, (err, cook) => {",
+					"        if(err) ",
+					"            return console.error('Could not set auth token: ' + err); ",
+					"    })",
+					"}",
+					"",
+					"if(refToken && refToken !== '') {",
+					"    cookieJar.set(URL, 'reft', refToken, (err, cook) => {",
+					"        if(err) ",
+					"            return console.error('Could not set ref token: ' + err);",
+					"    })",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "localhost:3000"
+		},
+		{
+			"key": "user",
+			"value": "60c5b92d95fcb90ae7a0c353"
+		},
+		{
+			"key": "user2",
+			"value": "60c5b92d95fcb90ae7a0c359"
+		},
+		{
+			"key": "email1",
+			"value": "johndoe@example.com"
+		},
+		{
+			"key": "email2",
+			"value": "davem@example.com"
+		},
+		{
+			"key": "board1_1",
+			"value": "60c9cdae9c9ae6133cdcd03b"
+		},
+		{
+			"key": "board2_1",
+			"value": "60c9cd419c9ae6133cdcd03a"
+		},
+		{
+			"key": "password",
+			"value": "password1"
+		},
+		{
+			"key": "password2",
+			"value": "password2"
+		},
+		{
+			"key": "list1_1_1",
+			"value": "60c5d161a6c781e43c11a5a3"
+		},
+		{
+			"key": "note1_1_1_1",
+			"value": "60c5d167a6c781e43c11a5a4"
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "pass",
+			"value": ""
+		},
+		{
+			"key": "expected",
+			"value": ""
+		},
+		{
+			"key": "calldata",
+			"value": ""
+		},
+		{
+			"key": "auth_cookie",
+			"value": ""
+		},
+		{
+			"key": "note2_1_1_1",
+			"value": "60c5f167a6c781e43cf1a5a4"
+		},
+		{
+			"key": "checklist2_1_1_1_1",
+			"value": "60ea3b221244d802bd63d1a0"
+		},
+		{
+			"key": "comment1_1_1_1_1",
+			"value": "60f1fe750d387d0070387530"
+		},
+		{
+			"key": "comment1_1_1_1_1",
+			"value": ""
+		}
+	]
+}

@@ -13,6 +13,13 @@
                 },
                 "name": "Board 1",
                 "description": "This is a board."
+            },
+            {
+                "_id": {
+                    "$oid": "6105aad027d5f4001d197e60"
+                },
+                "name": "Delete me",
+                "description": ""
             }
         ]
     },

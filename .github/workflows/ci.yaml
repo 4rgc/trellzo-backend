@@ -1,0 +1,57 @@
+name: CI
+on:
+    push:
+        branches: '*'
+    pull_request:
+        branches: '*'
+jobs:
+    Test:
+        environment: Development
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: '14'
+            - name: Cache dependencies
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+            - name: Install nodejs packages
+              run: |
+                  node -v
+                  npm i -g newman
+                  npm --prefix ./api ci ./api
+            - name: Create env file
+              env:
+                  BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS }}
+                  JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+                  REFRESH_SECRET_KEY: ${{ secrets.REFRESH_SECRET_KEY }}
+              run: |
+                  touch api/.env
+                  echo BCRYPT_SALT_ROUNDS="$BCRYPT_SALT_ROUNDS" >> api/.env
+                  echo JWT_SECRET_KEY="$JWT_SECRET_KEY" >> api/.env
+                  echo REFRESH_SECRET_KEY="$REFRESH_SECRET_KEY" >> api/.env
+                  cat api/.env
+            - name: Build the stack
+              run: docker-compose up -d
+            - name: Sleep for 10s
+              run: sleep 10s
+            - name: API smoke test
+              run: |
+                  docker container ls -a
+                  docker exec api ping 192.168.2.3 -c 4
+                  docker run --network trellzo-backend_def appropriate/curl --retry 10 --retry-connrefused http://192.168.2.3:8080
+            - name: API Test
+              run: |
+                  npx newman -v
+                  npx newman run -d api/postman-test-data.json api/Trellzo.postman_collection.json
+            - name: Final smoke test
+              if: always()
+              run: |
+                  docker container ls -a
+                  docker exec api ping 192.168.2.3 -c 8

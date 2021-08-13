@@ -15,7 +15,7 @@ const boardValidator = (data: IUser) => !!(data as IUser).boards;
 router.get(
 	'/:userId/:boardId',
 	saveDbDataHandler((req) =>
-		boardDataController.getBoardData(req.params.userId, req.params.boardId)
+		boardDataController.getBoardData(req.params.boardId)
 	),
 	notFoundHandler(userValidator, 'User'),
 	notFoundHandler(boardValidator, 'Board'),
@@ -56,7 +56,8 @@ router.post(
 			req.params.userId,
 			req.params.boardId,
 			req.body.name,
-			req.body.description
+			req.body.description,
+			req.body.listsOrder
 		)
 	),
 	notFoundHandler(userValidator, 'User'),

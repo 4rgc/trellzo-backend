@@ -20,21 +20,45 @@ const registerNewUser = async (
 	if (!passwordValid)
 		return res.status(400).json({ message: 'Password not strong enough' });
 
-	const existingUser = await userDataController
+	if (!name || name === '')
+		return res.status(400).json({ message: 'Name was invalid' });
+
+	const { existingUser, errGetUser } = await userDataController
 		.getUserByEmail(email)
-		.catch(next);
+		.then(
+			(existingUser) => ({ existingUser, errGetUser: undefined }),
+			(errGetUser) => ({ errGetUser, existingUser: undefined })
+		);
+
+	if (errGetUser) return next(errGetUser);
 
 	if (existingUser !== null)
 		return res.status(409).json({
 			message: 'User with this email already exists.',
 		});
 
-	const hashedPw = await hash(password).catch(next);
-	if (!hashedPw) return;
+	const { hashedPw, errHash } = await hash(password).then(
+		(hashedPw) => ({ hashedPw, errHash: undefined }),
+		(errHash) => ({ errHash, hashedPw: undefined })
+	);
 
-	const newUser = await userDataController
+	if (errHash) return next(errHash);
+	if (!hashedPw)
+		return res.status(500).json({
+			message: 'Hashed password was null',
+			err: new Error(
+				'500 Internal Server Error: hashed password was null'
+			),
+		});
+
+	const { newUser, errCreateUser } = await userDataController
 		.createUser(name, email, hashedPw)
-		.catch(next);
+		.then(
+			(newUser) => ({ newUser, errCreateUser: undefined }),
+			(errCreateUser) => ({ errCreateUser, newUser: undefined })
+		);
+
+	if (errCreateUser) return next(errCreateUser);
 
 	if (!newUser) return next(new Error('New user was null'));
 	res.locals.payload = newUser._id;
@@ -45,13 +69,29 @@ const registerNewUser = async (
 const verifyLogin = async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password } = req.body;
 
-	const user = await userDataController.getUserByEmail(email).catch(next);
-
-	if (!user) return res.status(401).json({ message: 'User not found' });
+	if (!email) return res.status(400).json({ message: 'Email was null' });
 	if (!password)
 		return res.status(400).json({ message: 'Password was null' });
 
-	const pwIsValid = await compare(password, user.pass).catch(next);
+	const { user, errUser } = await userDataController
+		.getUserByEmail(email)
+		.then(
+			(user) => ({ user, errUser: undefined }),
+			(errUser) => ({ errUser, user: undefined })
+		);
+
+	if (errUser) return next(errUser);
+	if (!user) return res.status(401).json({ message: 'User not found' });
+
+	const { pwIsValid, errPwValidation } = await compare(
+		password,
+		user.pass
+	).then(
+		(pwIsValid) => ({ pwIsValid, errPwValidation: undefined }),
+		(errPwValidation) => ({ errPwValidation, pwIsValid: undefined })
+	);
+
+	if (errPwValidation) return next(errPwValidation);
 
 	if (!pwIsValid)
 		return res.status(401).json({ message: 'Incorrect password' });
@@ -67,9 +107,14 @@ const getUserProfile = async (
 ) => {
 	const { userId } = res.locals.auth;
 
-	const user = await userDataController.getUser(userId).catch(next);
+	const { user, err } = await userDataController.getUser(userId).then(
+		(user) => ({ user, err: undefined }),
+		(err) => ({ err, user: undefined })
+	);
 
-	res.json({
+	if (err) return next(err);
+
+	return res.json({
 		user,
 	});
 };
@@ -82,23 +127,38 @@ const updateUserProfile = async (
 	const { email, name } = req.body;
 	const { userId } = res.locals.auth;
 
-	if (!email && !name) return res.send();
-
 	if (email) {
 		if (!emailRegex.test(email))
-			res.status(400).json({
+			return res.status(400).json({
 				message: 'Invalid email',
 			});
-		const existingUser = await userDataController.getUserByEmail(email);
+
+		const { existingUser, err } = await userDataController
+			.getUserByEmail(email)
+			.then(
+				(existingUser) => ({ existingUser, err: undefined }),
+				(err) => ({ err, existingUser: undefined })
+			);
+
+		if (err) return next(err);
+
 		if (existingUser)
 			return res.status(409).json({
 				message: 'Conflict: email already in use',
 			});
 	}
 
-	const updatedUser = await userDataController
+	if (name === '')
+		return res.status(400).json({ message: 'Name was invalid' });
+
+	const { updatedUser, errUpdateUser } = await userDataController
 		.updateUser(userId, name, email)
-		.catch(next);
+		.then(
+			(updatedUser) => ({ updatedUser, errUpdateUser: undefined }),
+			(errUpdateUser) => ({ errUpdateUser, updatedUser: undefined })
+		);
+
+	if (errUpdateUser) return next(errUpdateUser);
 
 	return res.json({
 		user: updatedUser,
