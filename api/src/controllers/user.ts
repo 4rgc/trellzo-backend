@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import userDataController from '../data-controllers/user';
-import { compare, hash } from '../util/crypt';
+import { hash } from '../util/crypt';
 
 const registerNewUser = async (
 	req: Request,
@@ -50,40 +50,6 @@ const registerNewUser = async (
 	res.locals.payload = newUser._id;
 
 	next();
-};
-
-const verifyLogin = async (req: Request, res: Response, next: NextFunction) => {
-	const { email, password } = req.body;
-
-	if (!email) return res.status(400).json({ message: 'Email was null' });
-	if (!password)
-		return res.status(400).json({ message: 'Password was null' });
-
-	const { user, errUser } = await userDataController
-		.getUserByEmail(email)
-		.then(
-			(user) => ({ user, errUser: undefined }),
-			(errUser) => ({ errUser, user: undefined })
-		);
-
-	if (errUser) return next(errUser);
-	if (!user) return res.status(401).json({ message: 'User not found' });
-
-	const { pwIsValid, errPwValidation } = await compare(
-		password,
-		user.pass
-	).then(
-		(pwIsValid) => ({ pwIsValid, errPwValidation: undefined }),
-		(errPwValidation) => ({ errPwValidation, pwIsValid: undefined })
-	);
-
-	if (errPwValidation) return next(errPwValidation);
-
-	if (!pwIsValid)
-		return res.status(401).json({ message: 'Incorrect password' });
-
-	res.locals.payload = user._id;
-	return next();
 };
 
 const getUserProfile = async (
@@ -146,7 +112,6 @@ const updateUserProfile = async (
 const userController = {
 	getUserProfile,
 	registerNewUser,
-	verifyLogin,
 	updateUserProfile,
 };
 

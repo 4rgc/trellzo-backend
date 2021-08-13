@@ -5,6 +5,8 @@ import {
 	refreshAccessToken,
 } from '../util/jwt';
 import { Request, Response, NextFunction } from 'express';
+import userDataController from '../data-controllers/user';
+import { compare } from '../util/crypt';
 
 const generateTokens = (_req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -38,6 +40,36 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
 	res.locals.auth = payload;
 	next();
+};
+
+const verifyLogin = async (req: Request, res: Response, next: NextFunction) => {
+	const { email, password } = req.body;
+
+	const { user, errUser } = await userDataController
+		.getUserByEmail(email)
+		.then(
+			(user) => ({ user, errUser: undefined }),
+			(errUser) => ({ errUser, user: undefined })
+		);
+
+	if (errUser) return next(errUser);
+	if (!user) return res.status(401).json({ message: 'User not found' });
+
+	const { pwIsValid, errPwValidation } = await compare(
+		password,
+		user.pass
+	).then(
+		(pwIsValid) => ({ pwIsValid, errPwValidation: undefined }),
+		(errPwValidation) => ({ errPwValidation, pwIsValid: undefined })
+	);
+
+	if (errPwValidation) return next(errPwValidation);
+
+	if (!pwIsValid)
+		return res.status(401).json({ message: 'Incorrect password' });
+
+	res.locals.payload = user._id;
+	return next();
 };
 
 const logout = (req: Request, res: Response, next: NextFunction) => {
@@ -94,6 +126,7 @@ const refreshAuthToken = (req: Request, res: Response, next: NextFunction) => {
 export default {
 	generateTokens,
 	logout,
+	verifyLogin,
 	refreshAuthToken,
 	verifyToken,
 };

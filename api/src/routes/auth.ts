@@ -4,10 +4,11 @@ const authRouter = Router();
 import authController from '../controllers/auth';
 import userController from '../controllers/user';
 import { sendSuccessMessageHandler } from '../util/route-handling';
+const authRouter = Router();
 
 authRouter.post(
 	'/login',
-	userController.verifyLogin,
+	authController.verifyLogin,
 	authController.generateTokens,
 	sendSuccessMessageHandler('Logged in')
 );
