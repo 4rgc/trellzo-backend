@@ -52,7 +52,7 @@ const updateNote = async (req: Request, res: Response, next: NextFunction) => {
 
 const addNote = async (req: Request, res: Response, next: NextFunction) => {
 	const { boardId, listId } = req.params;
-	const { name, description, startDate, dueDate, tagIds } = req.body;
+	const { name, description, startDate, dueDate, tags } = req.body;
 
 	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
 	if (!listId) return res.status(400).json({ message: 'listId was null' });
@@ -60,7 +60,7 @@ const addNote = async (req: Request, res: Response, next: NextFunction) => {
 		return res.status(400).json({ message: 'Name was null or empty' });
 
 	const { newNote, err } = await noteDataController
-		.addNote(boardId, listId, name, description, startDate, dueDate, tagIds)
+		.addNote(boardId, listId, name, description, startDate, dueDate, tags)
 		.then(
 			(newNote) => ({ newNote, err: undefined }),
 			(err) => ({ err, newNote: undefined })
