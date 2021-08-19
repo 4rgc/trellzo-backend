@@ -4,8 +4,6 @@ import noteDataController from '../data-controllers/note';
 const getNote = async (req: Request, res: Response, next: NextFunction) => {
 	const { noteId } = req.params;
 
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-
 	const { note, err } = await noteDataController.getNote(noteId).then(
 		(note) => ({ note, err: undefined }),
 		(err) => ({ err, note: undefined })
@@ -22,10 +20,6 @@ const updateNote = async (req: Request, res: Response, next: NextFunction) => {
 	const { noteId } = req.params;
 	const { name, description, startDate, dueDate, tags, checklistsOrder } =
 		req.body;
-
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-	if (!name || name === '')
-		return res.status(400).json({ message: 'Name was null or empty' });
 
 	const { updatedNote, err } = await noteDataController
 		.updateNote(
@@ -54,11 +48,6 @@ const addNote = async (req: Request, res: Response, next: NextFunction) => {
 	const { boardId, listId } = req.params;
 	const { name, description, startDate, dueDate, tags } = req.body;
 
-	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
-	if (!listId) return res.status(400).json({ message: 'listId was null' });
-	if (!name || name === '')
-		return res.status(400).json({ message: 'Name was null or empty' });
-
 	const { newNote, err } = await noteDataController
 		.addNote(boardId, listId, name, description, startDate, dueDate, tags)
 		.then(
@@ -77,8 +66,6 @@ const addNote = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteNote = async (req: Request, res: Response, next: NextFunction) => {
 	const { noteId } = req.params;
-
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
 
 	const { deletedNote, err } = await noteDataController
 		.deleteNote(noteId)
