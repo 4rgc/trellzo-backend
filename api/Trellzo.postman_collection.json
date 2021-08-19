@@ -968,7 +968,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"{{name}}\",\n    \"dueDate\": 1627330074107,\n    \"checklistsOrder\": [\"6100807e59293a01d1321625\", \"6100807659293a01d1321624\"]\n}",
+					"raw": "{\n    \"name\": \"{{name}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1051,7 +1051,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"{{name}}\",\n    \"startDate\": \"Sun Jun 28 2021 10:54:44 GMT+0300 (Eastern European Summer Time)\",\n    \"dueDate\": \"Sun Jun 28 2021 10:54:54 GMT+0300 (Eastern European Summer Time)\"\n}",
+					"raw": "{\n    \"name\": \"{{name}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
