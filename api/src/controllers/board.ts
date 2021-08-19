@@ -5,8 +5,6 @@ import boardDataController from '../data-controllers/board';
 const getBoards = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId } = res.locals.auth;
 
-	if (!userId) return res.status(400).json({ message: 'userId was null' });
-
 	const { boards, err } = await boardDataController
 		.getUserBoards(userId)
 		.then(
@@ -22,15 +20,7 @@ const getBoards = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getBoard = async (req: Request, res: Response, next: NextFunction) => {
-	const { userId } = res.locals.auth;
 	const { boardId } = req.params;
-
-	if (!userId) return res.status(400).json({ message: 'userId was null' });
-	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
-	if (!isValidObjectId(boardId))
-		return res
-			.status(400)
-			.json({ message: 'boardId was not a valid ObjectId' });
 
 	const { board, err } = await boardDataController.getBoardData(boardId).then(
 		(board) => ({ board, err: undefined }),
@@ -51,13 +41,6 @@ const updateBoard = async (req: Request, res: Response, next: NextFunction) => {
 	const { boardId } = req.params;
 	const { name, description, listsOrder } = req.body;
 
-	if (!userId) return res.status(400).json({ message: 'userId was null' });
-	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
-	if (!isValidObjectId(boardId))
-		return res
-			.status(400)
-			.json({ message: 'boardId was not a valid ObjectId' });
-
 	const { board, err } = await boardDataController
 		.updateBoard(userId, boardId, name, description, listsOrder)
 		.then(
@@ -73,15 +56,7 @@ const updateBoard = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
-	const { userId } = res.locals.auth;
 	const { boardId } = req.params;
-
-	if (!userId) return res.status(400).json({ message: 'userId was null' });
-	if (!boardId) return res.status(400).json({ message: 'boardId was null' });
-	if (!isValidObjectId(boardId))
-		return res
-			.status(400)
-			.json({ message: 'boardId was not a valid ObjectId' });
 
 	const { board, err } = await boardDataController.deleteBoard(boardId).then(
 		(board) => ({ board, err: undefined }),
@@ -98,9 +73,6 @@ const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
 const createBoard = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId } = res.locals.auth;
 	const { name } = req.body;
-
-	if (!userId) return res.status(400).json({ message: 'userId was null' });
-	if (!name) return res.status(400).json({ message: 'Board name was null' });
 
 	const { board, err } = await boardDataController
 		.createNewBoard(userId, name)
