@@ -4,8 +4,6 @@ import commentDataController from '../data-controllers/comment';
 const getComments = async (req: Request, res: Response, next: NextFunction) => {
 	const { noteId } = req.params;
 
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-
 	const { comments, err } = await commentDataController
 		.getComments(noteId)
 		.then(
@@ -23,10 +21,6 @@ const postComment = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId } = res.locals.auth;
 	const { noteId } = req.params;
 	const { contents } = req.body;
-
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-	if (!contents)
-		return res.status(400).json({ message: 'contents were empty' });
 
 	const { comment, err } = await commentDataController
 		.postComment(noteId, userId, contents)
@@ -49,11 +43,6 @@ const patchComment = async (
 	const { noteId, commentId } = req.params;
 	const { contents } = req.body;
 
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-	if (!commentId) return res.status(400).json({ message: 'noteId was null' });
-	if (!contents)
-		return res.status(400).json({ message: 'contents was empty' });
-
 	const { comment, err } = await commentDataController
 		.patchComment(noteId, commentId, contents)
 		.then(
@@ -73,9 +62,6 @@ const deleteComment = async (
 	next: NextFunction
 ) => {
 	const { noteId, commentId } = req.params;
-
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-	if (!commentId) return res.status(400).json({ message: 'noteId was null' });
 
 	const { comment, err } = await commentDataController
 		.deleteComment(noteId, commentId)
