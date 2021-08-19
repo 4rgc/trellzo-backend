@@ -9,10 +9,6 @@ const updateChecklist = async (
 	const { noteId, checklistId } = req.params;
 	const { name, checkItems, checkItemsOrder } = req.body;
 
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-	if (!checklistId)
-		return res.status(400).json({ message: 'checklistId was null' });
-
 	const { checklist, err } = await checklistDataController
 		.updateChecklist(noteId, checklistId, name, checkItems, checkItemsOrder)
 		.then(
@@ -37,8 +33,6 @@ const addChecklist = async (
 	const { noteId } = req.params;
 	const { name, checkItems, checkItemsOrder } = req.body;
 
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-
 	const { checklist, err } = await checklistDataController
 		.createChecklist(noteId, name, checkItems, checkItemsOrder)
 		.then(
@@ -60,10 +54,6 @@ const removeChecklist = async (
 	next: NextFunction
 ) => {
 	const { noteId, checklistId } = req.params;
-
-	if (!noteId) return res.status(400).json({ message: 'noteId was null' });
-	if (!checklistId)
-		return res.status(400).json({ message: 'checklistId was null' });
 
 	const { deletedChecklist, err } = await checklistDataController
 		.deleteChecklist(noteId, checklistId)
