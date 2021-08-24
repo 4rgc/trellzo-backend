@@ -52,6 +52,30 @@ const options = {
 					name: 'reft',
 				},
 			},
+			responses: {
+				'401Unauthorized': {
+					description:
+						'Unauthorized. The access token was either invalid or expired.',
+					content: {
+						'application/json': {
+							schema: {
+								$ref: '#/components/schemas/ResultMessage',
+							},
+						},
+					},
+				},
+				'400Validation': {
+					description:
+						'Bad Request. Request query params/URL params/body were not valid.',
+					content: {
+						'application/json': {
+							schema: {
+								$ref: '#/components/schemas/ResultMessage',
+							},
+						},
+					},
+				},
+			},
 		},
 	},
 	apis: ['./src/routes/*.ts', './src/index.ts'],
