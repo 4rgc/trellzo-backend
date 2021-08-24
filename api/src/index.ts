@@ -39,6 +39,21 @@ const options = {
 						},
 					},
 				},
+				UserProfile: {
+					type: 'object',
+					properties: {
+						name: {
+							type: 'string',
+							description: "User's name",
+							example: 'John Doe',
+						},
+						email: {
+							type: 'email',
+							description: "User's email address",
+							example: 'johndoe@example.com',
+						},
+					},
+				},
 			},
 			securitySchemes: {
 				jwtAuth: {
