@@ -54,6 +54,63 @@ const options = {
 						},
 					},
 				},
+				ObjectId: {
+					type: 'ObjectId',
+					description: "MongoDB's ObjectId",
+					example: '61252f1050f154f82b6eda40',
+				},
+				PartialBoard: {
+					type: 'object',
+					properties: {
+						_id: { $ref: '#/components/schemas/ObjectId' },
+						name: {
+							type: 'string',
+							description: 'Board name',
+							example: 'Board 1',
+						},
+						description: {
+							type: 'string',
+							description: 'Board description',
+							example: 'This is a board.',
+						},
+					},
+				},
+				Board: {
+					type: 'object',
+					properties: {
+						_id: { $ref: '#/components/schemas/ObjectId' },
+						name: {
+							type: 'string',
+							description: 'Board name',
+							example: 'Board 1',
+						},
+						description: {
+							type: 'string',
+							description: 'Board description',
+							example: 'This is a board.',
+						},
+						lists: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/List' },
+							description: "Board's lists",
+						},
+						tags: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/Tag' },
+							description: "Board's note tags",
+						},
+						listsOrder: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/ObjectId' },
+							description: "Display order of board's lists",
+						},
+						userIds: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/ObjectId' },
+							description: 'Users who have access to this board',
+						},
+					},
+				},
 			},
 			securitySchemes: {
 				jwtAuth: {
