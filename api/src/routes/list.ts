@@ -41,7 +41,7 @@ const listRouter = Router();
  *       schema:
  *        type: object
  *        properties:
- *         board:
+ *         list:
  *          $ref: '#/components/schemas/List'
  *    '401':
  *     $ref: '#/components/responses/401Unauthorized'
@@ -109,7 +109,7 @@ listRouter.post(
  *       schema:
  *        type: object
  *        properties:
- *         board:
+ *         list:
  *          $ref: '#/components/schemas/List'
  *    '401':
  *     $ref: '#/components/responses/401Unauthorized'
@@ -163,7 +163,7 @@ listRouter.post(
  *       schema:
  *        type: object
  *        properties:
- *         board:
+ *         list:
  *          $ref: '#/components/schemas/List'
  *    '401':
  *     $ref: '#/components/responses/401Unauthorized'
