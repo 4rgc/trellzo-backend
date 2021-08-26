@@ -111,6 +111,30 @@ const options = {
 						},
 					},
 				},
+				List: {
+					type: 'object',
+					properties: {
+						_id: { $ref: '#/components/schemas/ObjectId' },
+						name: {
+							type: 'string',
+							description: "List's name",
+							example: 'To-do list',
+						},
+						notes: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/Note' },
+							description: 'Notes contained in the list',
+						},
+						notesOrder: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/ObjectId' },
+							description: "Display order of this list's notes",
+						},
+						boardId: {
+							$ref: '#/components/schemas/ObjectId',
+						},
+					},
+				},
 			},
 			securitySchemes: {
 				jwtAuth: {
