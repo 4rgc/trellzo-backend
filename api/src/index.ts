@@ -135,6 +135,58 @@ const options = {
 						},
 					},
 				},
+				Note: {
+					type: 'object',
+					properties: {
+						_id: { $ref: '#/components/schemas/ObjectId' },
+						name: {
+							type: 'string',
+							description: "Note's name",
+							example: 'Do something',
+						},
+						description: {
+							type: 'string',
+							description: "Note's description",
+							example:
+								'We really need to do something about this, fast.',
+						},
+						startDate: {
+							type: 'time',
+							description:
+								'Start date and time for this note in the ISO 8601 format',
+							example: '2021-08-28T16:16:31.305Z',
+						},
+						endDate: {
+							type: 'iso8601',
+							description:
+								'End date and time for this note in the ISO 8601 format',
+							example: '2021-08-28T16:16:31.305Z',
+						},
+						checklists: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/Checklist' },
+							description: "Note's checklists",
+						},
+						comments: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/Comment' },
+							description: "Note's comments",
+						},
+						tags: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/Tag' },
+							description: "Note's tags",
+						},
+						checklistsOrder: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/ObjectId' },
+							description:
+								'Display order for the checklists on this note',
+						},
+						boardId: { $ref: '#/components/schemas/ObjectId' },
+						listId: { $ref: '#/components/schemas/ObjectId' },
+					},
+				},
 			},
 			securitySchemes: {
 				jwtAuth: {
