@@ -151,7 +151,7 @@ const options = {
 								'We really need to do something about this, fast.',
 						},
 						startDate: {
-							type: 'time',
+							type: 'iso8601',
 							description:
 								'Start date and time for this note in the ISO 8601 format',
 							example: '2021-08-28T16:16:31.305Z',
@@ -185,6 +185,66 @@ const options = {
 						},
 						boardId: { $ref: '#/components/schemas/ObjectId' },
 						listId: { $ref: '#/components/schemas/ObjectId' },
+					},
+				},
+				Comment: {
+					type: 'object',
+					properties: {
+						_id: { $ref: '#/components/schemas/ObjectId' },
+						userId: { $ref: '#/components/schemas/ObjectId' },
+						contents: {
+							type: 'string',
+							description: 'Contents of the comment',
+							example: 'First comment!',
+						},
+						timestamp: {
+							type: 'iso8601',
+							description:
+								'Timestamp of when the comment was created',
+							example: '2021-08-28T16:16:31.305Z',
+						},
+					},
+				},
+				Checklist: {
+					type: 'object',
+					properties: {
+						_id: { $ref: '#/components/schemas/ObjectId' },
+						name: {
+							type: 'string',
+							description: 'Name of the checklist',
+							example: 'To-do list',
+						},
+						checkItems: {
+							type: 'array',
+							items: {
+								$ref: '#/components/schemas/CheckItem',
+							},
+							description: 'Items in the checklist',
+						},
+						checkItemsOrder: {
+							type: 'array',
+							items: {
+								$ref: '#/components/schemas/ObjectId',
+							},
+							description:
+								'Display order for the items in the checklist',
+						},
+					},
+				},
+				CheckItem: {
+					type: 'object',
+					properties: {
+						_id: { $ref: '#/components/schemas/ObjectId' },
+						name: {
+							type: 'string',
+							description: 'Description of the checklist item',
+							example: 'Do something',
+						},
+						checked: {
+							type: 'boolean',
+							description: 'Status of the checklist item',
+							example: true,
+						},
 					},
 				},
 			},
