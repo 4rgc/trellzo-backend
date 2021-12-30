@@ -1,5 +1,7 @@
-FROM node:14-alpine
+FROM --platform=linux/amd64 node:14-alpine
 
 WORKDIR /app
 
-CMD ["npm", "run", "dev"]
+RUN apk --no-cache add curl
+
+CMD ["ash", "/scripts/start-dev-server.sh"]
