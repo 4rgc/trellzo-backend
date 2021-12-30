@@ -52,8 +52,7 @@ const updateChecklist = (
 const createChecklist = (
 	noteId: string,
 	name: string,
-	checkItems: ICheckItem[],
-	checkItemsOrder: string[]
+	checkItems: ICheckItem[]
 ) =>
 	Note.findByIdAndUpdate(
 		noteId,
@@ -62,7 +61,6 @@ const createChecklist = (
 				checklists: {
 					name,
 					checkItems,
-					checkItemsOrder,
 				},
 			},
 		},
@@ -75,11 +73,23 @@ const createChecklist = (
 		.exec()
 		.then((n) => n?.checklists.slice(-1)[0])
 		.then((c) =>
-			Note.findByIdAndUpdate(noteId, {
+			Note.findByIdAndUpdate(
+				noteId,
+				{
 					$push: {
 						checklistsOrder: c?._id,
 					},
-			}).then(() => c)
+					$set: {
+						'checklists.$[checklistField].checkItemsOrder':
+							c?.checkItems?.map((i) => i._id),
+					},
+				},
+				{
+					arrayFilters: [{ 'checklistField._id': c?._id }],
+					new: true,
+					omitUndefined: true,
+				}
+			).then((n) => n?.checklists.slice(-1)[0])
 		);
 
 const deleteChecklist = (noteId: string, checklistId: string) =>
