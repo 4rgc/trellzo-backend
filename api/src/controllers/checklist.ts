@@ -31,10 +31,10 @@ const addChecklist = async (
 	next: NextFunction
 ) => {
 	const { noteId } = req.params;
-	const { name, checkItems, checkItemsOrder } = req.body;
+	const { name, checkItems } = req.body;
 
 	const { checklist, err } = await checklistDataController
-		.createChecklist(noteId, name, checkItems, checkItemsOrder)
+		.createChecklist(noteId, name, checkItems)
 		.then(
 			(checklist) => ({ checklist, err: undefined }),
 			(err) => ({ err, checklist: undefined })

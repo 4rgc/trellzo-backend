@@ -9,11 +9,19 @@ services:
         image: 4rgc/trellzo-backend-api:dev
         volumes:
             - ./api:/app
+            - ./scripts:/scripts
         ports:
             - 3000:8080
         networks:
             def:
                 ipv4_address: 192.168.2.3
+        restart: on-failure
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8080"]
+            interval: 1m30s
+            timeout: 30s
+            retries: 5
+            start_period: 30s
 
     mongodb:
         container_name: mongodb

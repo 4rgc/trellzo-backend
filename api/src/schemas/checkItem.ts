@@ -5,7 +5,7 @@ const CheckItemSchema = new Schema<ICheckItem>(
 	{
 		name: { type: String, required: true },
 		checked: { type: Boolean, required: true },
-		dueDate: { type: Schema.Types.Date, required: true },
+		dueDate: { type: Schema.Types.Date, required: false },
 	},
 	{ timestamps: true }
 );
