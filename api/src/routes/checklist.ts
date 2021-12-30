@@ -109,11 +109,6 @@ checklistRouter.post(
  *         items:
  *          $ref: '#/components/schemas/CheckItem'
  *         description: Checklist items for the new checklist
- *        checkItemsOrder:
- *         type: array
- *         items:
- *          $ref: '#/components/schemas/ObjectId'
- *         description: Display order for then new checklist's items
  *   responses:
  *    '201':
  *     description: Checklist created
@@ -134,10 +129,6 @@ checklistRouter.post(
 	param('noteId').isMongoId(),
 	body('name').isString(),
 	oneOf([body('checkItems').not().exists(), body('checkItems').isArray()]),
-	oneOf([
-		body('checkItemsOrder').not().exists(),
-		body('checkItemsOrder').isArray(),
-	]),
 	validateRequest,
 	authController.verifyToken,
 	checklistController.addChecklist
