@@ -357,6 +357,73 @@
 			"response": []
 		},
 		{
+			"name": "Change password",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const password = pm.variables.get('password')",
+							"",
+							"const req = JSON.parse(pm.request.body.raw)",
+							"let newReq = Object.assign({}, req);",
+							"",
+							"if (!password) {",
+							"    delete newReq.password",
+							"}",
+							"",
+							"pm.request.body.raw = JSON.stringify(newReq);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedCode = pm.variables.get('exp_code');",
+							"",
+							"const {message} = pm.response.json();",
+							"",
+							"pm.test(`Status code is ${expectedCode}`, function () {",
+							"    pm.response.to.have.status(expectedCode);",
+							"});",
+							"",
+							"const requestsData = pm.variables.get('requestsData');",
+							"pm.variables.clear()",
+							"pm.variables.set('requestsData', requestsData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/user/changepassword",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"user",
+						"changepassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get user boards",
 			"event": [
 				{
