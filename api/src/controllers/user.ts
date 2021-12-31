@@ -109,10 +109,47 @@ const updateUserProfile = async (
 	});
 };
 
+const changePassword = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const { password } = req.body;
+	const { userId } = res.locals.auth;
+
+	const { hashedPw, errHash } = await hash(password).then(
+		(hashedPw) => ({ hashedPw, errHash: undefined }),
+		(errHash) => ({ errHash, hashedPw: undefined })
+	);
+
+	if (errHash) return next(errHash);
+	if (!hashedPw)
+		return res.status(500).json({
+			message: 'Hashed password was null',
+			err: new Error(
+				'500 Internal Server Error: hashed password was null'
+			),
+		});
+
+	const { errUpdateUser } = await userDataController
+		.updateUser(userId, undefined, undefined, hashedPw)
+		.then(
+			(updatedUser) => ({ updatedUser, errUpdateUser: undefined }),
+			(errUpdateUser) => ({ errUpdateUser, updatedUser: undefined })
+		);
+
+	if (errUpdateUser) return next(errUpdateUser);
+
+	return res.json({
+		message: 'Changed password successfully',
+	});
+};
+
 const userController = {
 	getUserProfile,
 	registerNewUser,
 	updateUserProfile,
+	changePassword,
 };
 
 export default userController;
