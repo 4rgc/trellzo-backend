@@ -145,4 +145,46 @@ userRouter.post(
 	(_, res) => res.status(201).json({ message: 'Created' })
 );
 
+/**
+ * @openapi
+ * /changepassword:
+ *  post:
+ *   summary: Changes current user's password
+ *   security:
+ *    - jwtAuth: []
+ *      jwtRef: []
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        password:
+ *         type: string
+ *         description: User's password
+ *         example: n3WP455w06d
+ *   responses:
+ *    '201':
+ *     description: 'Successfully changed password'
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         message:
+ *          $ref: '#/components/schemas/ResultMessage'
+ *    '400':
+ *     $ref: '#/components/responses/400Validation'
+ *    '401':
+ *     $ref: '#/components/responses/401Unauthorized'
+ */
+userRouter.post(
+	'/changepassword',
+	body('password').matches(passwordRegex),
+	validateRequest,
+	authController.verifyToken,
+	userController.changePassword
+);
+
 export default userRouter;
