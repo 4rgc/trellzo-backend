@@ -19,14 +19,16 @@ const createUser = (name: string, email: string, password: string) =>
 
 const updateUser = (
 	userId: string,
-	name: string | undefined,
-	email: string | undefined
+	name?: string,
+	email?: string,
+	pass?: string
 ) =>
 	User.findByIdAndUpdate(
 		userId,
 		{
 			email,
 			name,
+			pass,
 		} as UpdateQuery<IUser>,
 		{
 			new: true,
