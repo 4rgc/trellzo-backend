@@ -149,3 +149,12 @@ export const authErrorHandler = (
 	}
 	next(err);
 };
+
+export const logRequest = (req: Request, res: Response, next: NextFunction) => {
+	console.log(
+		`[${new Date().toISOString()}]: ${req.method.toUpperCase()} ${
+			req.url
+		} ${JSON.stringify(req.body)}`
+	);
+	next();
+};

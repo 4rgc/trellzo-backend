@@ -11,6 +11,7 @@ import {
 	authErrorHandler,
 	handleValidationError,
 	internalErrorHandler,
+	logRequest,
 } from './util/route-handling';
 import userRouter from './routes/user';
 import authRouter from './routes/auth';
@@ -303,6 +304,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(queryParser({ parseNull: true, parseBoolean: true }));
 app.use(cookieParser());
+if (process.env.DEBUG_MODE) app.use(logRequest);
 
 mongoose
 	.connect('mongodb://mongodb:27017/trellzo', {
