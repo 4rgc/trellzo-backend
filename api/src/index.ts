@@ -20,6 +20,8 @@ import noteRouter from './routes/note';
 import checklistRouter from './routes/checklist';
 import commentRouter from './routes/comments';
 
+import cors from 'cors';
+
 const options = {
 	definition: {
 		openapi: '3.0.0',
@@ -293,6 +295,11 @@ const openapiSpecification = swaggerJsdoc(options);
 
 const app = express();
 
+const corsOptions: cors.CorsOptions = {
+	origin: /http(s)?:\/\/localhost(:[0-9]{2,5})?$/,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(queryParser({ parseNull: true, parseBoolean: true }));
 app.use(cookieParser());
