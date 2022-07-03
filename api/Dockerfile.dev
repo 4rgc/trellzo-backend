@@ -1,13 +1,7 @@
-FROM node:14-alpine
+FROM node:lts-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+RUN apk --no-cache add curl g++ make py3-pip
 
-RUN npm install
-
-COPY . .
-
-RUN npm test
-
-CMD ["npx", "ts-node", "index.ts"]
+CMD ["ash", "/scripts/start-dev-server.sh"]

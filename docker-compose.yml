@@ -5,7 +5,7 @@ services:
         container_name: api
         build:
             context: ./
-            dockerfile: ./api/Dockerfile.compose-dev
+            dockerfile: ./api/Dockerfile.dev
         image: 4rgc/trellzo-backend-api:dev
         volumes:
             - ./api:/app
