@@ -10,6 +10,7 @@ services:
         volumes:
             - ./api:/app
             - ./scripts:/scripts
+            - node_modules:/app/node_modules
         ports:
             - 3000:8080
         networks:
@@ -33,6 +34,9 @@ services:
             - 27017-27019:27017-27019
         environment:
             MONGO_INITDB_DATABASE: 'trellzo'
+        volumes:
+            - mongo_db_data:/data/db
+            - mongo_db_config:/data/configdb
         networks:
             def:
                 ipv4_address: 192.168.2.2
@@ -60,6 +64,11 @@ services:
                 'mongoimport --host mongodb --port 27017 --db trellzo -c notes
                 --mode upsert --type json --file /data/note.json --jsonArray',
             ]
+
+volumes:
+    node_modules:
+    mongo_db_data:
+    mongo_db_config:
 
 networks:
     def:
