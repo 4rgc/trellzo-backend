@@ -12,8 +12,14 @@ const generateTokens = (_req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { authToken, refreshToken } = genTokens(res.locals.payload);
 
-		res.cookie('auth', 'JWT ' + authToken, { httpOnly: true });
-		res.cookie('reft', refreshToken, { httpOnly: true });
+		res.cookie('auth', 'JWT ' + authToken, {
+			httpOnly: true,
+			path: '/',
+		});
+		res.cookie('reft', refreshToken, {
+			httpOnly: true,
+			path: '/',
+		});
 
 		return next();
 	} catch (err) {
@@ -108,7 +114,7 @@ const refreshAuthToken = (req: Request, res: Response, next: NextFunction) => {
 		return next(err);
 	}
 
-	res.cookie('auth', newAuthToken, { httpOnly: true });
+	res.cookie('auth', newAuthToken, { httpOnly: true, path: '/' });
 	return res.json({
 		message: 'Refreshed',
 	});

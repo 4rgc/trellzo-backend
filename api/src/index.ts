@@ -298,6 +298,7 @@ const app = express();
 
 const corsOptions: cors.CorsOptions = {
 	origin: /http(s)?:\/\/localhost(:[0-9]{2,5})?$/,
+	credentials: true,
 };
 
 app.use(cors(corsOptions));
