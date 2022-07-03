@@ -1,16 +1,18 @@
-FROM node:14-alpine
+FROM node:lts-alpine
+
+RUN apk add g++ make py3-pip
 
 WORKDIR /app
 
 EXPOSE 8080
 
+VOLUME /app/node_modules
+
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY . .
-
-RUN npm test
 
 RUN npm run compile
 

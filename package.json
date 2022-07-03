@@ -4,13 +4,13 @@
   "description": "Trellzo backend.",
   "scripts": {
     "dev-up": "docker-compose up -d",
-    "dev-down": "docker-compose down -v",
-    "mongo-build-dev": "npm explore mongo -- npm run build-dev",
-    "api-dev": "npm explore api -- npm run dev",
-    "api-test": "npm explore api -- npm test",
-    "api-build": "npm explore api -- npm run build",
-    "api-build-dev": "npm explore api -- npm run build-dev",
-    "api-start": "npm explore api -- npm start"
+    "dev-down": "docker-compose down && docker volume rm trellzo-backend_mongo_db_data trellzo-backend_mongo_db_config",
+    "mongo-build-dev": "npm run build-dev --prefix ./mongo",
+    "api-dev": "npm run dev --prefix ./api",
+    "api-test": "npm test --prefix ./api",
+    "api-build": "npm run build --prefix ./api",
+    "api-build-dev": "npm run build-dev --prefix ./api",
+    "api-start": "npm start --prefix ./api"
   },
   "repository": {
     "type": "git",
@@ -21,9 +21,5 @@
   "bugs": {
     "url": "https://github.com/4rgc/trellzo-backend/issues"
   },
-  "homepage": "https://github.com/4rgc/trellzo-backend#readme",
-  "dependencies": {
-    "api": "file:./api",
-    "mongo": "file:./mongo"
-  }
+  "homepage": "https://github.com/4rgc/trellzo-backend#readme"
 }

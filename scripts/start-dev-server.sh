@@ -1,6 +1,6 @@
 yarn check --verify-tree
 
-if [ $? -ne 0 ]; then npm i
+if [ $? -ne 0 ]; then npm ci
 fi
 
 npm run dev
