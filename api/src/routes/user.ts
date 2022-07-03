@@ -147,7 +147,7 @@ userRouter.post(
 
 /**
  * @openapi
- * /changepassword:
+ * /user/changepassword:
  *  post:
  *   summary: Changes current user's password
  *   security:
