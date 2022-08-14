@@ -2,6 +2,17 @@
   "commitizen": {
     "name": "cz_conventional_commits",
     "version": "0.1.5",
-    "tag_format": "v$version"
+    "tag_format": "v$version",
+    "customize": {
+      "bump_pattern": "^(?!(ci|docs|style)).*:",
+      "bump_map": {
+        "fix": "PATCH",
+        "feat": "MINOR",
+        "refactor": "MINOR",
+        "perf": "MINOR",
+        "test": "MINOR",
+        "build": "MINOR"
+      }
+    }
   }
 }
