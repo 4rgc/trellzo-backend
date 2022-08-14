@@ -1,3 +1,9 @@
+## v0.1.2 (2022-08-14)
+
+### Fix
+
+- **ci**: docker image build parameter name
+
 ## v0.1.1 (2022-08-14)
 
 ### Fix
