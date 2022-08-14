@@ -1,3 +1,9 @@
+## v0.1.5 (2022-08-14)
+
+### Fix
+
+- **ci**: load built images to use them in the docker-compose step
+
 ## v0.1.4 (2022-08-14)
 
 ### Fix
