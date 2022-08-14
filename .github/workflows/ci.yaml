@@ -54,6 +54,7 @@ jobs:
               with:
                   tags: 4rgc/trellzo-backend-api:dev
                   file: ./api/Dockerfile.dev
+                  load: true
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
             - name: Build the Mongo image
@@ -61,6 +62,7 @@ jobs:
               with:
                   tags: 4rgc/trellzo-backend-mongo:dev
                   file: ./mongo/Dockerfile.compose-dev
+                  load: true
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
             - # Temp fix
