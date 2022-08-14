@@ -1,3 +1,9 @@
+## v0.1.4 (2022-08-14)
+
+### Fix
+
+- **ci**: use cache-to and cache-from to store docker cache
+
 ## v0.1.3 (2022-08-14)
 
 ### Fix
