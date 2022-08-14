@@ -1,9 +1,10 @@
 name: CI
 on:
     push:
-        branches: '*'
+        branches: '**'
+        tags: 'v*.*.*'
     pull_request:
-        branches: '*'
+        branches: '**'
 jobs:
     Test:
         environment: Development
@@ -37,6 +38,20 @@ jobs:
                   echo JWT_SECRET_KEY="$JWT_SECRET_KEY" >> api/.env
                   echo REFRESH_SECRET_KEY="$REFRESH_SECRET_KEY" >> api/.env
                   cat api/.env
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v2
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+            - name: Build the API image
+              uses: docker/build-push-action@v3
+              with:
+                  tags: 4rgc/trellzo-backend-api:dev
+                  dockerfile: {context}/api/Dockerfile.dev
+            - name: Build the Mongo image
+              uses: docker/build-push-action@v3
+              with:
+                  tags: 4rgc/trellzo-backend-mongo:dev
+                  dockerfile: {context}/mongo/Dockerfile.compose-dev
             - name: Build the stack
               run: docker-compose up -d
             - name: Sleep for 10s
