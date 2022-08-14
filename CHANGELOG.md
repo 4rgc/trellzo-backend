@@ -1,3 +1,9 @@
+## v0.1.3 (2022-08-14)
+
+### Fix
+
+- **ci**: write build results as images to avoid rebuilding the images
+
 ## v0.1.2 (2022-08-14)
 
 ### Fix
