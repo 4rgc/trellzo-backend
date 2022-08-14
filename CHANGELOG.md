@@ -1,3 +1,9 @@
+## v0.1.1 (2022-08-14)
+
+### Fix
+
+- **ci**: fix yaml error in ci workflow
+
 ## v0.1.0 (2022-08-14)
 
 ### Feat
