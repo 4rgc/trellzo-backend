@@ -46,12 +46,12 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   tags: 4rgc/trellzo-backend-api:dev
-                  dockerfile: {context}/api/Dockerfile.dev
+                  dockerfile: ./api/Dockerfile.dev
             - name: Build the Mongo image
               uses: docker/build-push-action@v3
               with:
                   tags: 4rgc/trellzo-backend-mongo:dev
-                  dockerfile: {context}/mongo/Dockerfile.compose-dev
+                  dockerfile: ./mongo/Dockerfile.compose-dev
             - name: Build the stack
               run: docker-compose up -d
             - name: Sleep for 10s
