@@ -26,6 +26,9 @@
                 "notesOrder": [
                     {
                         "$oid": "60c5d167a6c781e43c11a5a4"
+                    },
+                    {
+                        "$oid": "6106f35927d5f4001d197e65"
                     }
                 ],
                 "boardId": {
