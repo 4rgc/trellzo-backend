@@ -1,3 +1,9 @@
+## v0.2.1 (2022-11-26)
+
+### Fix
+
+- **api-list**: instead of getting the first list get the list with id=listId
+
 ## v0.2.0 (2022-11-26)
 
 ### Feat
