@@ -58,10 +58,33 @@ const removeList = async (req: Request, res: Response, next: NextFunction) => {
 	});
 };
 
+const moveNoteToList = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const { boardId, listId, otherListId } = req.params;
+	const { noteId, otherListIndex } = req.body;
+
+	const { result, err } = await listDataController
+		.moveNoteToList(boardId, listId, otherListId, otherListIndex, noteId)
+		.then(
+			(result) => ({ result, err: undefined }),
+			(err) => ({ err, result: undefined })
+		);
+
+	if (err) return next(err);
+	if (!result)
+		return res.status(404).json({ message: 'Board/list not found' });
+
+	return res.json(result);
+};
+
 const listController = {
 	addList,
 	updateList,
 	removeList,
+	moveNoteToList,
 };
 
 export default listController;

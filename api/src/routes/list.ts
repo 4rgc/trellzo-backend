@@ -136,6 +136,77 @@ listRouter.post(
 
 /**
  * @openapi
+ * /list/{boardId}/{listId}/moveNoteTo/{otherListId}:
+ *  post:
+ *   summary: Moves a note from one list to another. Responds with the two lists after the update.
+ *   security:
+ *    - jwtAuth: []
+ *      jwtRef: []
+ *   parameters:
+ *    - in: path
+ *      name: boardId
+ *      schema:
+ *       type: string
+ *      required: true
+ *      description: ObjectId of the board
+ *    - in: path
+ *      name: listId
+ *      schema:
+ *       type: string
+ *      required: true
+ *      description: ObjectId of the source list
+ *    - in: path
+ *      name: otherListId
+ *      schema:
+ *       type: string
+ *      required: true
+ *      description: ObjectId of the destination list
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        noteId:
+ *         type: string
+ *         description: Id of the note
+ *         example: '61252f1050f154f82b6eda40'
+ *         nullable: false
+ *        otherListIndex:
+ *         type: number
+ *         description: Index at which the note should be placed in the destination list
+ *         example: 0
+ *         nullable: false
+ *   responses:
+ *    '200':
+ *     description: 'List updated'
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         list:
+ *          $ref: '#/components/schemas/List'
+ *    '401':
+ *     $ref: '#/components/responses/401Unauthorized'
+ *    '400':
+ *     $ref: '#/components/responses/400Validation'
+ */
+listRouter.post(
+	'/:boardId/:listId/moveNoteTo/:otherListId',
+	param('boardId').isMongoId(),
+	param('listId').isMongoId(),
+	param('otherListId').isMongoId(),
+	body('noteId').isMongoId(),
+	body('otherListIndex').isNumeric(),
+	validateRequest,
+	authController.verifyToken,
+	listController.moveNoteToList
+);
+
+/**
+ * @openapi
  * /list/{boardId}/{listId}:
  *  delete:
  *   summary: Removes a list from a board. Responds with the removed list.
