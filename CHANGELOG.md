@@ -1,3 +1,15 @@
+## v0.2.0 (2022-11-26)
+
+### Feat
+
+- **api-list**: add the moveNoteToList method to the list router
+- **api-list**: add a moveNoteToList method to the list controller
+- **api-list**: add the moveNoteToList method to the list data controller
+
+### Fix
+
+- **seed-data**: add note to notesOrder
+
 ## v0.1.5 (2022-08-14)
 
 ### Fix
