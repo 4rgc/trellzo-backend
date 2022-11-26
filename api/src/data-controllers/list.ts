@@ -64,7 +64,11 @@ const moveNoteToList = (
 		.lean()
 		.exec()
 		// SHOULD be done using transactions
-		.then((b) => b?.lists[0].notes.find((n) => n._id == noteId))
+		.then((b) =>
+			b?.lists
+				.find((l) => l._id == listId)
+				?.notes.find((n) => n._id == noteId)
+		)
 		// SHOULD be done using transactions
 		.then((n) =>
 			Board.findOneAndUpdate(
