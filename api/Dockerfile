@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-hydrogen
 
 RUN apk add g++ make py3-pip
 
