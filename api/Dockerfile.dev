@@ -1,4 +1,4 @@
-FROM node:lts-hydrogen
+FROM node:hydrogen-alpine
 
 WORKDIR /app
 
