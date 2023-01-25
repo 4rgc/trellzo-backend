@@ -1,3 +1,11 @@
-FROM mongo:4.4.6
+FROM ubuntu:22.04
 
-COPY ./mongo/db-seed/seed.js /docker-entrypoint-initdb.d
+RUN bash -c "apt-get update -y"
+
+RUN bash -c "apt-get install -y wget"
+
+RUN bash -c "if [ $(arch) == arm64 ] || [ $(arch) == aarch64 ]; then wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2204-arm64-100.6.1.deb -O mongotools.deb; elif [ $(arch) == amd64 ]; then wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2204-arm64-100.6.1.deb -O mongotools.deb; fi"
+
+RUN bash -c "apt-get install -y ./mongotools.deb"
+
+CMD /mongo_data/remote-seed.sh
