@@ -22,6 +22,7 @@ import checklistRouter from './routes/checklist';
 import commentRouter from './routes/comments';
 
 import cors from 'cors';
+import MongoUrl from './util/mongoUrl';
 
 const options = {
 	definition: {
@@ -307,13 +308,23 @@ app.use(queryParser({ parseNull: true, parseBoolean: true }));
 app.use(cookieParser());
 if (process.env.DEBUG_MODE) app.use(logRequest);
 
-mongoose
-	.connect('mongodb://mongodb:27017/trellzo', {
-		useFindAndModify: false,
-		useUnifiedTopology: true,
-	})
+await mongoose
+	.connect(
+		new MongoUrl(
+			process.env.MONGO_HOST?.split(',') || [],
+			process.env.MONGO_PORT?.split(',').map((port) => parseInt(port)) ||
+				[],
+			'trellzo'
+		)
+			.username(process.env.MONGO_USER)
+			.password(process.env.MONGO_PASSWORD)
+			.ssl(process.env.MONGO_SSL === 'true')
+			.replicaSet(process.env.MONGO_REPLICA_SET)
+			.authSource(process.env.MONGO_AUTH_SOURCE)
+			.toString()
+	)
 	.catch((err) => {
-		console.error(err.message);
+		console.error(err);
 		process.exit();
 	});
 mongoose.set('runValidators', true);
