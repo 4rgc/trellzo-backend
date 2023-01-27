@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import IBoard from './board';
+import IBoard from './board.js';
 
 export default interface IUser extends Document {
 	name: string;

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import noteDataController from '../data-controllers/note';
+import noteDataController from '../data-controllers/note.js';
 
 const getNote = async (req: Request, res: Response, next: NextFunction) => {
 	const { noteId } = req.params;

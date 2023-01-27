@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
-import IList from './list';
-import ITag from './tag';
-import IOrder from './order';
+import IList from './list.js';
+import ITag from './tag.js';
+import IOrder from './order.js';
 
 export default interface IBoard extends Document {
 	name: string;

@@ -1,4 +1,4 @@
-import IPartialBoard from '../interfaces/partialBoard';
+import IPartialBoard from '../interfaces/partialBoard.js';
 import { Schema } from 'mongoose';
 
 const PartialBoardSchema = new Schema<IPartialBoard>({

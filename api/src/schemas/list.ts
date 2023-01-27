@@ -1,6 +1,6 @@
 import { Schema, Types } from 'mongoose';
-import IList from '../interfaces/list';
-import PartialNoteSchema from './partialNote';
+import IList from '../interfaces/list.js';
+import PartialNoteSchema from './partialNote.js';
 
 const ListSchema = new Schema<IList>({
 	name: { type: String, required: true },

@@ -1,12 +1,12 @@
+import { Request, Response, NextFunction } from 'express';
 import {
 	generateTokens as genTokens,
 	verifyAccessToken,
 	verifyRefreshToken,
 	refreshAccessToken,
-} from '../util/jwt';
-import { Request, Response, NextFunction } from 'express';
-import userDataController from '../data-controllers/user';
-import { compare } from '../util/crypt';
+} from '../util/jwt.js';
+import userDataController from '../data-controllers/user.js';
+import { compare } from '../util/crypt.js';
 
 const generateTokens = (_req: Request, res: Response, next: NextFunction) => {
 	try {

@@ -9,17 +9,17 @@ import {
 	handleValidationError,
 	internalErrorHandler,
 	logRequest,
-} from './util/route-handling';
-import userRouter from './routes/user';
-import authRouter from './routes/auth';
-import boardRouter from './routes/board';
-import listRouter from './routes/list';
-import noteRouter from './routes/note';
-import checklistRouter from './routes/checklist';
-import commentRouter from './routes/comments';
+} from './util/route-handling.js';
+import userRouter from './routes/user.js';
+import authRouter from './routes/auth.js';
+import boardRouter from './routes/board.js';
+import listRouter from './routes/list.js';
+import noteRouter from './routes/note.js';
+import checklistRouter from './routes/checklist.js';
+import commentRouter from './routes/comments.js';
 
 import cors from 'cors';
-import MongoUrl from './util/mongoUrl';
+import MongoUrl from './util/mongoUrl.js';
 
 const options = {
 	definition: {

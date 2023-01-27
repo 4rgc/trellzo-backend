@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { cookie, body } from 'express-validator';
-import authController from '../controllers/auth';
-import validateRequest from '../middleware/validateRequest';
-import { sendSuccessMessageHandler } from '../util/route-handling';
+import authController from '../controllers/auth.js';
+import validateRequest from '../middleware/validateRequest.js';
+import { sendSuccessMessageHandler } from '../util/route-handling.js';
 const authRouter = Router();
 
 /**

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import userDataController from '../data-controllers/user';
-import { hash } from '../util/crypt';
+import userDataController from '../data-controllers/user.js';
+import { hash } from '../util/crypt.js';
 
 const registerNewUser = async (
 	req: Request,

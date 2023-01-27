@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import checklistDataController from '../data-controllers/checklist';
+import checklistDataController from '../data-controllers/checklist.js';
 
 const updateChecklist = async (
 	req: Request,

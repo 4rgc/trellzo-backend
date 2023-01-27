@@ -1,6 +1,6 @@
-import ITag from '../interfaces/tag';
-import Board from '../models/board';
-import Note from '../models/note';
+import ITag from '../interfaces/tag.js';
+import Board from '../models/board.js';
+import Note from '../models/note.js';
 
 const getNote = (noteId: string) => Note.findById(noteId).lean().exec();
 

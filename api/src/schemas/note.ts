@@ -1,8 +1,8 @@
-import INote from '../interfaces/note';
-import CommentSchema from './comment';
-import ChecklistSchema from './checklist';
 import { Schema, Types } from 'mongoose';
-import TagSchema from './tag';
+import INote from '../interfaces/note.js';
+import CommentSchema from './comment.js';
+import ChecklistSchema from './checklist.js';
+import TagSchema from './tag.js';
 
 const NoteSchema = new Schema<INote>({
 	name: { type: String, required: true },

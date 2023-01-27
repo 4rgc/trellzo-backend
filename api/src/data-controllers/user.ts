@@ -1,6 +1,6 @@
 import { UpdateQuery } from 'mongoose';
-import IUser from '../interfaces/user';
-import User from '../models/user';
+import IUser from '../interfaces/user.js';
+import User from '../models/user.js';
 
 const getAllUsers = () => User.find().lean().exec();
 

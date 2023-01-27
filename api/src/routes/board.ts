@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { body, oneOf, param } from 'express-validator';
-import authController from '../controllers/auth';
-import boardController from '../controllers/board';
-import validateRequest from '../middleware/validateRequest';
+import authController from '../controllers/auth.js';
+import boardController from '../controllers/board.js';
+import validateRequest from '../middleware/validateRequest.js';
 
 const boardRouter = Router();
 

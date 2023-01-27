@@ -1,4 +1,4 @@
-import ICheckItem from '../interfaces/checkItem';
+import ICheckItem from '../interfaces/checkItem.js';
 import { Schema } from 'mongoose';
 
 const CheckItemSchema = new Schema<ICheckItem>(

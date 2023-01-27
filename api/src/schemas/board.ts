@@ -1,8 +1,7 @@
-import IBoard from '../interfaces/board';
-import ListSchema from './list';
-import TagSchema from './tag';
-import OrderSchema from './order';
 import { Schema, Types } from 'mongoose';
+import IBoard from '../interfaces/board.js';
+import ListSchema from './list.js';
+import TagSchema from './tag.js';
 
 const BoardSchema = new Schema<IBoard>({
 	name: { type: String, required: true },
