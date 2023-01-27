@@ -1,0 +1,12 @@
+services:
+    remote-seed:
+        image: remote-seed
+        volumes:
+            - ./mongo/db-seed/prod:/mongo_data
+        build:
+            context: ./mongo
+            dockerfile: Dockerfile.compose-dev
+        environment:
+            - MONGODB_HOST
+            - MONGODB_USER
+            - MONGODB_PASSWORD

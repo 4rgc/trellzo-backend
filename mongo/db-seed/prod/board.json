@@ -1,0 +1,81 @@
+[{
+  "_id": {
+    "$oid": "63d3ff18ee913f7b883fd13e"
+  },
+  "name": "New board",
+  "description": "",
+  "listsOrder": [
+    {
+      "$oid": "63d3ff5eee913f7b883fd142"
+    },
+    {
+      "$oid": "63d40099ee913f7b883fd152"
+    }
+  ],
+  "userIds": [
+    {
+      "$oid": "63d3fe86ee913f7b883fd139"
+    }
+  ],
+  "lists": [
+    {
+      "name": "My List",
+      "notesOrder": [
+        {
+          "$oid": "63d4002bee913f7b883fd14a"
+        },
+        {
+          "$oid": "63d4005cee913f7b883fd14e"
+        }
+      ],
+      "boardId": {
+        "$oid": "63d3ff18ee913f7b883fd13e"
+      },
+      "_id": {
+        "$oid": "63d3ff5eee913f7b883fd142"
+      },
+      "notes": [
+        {
+          "name": "Make some tea",
+          "description": "",
+          "startDate": {
+            "$date": {
+              "$numberLong": "1674838800000"
+            }
+          },
+          "dueDate": null,
+          "_id": {
+            "$oid": "63d4002bee913f7b883fd14a"
+          },
+          "tags": []
+        },
+        {
+          "name": "Conquer the galaxy",
+          "description": "",
+          "startDate": {
+            "$date": {
+              "$numberLong": "1674842400000"
+            }
+          },
+          "dueDate": null,
+          "_id": {
+            "$oid": "63d4005cee913f7b883fd14e"
+          },
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "Done",
+      "notesOrder": [],
+      "boardId": {
+        "$oid": "63d3ff18ee913f7b883fd13e"
+      },
+      "_id": {
+        "$oid": "63d40099ee913f7b883fd152"
+      },
+      "notes": []
+    }
+  ],
+  "tags": []
+}]
