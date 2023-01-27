@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "test": "npx jest",
-    "compile": "tsc",
-    "build": "docker build -t 4rgc/trellzo-backend-api:1.0 .",
-    "build-dev": "docker build -t 4rgc/trellzo-backend-api:dev -f Dockerfile.dev .",
-    "start": "node ./dist/index.js"
+    "test:e2e": "npx newman run -d api/postman-test-data.json api/Trellzo.postman_collection.json",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts\" --source-maps inline",
+    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config ./src/index.ts"
   },
   "type": "module",
   "author": "",
