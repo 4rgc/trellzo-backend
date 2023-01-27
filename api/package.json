@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "test:e2e": "npx newman run -d api/postman-test-data.json api/Trellzo.postman_collection.json",
+    "test:e2e": "npx newman run -d postman-test-data.json Trellzo.postman_collection.json",
     "build": "npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir lib --extensions \".ts\" --source-maps inline",
@@ -23,7 +23,7 @@
     "express-query-parser": "^1.3.3",
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^6.8.4",
+    "mongoose": "^6.8.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.0"
   },
