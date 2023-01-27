@@ -1,8 +1,7 @@
 import INote from '../interfaces/note';
 import CommentSchema from './comment';
 import ChecklistSchema from './checklist';
-import OrderSchema from './order';
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 import TagSchema from './tag';
 
 const NoteSchema = new Schema<INote>({
@@ -13,7 +12,7 @@ const NoteSchema = new Schema<INote>({
 	checklists: { type: [ChecklistSchema], default: [] },
 	comments: { type: [CommentSchema], default: [] },
 	tags: { type: [TagSchema], default: [] },
-	checklistsOrder: { type: [Schema.Types.ObjectId], default: [] },
+	checklistsOrder: { type: [Types.ObjectId], default: [] },
 	boardId: { type: Schema.Types.ObjectId, required: true },
 	listId: { type: Schema.Types.ObjectId, required: true },
 });

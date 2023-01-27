@@ -103,6 +103,10 @@ export const handleValidationError = (
 	res: Response,
 	next: NextFunction
 ) => {
+	if (process.env.DEBUG_MODE === 'true') {
+		var stackTrace = err.stack;
+		console.error(stackTrace);
+	}
 	if (err.name === 'ValidationError')
 		return res.status(400).json({
 			message: err.message,

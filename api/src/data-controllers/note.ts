@@ -99,7 +99,7 @@ const addNote = (
 				// SHOULD be done using transactions
 				.then(
 					(res) =>
-						!res.n
+						!res.modifiedCount
 							? Note.deleteOne({ _id: n?._id }).then(
 									() => undefined
 							  )
