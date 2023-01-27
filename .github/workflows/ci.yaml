@@ -90,3 +90,15 @@ jobs:
               run: |
                   docker container ls -a
                   docker exec api ping 192.168.2.3 -c 8
+            - name: Print API logs on failure
+              if: ${{ failure() }}
+              run: |
+                  docker container logs api
+            - name: Print Mongo logs on failure
+              if: ${{ failure() }}
+              run: |
+                  docker container logs mongo
+            - name: Print mongodb-seed logs on failure
+              if: ${{ failure() }}
+              run: |
+                  docker container logs mongodb-seed
