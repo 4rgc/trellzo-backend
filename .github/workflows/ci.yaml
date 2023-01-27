@@ -46,7 +46,7 @@ jobs:
                   echo BCRYPT_SALT_ROUNDS="$BCRYPT_SALT_ROUNDS" >> api/.env
                   echo JWT_SECRET_KEY="$JWT_SECRET_KEY" >> api/.env
                   echo REFRESH_SECRET_KEY="$REFRESH_SECRET_KEY" >> api/.env
-                  echo MONGO_DB="$MONGO_DB" >> api/.env
+                  echo MONGO_HOST="$MONGO_HOST" >> api/.env
                   echo MONGO_PORT="$MONGO_PORT" >> api/.env
                   cat api/.env
             - name: Set up QEMU
