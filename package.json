@@ -5,11 +5,14 @@
   "scripts": {
     "dev-up": "docker-compose up -d",
     "dev-down": "docker-compose down && docker volume rm trellzo-backend_mongo_db_data trellzo-backend_mongo_db_config",
+    "seed-remote": "docker-compose -f docker-compose.remote-seed.yml up",
     "mongo-build-dev": "npm run build-dev --prefix ./mongo",
     "api-dev": "npm run dev --prefix ./api",
     "api-test": "npm test --prefix ./api",
-    "api-build": "npm run build --prefix ./api",
-    "api-build-dev": "npm run build-dev --prefix ./api",
+    "api-build-image": "docker build -t 4rgc/trellzo-backend-api:latest -f Dockerfile.api .",
+    "api-build-image-do": "docker build --platform=linux/amd64 -t registry.digitalocean.com/trellzo/trellzo-backend-api:latest -f Dockerfile.api .",
+    "api-push-image-do": "docker push registry.digitalocean.com/trellzo/trellzo-backend-api:latest",
+    "api-build-image-dev": "docker build -t 4rgc/trellzo-backend-api:dev -f Dockerfile.api-dev ./api",
     "api-start": "npm start --prefix ./api"
   },
   "repository": {

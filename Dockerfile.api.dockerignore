@@ -1,0 +1,5 @@
+*
+!api/lib
+!api/package.json
+!api/package-lock.json
+!scripts/start-server.sh
