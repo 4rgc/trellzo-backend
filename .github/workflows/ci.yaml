@@ -53,7 +53,7 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   tags: 4rgc/trellzo-backend-api:dev
-                  file: ./api/Dockerfile.dev
+                  file: Dockerfile.api-dev
                   load: true
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
