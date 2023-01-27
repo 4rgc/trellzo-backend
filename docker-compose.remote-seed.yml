@@ -4,7 +4,7 @@ services:
         volumes:
             - ./mongo/db-seed/prod:/mongo_data
         build:
-            context: ./mongo
+            context: ./mongo/db-seed
             dockerfile: Dockerfile.compose-dev
         environment:
             - MONGODB_HOST
