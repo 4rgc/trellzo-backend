@@ -4,9 +4,6 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import boardDataRouter from './routes/board-data';
-import usersDataRouter from './routes/users-data';
-import userDataRouter from './routes/user-data';
 import {
 	authErrorHandler,
 	handleValidationError,
@@ -331,9 +328,6 @@ mongoose.set('runValidators', true);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
-app.use('/data/user', userDataRouter);
-app.use('/data/users', usersDataRouter);
-app.use('/data/board', boardDataRouter);
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/board', boardRouter);
