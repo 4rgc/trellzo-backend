@@ -39,8 +39,8 @@ jobs:
                   BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS }}
                   JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
                   REFRESH_SECRET_KEY: ${{ secrets.REFRESH_SECRET_KEY }}
-                  MONGO_HOST: ${{ env.MONGO_HOST }}
-                  MONGO_PORT: ${{ env.MONGO_PORT }}
+                  MONGO_HOST: ${{ vars.MONGO_HOST }}
+                  MONGO_PORT: ${{ vars.MONGO_PORT }}
               run: |
                   touch api/.env
                   echo BCRYPT_SALT_ROUNDS="$BCRYPT_SALT_ROUNDS" >> api/.env
