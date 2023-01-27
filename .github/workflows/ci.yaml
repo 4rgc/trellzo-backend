@@ -80,7 +80,7 @@ jobs:
               run: |
                   docker container ls -a
                   docker exec api ping 192.168.2.3 -c 4
-                  docker run --network trellzo-backend_def appropriate/curl --retry 6 --retry-connrefused http://192.168.2.3:8080
+                  docker run --network trellzo-backend_def appropriate/curl --retry 7 --retry-connrefused http://192.168.2.3:8080
             - name: API Test
               run: |
                   npx newman -v
@@ -97,7 +97,7 @@ jobs:
             - name: Print Mongo logs on failure
               if: ${{ failure() }}
               run: |
-                  docker container logs mongo
+                  docker container logs mongodb
             - name: Print mongodb-seed logs on failure
               if: ${{ failure() }}
               run: |
