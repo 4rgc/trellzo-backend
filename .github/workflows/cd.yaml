@@ -1,0 +1,39 @@
+name: CD
+on:
+  workflow_call:
+
+jobs:
+  Build_and_Publish_a_Docker_image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "19"
+      - name: Get current package version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build Docker image
+        run: npm run api-build-image-do
+      - name: DigitalOcean App Platform deployment
+        uses: digitalocean/app_action@v1.1.4
+        with:
+          app_name: my_DO_app
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          images: |
+            '[
+                {
+                    "name": "trellzo-backend-api",
+                    "image":{
+                        "registry_type": "DOCR",
+                        "repository": "registry.digitalocean.com/trellzo",
+                        "tag": "${{ steps.package-version.outputs.current-version }}"
+                    },
+                }
+            ]'
