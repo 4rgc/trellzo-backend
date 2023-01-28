@@ -1,12 +1,12 @@
 name: CI
 on:
+    workflow_call:
     push:
-        branches: main
-        tags: 'v*.*.*'
+        tags: ['v*.*.*']
     pull_request:
-        branches: '**'
+        branches: ['**']
 jobs:
-    Test:
+    test:
         runs-on: ubuntu-latest
 
         steps:
