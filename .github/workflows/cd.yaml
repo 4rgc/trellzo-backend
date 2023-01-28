@@ -4,6 +4,7 @@ on:
 
 jobs:
   Build_and_Publish_a_Docker_image:
+    environment: Production
     runs-on: ubuntu-latest
 
     steps:
