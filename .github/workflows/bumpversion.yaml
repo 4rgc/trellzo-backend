@@ -20,7 +20,7 @@ jobs:
         uses: commitizen-tools/commitizen-action@master
         with:
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          dry_run: true
+          commit: false
       - name: Bump package.json version
         run: npm --no-git-tag-version version ${{ env.REVISION }}
       - name: Create bump and changelog
