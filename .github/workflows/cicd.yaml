@@ -12,3 +12,4 @@ jobs:
     if: "!startsWith(github.event.head_commit.message, 'bump:')"
     needs: CI
     uses: ./.github/workflows/cd.yaml
+    secrets: inherit
