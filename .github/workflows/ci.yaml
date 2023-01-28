@@ -1,13 +1,12 @@
 name: CI
 on:
     push:
-        branches: '**'
+        branches: main
         tags: 'v*.*.*'
     pull_request:
         branches: '**'
 jobs:
     Test:
-        environment: Development
         runs-on: ubuntu-latest
 
         steps:
