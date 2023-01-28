@@ -1,3 +1,9 @@
+## v0.3.1 (2023-01-28)
+
+### Fix
+
+- **cd**: fix reusable workflow path
+
 ## v0.3.0 (2023-01-28)
 
 ### Feat
