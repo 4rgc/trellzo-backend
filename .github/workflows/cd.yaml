@@ -39,7 +39,7 @@ jobs:
                     "name": "trellzo-backend-api",
                     "image":{
                         "registry_type": "DOCR",
-                        "repository": "trellzo",
+                        "repository": "registry.digitalocean.com/trellzo/",
                         "tag": "${{ steps.package-version.outputs.current-version }}"
                     },
                 }
