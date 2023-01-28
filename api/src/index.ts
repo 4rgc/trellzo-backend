@@ -4,24 +4,22 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import boardDataRouter from './routes/board-data';
-import usersDataRouter from './routes/users-data';
-import userDataRouter from './routes/user-data';
 import {
 	authErrorHandler,
 	handleValidationError,
 	internalErrorHandler,
 	logRequest,
-} from './util/route-handling';
-import userRouter from './routes/user';
-import authRouter from './routes/auth';
-import boardRouter from './routes/board';
-import listRouter from './routes/list';
-import noteRouter from './routes/note';
-import checklistRouter from './routes/checklist';
-import commentRouter from './routes/comments';
+} from './util/route-handling.js';
+import userRouter from './routes/user.js';
+import authRouter from './routes/auth.js';
+import boardRouter from './routes/board.js';
+import listRouter from './routes/list.js';
+import noteRouter from './routes/note.js';
+import checklistRouter from './routes/checklist.js';
+import commentRouter from './routes/comments.js';
 
 import cors from 'cors';
+import MongoUrl from './util/mongoUrl.js';
 
 const options = {
 	definition: {
@@ -307,22 +305,29 @@ app.use(queryParser({ parseNull: true, parseBoolean: true }));
 app.use(cookieParser());
 if (process.env.DEBUG_MODE) app.use(logRequest);
 
-mongoose
-	.connect('mongodb://mongodb:27017/trellzo', {
-		useFindAndModify: false,
-		useUnifiedTopology: true,
-	})
+await mongoose
+	.connect(
+		new MongoUrl(
+			process.env.MONGO_HOST?.split(',') || [],
+			process.env.MONGO_PORT?.split(',').map((port) => parseInt(port)) ||
+				[],
+			'trellzo'
+		)
+			.username(process.env.MONGO_USER)
+			.password(process.env.MONGO_PASSWORD)
+			.ssl(process.env.MONGO_SSL === 'true')
+			.replicaSet(process.env.MONGO_REPLICA_SET)
+			.authSource(process.env.MONGO_AUTH_SOURCE)
+			.toString()
+	)
 	.catch((err) => {
-		console.error(err.message);
+		console.error(err);
 		process.exit();
 	});
 mongoose.set('runValidators', true);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
-app.use('/data/user', userDataRouter);
-app.use('/data/users', usersDataRouter);
-app.use('/data/board', boardDataRouter);
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/board', boardRouter);

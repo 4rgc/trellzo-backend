@@ -1,0 +1,14 @@
+name: CI/CD
+on:
+  push:
+    branches: [main]
+
+jobs:
+  CI:
+    if: "!startsWith(github.event.head_commit.message, 'bump:')"
+    uses: ./.github/workflows/ci.yaml@main
+    secrets: inherit
+  CD:
+    if: "!startsWith(github.event.head_commit.message, 'bump:')"
+    needs: CI
+    uses: ./.github/workflows/cd.yaml@main

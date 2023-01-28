@@ -1,6 +1,6 @@
-import ICheckItem from '../interfaces/checkItem';
-import IOrder from '../interfaces/order';
-import Note from '../models/note';
+import ICheckItem from '../interfaces/checkItem.js';
+import IOrder from '../interfaces/order.js';
+import Note from '../models/note.js';
 
 const updateChecklist = (
 	noteId: string,

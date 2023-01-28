@@ -1,0 +1,15 @@
+FROM node:19-alpine
+
+WORKDIR /app
+
+EXPOSE 8080 80
+
+COPY api/lib .
+
+COPY api/package.json .
+
+COPY api/package-lock.json .
+
+COPY scripts/start-server.sh .
+
+CMD ["ash", "start-server.sh"]

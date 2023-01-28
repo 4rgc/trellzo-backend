@@ -1,5 +1,5 @@
-import IPartialNote from '../interfaces/partialNote';
-import TagSchema from './tag';
+import IPartialNote from '../interfaces/partialNote.js';
+import TagSchema from './tag.js';
 import { Schema } from 'mongoose';
 
 const PartialNoteSchema = new Schema<IPartialNote>({

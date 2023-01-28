@@ -1,5 +1,5 @@
-import User from '../models/user';
-import Board from '../models/board';
+import User from '../models/user.js';
+import Board from '../models/board.js';
 
 const getUserBoards = (userId: string) =>
 	User.findOne(

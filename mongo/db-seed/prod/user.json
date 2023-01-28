@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "63d3fe0fee913f7b883fd134"
+  },
+  "name": "prod1",
+  "email": "prod1@example.com",
+  "pass": "$2b$10$sFVGouc9jw281IGYNAm08expBCp0PFwci57vpNjxBLtROYKi21ewK",
+  "boards": []
+},{
+  "_id": {
+    "$oid": "63d3fe86ee913f7b883fd139"
+  },
+  "name": "prod2",
+  "email": "prod2@example.com",
+  "pass": "$2b$10$exj79Vy5DrTxynChw7PWf.LB.KfzaM9m5XShFWQIwdaT07c7t.qay",
+  "boards": [
+    {
+      "name": "New board",
+      "description": "",
+      "_id": {
+        "$oid": "63d3ff18ee913f7b883fd13e"
+      }
+    }
+  ]
+}]

@@ -1,5 +1,5 @@
-import Board from '../models/board';
-import Note from '../models/note';
+import Board from '../models/board.js';
+import Note from '../models/note.js';
 
 const createList = (boardId: string, listName: string) =>
 	Board.findByIdAndUpdate(

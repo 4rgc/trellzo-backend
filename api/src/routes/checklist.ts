@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { param, body, oneOf } from 'express-validator';
-import authController from '../controllers/auth';
-import checklistController from '../controllers/checklist';
-import validateRequest from '../middleware/validateRequest';
+import authController from '../controllers/auth.js';
+import checklistController from '../controllers/checklist.js';
+import validateRequest from '../middleware/validateRequest.js';
 
 const checklistRouter = Router();
 

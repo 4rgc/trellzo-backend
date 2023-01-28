@@ -1,5 +1,5 @@
-import IComment from '../interfaces/comment';
 import { Schema } from 'mongoose';
+import IComment from '../interfaces/comment.js';
 
 const CommentSchema = new Schema<IComment>(
 	{

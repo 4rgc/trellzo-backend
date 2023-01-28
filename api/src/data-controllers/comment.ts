@@ -1,4 +1,4 @@
-import Note from '../models/note';
+import Note from '../models/note.js';
 
 const getComments = (noteId: string) =>
 	Note.findById(noteId, { comments: 1 })

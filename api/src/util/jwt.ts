@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import crypto from 'crypto';
 
 const generateAuthToken = (payload: string | Object | Buffer) => {
@@ -55,9 +55,15 @@ export const refreshAccessToken = (authToken: string, refreshToken: string) => {
 		throw err;
 	}
 
-	if (typeof authPayload === 'object') {
-		delete authPayload.exp;
-		delete authPayload.iat;
+	if (typeof authPayload !== 'string') {
+		// authPayload is a JwtPayload when exp and iat are present
+		if (
+			(authPayload as JwtPayload).exp &&
+			(authPayload as JwtPayload).iat
+		) {
+			delete (authPayload as JwtPayload).exp;
+			delete (authPayload as JwtPayload).iat;
+		}
 	}
 
 	return generateAuthToken(authPayload);

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import commentDataController from '../data-controllers/comment';
+import commentDataController from '../data-controllers/comment.js';
 
 const getComments = async (req: Request, res: Response, next: NextFunction) => {
 	const { noteId } = req.params;

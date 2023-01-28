@@ -1,4 +1,4 @@
-import listDataController from '../data-controllers/list';
+import listDataController from '../data-controllers/list.js';
 import { Request, Response, NextFunction } from 'express';
 
 const addList = async (req: Request, res: Response, next: NextFunction) => {

@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { param, body, oneOf } from 'express-validator';
-import listController from '../controllers/list';
-import authController from '../controllers/auth';
-import validateRequest from '../middleware/validateRequest';
+import listController from '../controllers/list.js';
+import authController from '../controllers/auth.js';
+import validateRequest from '../middleware/validateRequest.js';
 
 const listRouter = Router();
 

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { isValidObjectId } from 'mongoose';
-import boardDataController from '../data-controllers/board';
+import boardDataController from '../data-controllers/board.js';
 
 const getBoards = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId } = res.locals.auth;
