@@ -6,9 +6,9 @@ on:
 jobs:
   CI:
     if: "!startsWith(github.event.head_commit.message, 'bump:')"
-    uses: 4rgc/trellzo-backend/.github/workflows/ci.yaml@main
+    uses: ./.github/workflows/ci.yaml@main
     secrets: inherit
   CD:
     if: "!startsWith(github.event.head_commit.message, 'bump:')"
     needs: CI
-    uses: 4rgc/trellzo-backend/.github/workflows/cd.yaml@main
+    uses: ./.github/workflows/cd.yaml@main
