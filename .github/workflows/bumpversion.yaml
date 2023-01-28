@@ -22,7 +22,7 @@ jobs:
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           commit: false
       - name: Bump package.json version
-        run: npm --no-git-tag-version version ${{ env.REVISION }}
+        run: npm --no-git-tag-version --allow-same-version version ${{ env.REVISION }}
       - name: Create bump and changelog
         uses: commitizen-tools/commitizen-action@master
         with:
