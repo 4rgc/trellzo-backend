@@ -1,3 +1,16 @@
+## v0.3.0 (2023-01-28)
+
+### Feat
+
+- **api**: use MongoUrl builder
+- **mongo**: use prod files for seeding remote mongo server
+- **mongo**: create dockerfile for seeding remote db
+
+### Fix
+
+- **api**: migrate code to mongoose 6
+- **api**: fix typing for jwt
+
 ## v0.2.1 (2022-11-26)
 
 ### Fix
