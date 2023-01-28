@@ -26,8 +26,16 @@ jobs:
       - name: Transpile the application code
         run: npm run build
         working-directory: ./api
-      - name: Build Docker image
-        run: npm run api-build-image-do
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2.3.0
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Authenticate to DigitalOcean
+        run: doctl registry login --expiry-seconds 600
+      - name: Build and push image
+        run: |-
+          npm run api-build-image-do
+          npm run api-push-image-do
       - name: DigitalOcean App Platform deployment
         uses: digitalocean/app_action@v1.1.4
         with:
@@ -35,10 +43,10 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           images: '[
             {
-            "name": "trellzo-backend-api",
+            "name": "trellzo-api",
             "image":{
             "registry_type": "DOCR",
-            "repository": "registry.digitalocean.com/trellzo/",
+            "repository": "trellzo",
             "tag": "${{ steps.package-version.outputs.current-version }}"
             }
             }
