@@ -33,14 +33,13 @@ jobs:
         with:
           app_name: trellzo-api
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-          images: |
-            '[
-                {
-                    "name": "trellzo-backend-api",
-                    "image":{
-                        "registry_type": "DOCR",
-                        "repository": "registry.digitalocean.com/trellzo/",
-                        "tag": "${{ steps.package-version.outputs.current-version }}"
-                    },
-                }
+          images: '[
+            {
+            "name": "trellzo-backend-api",
+            "image":{
+            "registry_type": "DOCR",
+            "repository": "registry.digitalocean.com/trellzo/",
+            "tag": "${{ steps.package-version.outputs.current-version }}"
+            },
+            }
             ]'
