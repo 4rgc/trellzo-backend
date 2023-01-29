@@ -25,8 +25,8 @@ jobs:
       - name: Bump package.json version
         run: |
           npm --no-git-tag-version --allow-same-version version ${{ steps.cz.outputs.version }}
-          git add package*.json
-          git commit --amend --no-edit
+          sudo git add package*.json
+          sudo git commit --amend --no-edit
       - name: Push bump commit
         run: |
           git push
