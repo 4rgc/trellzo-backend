@@ -1,3 +1,17 @@
+## v0.3.3 (2023-01-29)
+
+### Fix
+
+- **ci**: use sudo for git commands in bump workflow
+- **ci**: attempt at fixing commitizen bumping
+
+## v0.3.2 (2023-01-28)
+
+### Fix
+
+- **ci**: manually bump version and fix commitizen gh action
+- **cors**: set cors to trellzo.tech when not local
+
 ## v0.3.1 (2023-01-28)
 
 ### Fix
