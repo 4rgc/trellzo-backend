@@ -27,13 +27,14 @@ jobs:
           npm --no-git-tag-version --allow-same-version version ${{ env.REVISION }}
           sudo git add package*.json
           sudo git commit --amend --no-edit
-      - name: Push bump commit
+      - name: Push bump commit and tag
         run: |
-          git push
+          sudo git push
+          sudo git push origin --tags
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           body_path: "body.md"
-          tag_name: ${{ env.REVISION }}
+          tag_name: "v${{ env.REVISION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
