@@ -1,3 +1,9 @@
+## v0.3.5 (2023-01-29)
+
+### Fix
+
+- **ci**: push tags when bumping version and fix release tag names
+
 ## v0.3.4 (2023-01-29)
 
 ### Fix
