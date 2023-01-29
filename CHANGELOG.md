@@ -1,3 +1,9 @@
+## v0.4.0 (2023-01-29)
+
+### Fix
+
+- **ci**: use env.REVISION in bump workflow
+
 ## v0.3.3 (2023-01-29)
 
 ### Fix
