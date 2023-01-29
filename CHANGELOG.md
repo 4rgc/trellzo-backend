@@ -1,3 +1,9 @@
+## v0.3.2 (2023-01-28)
+
+### Fix
+
+- **cors**: set cors to trellzo.tech when not local
+
 ## v0.3.1 (2023-01-28)
 
 ### Fix
