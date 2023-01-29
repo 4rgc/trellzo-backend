@@ -295,7 +295,10 @@ const openapiSpecification = swaggerJsdoc(options);
 const app = express();
 
 const corsOptions: cors.CorsOptions = {
-	origin: /http(s)?:\/\/localhost(:[0-9]{2,5})?$/,
+	origin:
+		process.env.LOCAL === 'true'
+			? /http(s)?:\/\/localhost(:[0-9]{2,5})?$/
+			: /https:\/\/trellzo\.tech$/,
 	credentials: true,
 };
 
