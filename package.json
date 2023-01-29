@@ -1,6 +1,6 @@
 {
   "name": "trellzo-backend",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Trellzo backend.",
   "scripts": {
     "dev-up": "docker-compose up -d",
