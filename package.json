@@ -9,6 +9,7 @@
     "mongo-build-dev": "npm run build-dev --prefix ./mongo",
     "api-dev": "npm run dev --prefix ./api",
     "api-test": "npm test --prefix ./api",
+    "api-test:e2e": "npm run --prefix ./api test:e2e",
     "api-build-image": "docker build -t 4rgc/trellzo-backend-api:latest -f Dockerfile.api .",
     "api-build-image-do": "docker build --platform=linux/amd64 -t registry.digitalocean.com/trellzo/trellzo-backend-api:$npm_package_version -f Dockerfile.api .",
     "api-push-image-do": "docker push registry.digitalocean.com/trellzo/trellzo-backend-api:$npm_package_version",
