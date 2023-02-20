@@ -1,6 +1,18 @@
 version: "3.9"
 
 services:
+    https-proxy:
+        build:
+            context: ./https-proxy
+            dockerfile: ./Dockerfile.proxy
+        container_name: https-proxy
+        ports:
+            - "443:443"
+            - "80:80"
+        restart: always
+        networks:
+            def:
+                ipv4_address: 192.168.2.5
     api:
         container_name: api
         build:
@@ -17,6 +29,8 @@ services:
             def:
                 ipv4_address: 192.168.2.3
         restart: on-failure
+        depends_on:
+            - https-proxy
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:8080"]
             interval: 1m30s
