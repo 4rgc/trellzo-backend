@@ -52,6 +52,8 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      - name: Build the https-proxy image
+        run: npm run https-proxy-build
       - name: Build the API image
         uses: docker/build-push-action@v3
         with:
@@ -105,3 +107,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           docker container logs mongodb-seed
+      - name: Print https-proxy logs on failure
+        if: ${{ failure() }}
+        run: |
+          docker container logs https-proxy
