@@ -23,7 +23,15 @@ The backend for **your new project planning app** ~~ripoff~~.
   cd trellzo-backend
 ```
 
-4. Start the dev environment
+4. Generate your local SSL certificate and build the HTTPS proxy
+
+```bash
+  npm run https-proxy-build
+```
+
+Make sure to follow the instructions at the end of the script's output to exempt your SSL certificate from browser security measures.
+
+5. Start the dev environment
 
 ```bash
   npm run dev-up
@@ -37,7 +45,7 @@ Use this DB connection URI to work with data:
 
 and this one to access the API:
 
-`http://localhost:3000`
+`https://localhost`
 
 When finished, stop the containers with
 
