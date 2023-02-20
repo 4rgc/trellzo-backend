@@ -36,3 +36,11 @@ Thumbs.db
 
 # ignore yarn.lock
 yarn.lock
+
+# Ignore locally generated https certs and related files
+https-proxy/*.crt
+https-proxy/passphrase.txt
+https-proxy/*.key
+https-proxy/*.csr
+https-proxy/*.pfx
+https-proxy/*.key.org
