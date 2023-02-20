@@ -1,3 +1,10 @@
+## v0.4.0 (2023-02-20)
+
+### Feat
+
+- **auth**: use "secure" header for JWT cookies
+- **https-proxy**: add docker image and nginx config for the proxy
+
 ## v0.3.5 (2023-01-29)
 
 ### Fix
