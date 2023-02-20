@@ -18,6 +18,7 @@ const generateTokens = (_req: Request, res: Response, next: NextFunction) => {
 		});
 		res.cookie('reft', refreshToken, {
 			secure: true,
+			httpOnly: true,
 			path: '/',
 		});
 
