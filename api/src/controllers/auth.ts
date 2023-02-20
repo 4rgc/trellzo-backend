@@ -13,11 +13,11 @@ const generateTokens = (_req: Request, res: Response, next: NextFunction) => {
 		const { authToken, refreshToken } = genTokens(res.locals.payload);
 
 		res.cookie('auth', 'JWT ' + authToken, {
-			httpOnly: true,
+			secure: true,
 			path: '/',
 		});
 		res.cookie('reft', refreshToken, {
-			httpOnly: true,
+			secure: true,
 			path: '/',
 		});
 
