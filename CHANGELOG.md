@@ -1,3 +1,9 @@
+## v0.4.1 (2023-02-20)
+
+### Fix
+
+- **auth**: keep refresh token as httpOnly
+
 ## v0.4.0 (2023-02-20)
 
 ### Feat
