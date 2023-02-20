@@ -13,7 +13,8 @@
     "api-build-image-do": "docker build --platform=linux/amd64 -t registry.digitalocean.com/trellzo/trellzo-backend-api:$npm_package_version -f Dockerfile.api .",
     "api-push-image-do": "docker push registry.digitalocean.com/trellzo/trellzo-backend-api:$npm_package_version",
     "api-build-image-dev": "docker build -t 4rgc/trellzo-backend-api:dev -f Dockerfile.api-dev ./api",
-    "api-start": "npm start --prefix ./api"
+    "api-start": "npm start --prefix ./api",
+    "https-proxy-build": "./scripts/build-https-proxy.sh"
   },
   "repository": {
     "type": "git",
