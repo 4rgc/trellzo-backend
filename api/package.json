@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "test:e2e": "npx newman run -d postman-test-data.json Trellzo.postman_collection.json",
+    "test:e2e": "npx newman run -d postman-test-data.json Trellzo.postman_collection.json --insecure",
     "build": "npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir lib --extensions \".ts\" --source-maps inline",
