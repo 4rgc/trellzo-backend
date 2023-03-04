@@ -1,3 +1,9 @@
+## v0.4.2 (2023-03-04)
+
+### Fix
+
+- **auth**: set auth cookie to secure when refreshing
+
 ## v0.4.1 (2023-02-20)
 
 ### Fix
