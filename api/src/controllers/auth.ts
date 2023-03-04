@@ -115,7 +115,7 @@ const refreshAuthToken = (req: Request, res: Response, next: NextFunction) => {
 		return next(err);
 	}
 
-	res.cookie('auth', newAuthToken, { httpOnly: true, path: '/' });
+	res.cookie('auth', newAuthToken, { secure: true, path: '/' });
 	return res.json({
 		message: 'Refreshed',
 	});
