@@ -18,11 +18,13 @@ const generateTokens = (_req: Request, res: Response, next: NextFunction) => {
 		res.cookie('auth', 'JWT ' + authToken, {
 			secure: true,
 			path: '/',
+			domain: process.env.DOMAIN || 'trellzo.tech',
 		});
 		res.cookie('reft', refreshToken, {
 			secure: true,
 			httpOnly: true,
 			path: '/',
+			domain: process.env.DOMAIN || 'trellzo.tech',
 		});
 
 		return next();
@@ -118,7 +120,11 @@ const refreshAuthToken = (req: Request, res: Response, next: NextFunction) => {
 		return next(err);
 	}
 
-	res.cookie('auth', newAuthToken, { secure: true, path: '/' });
+	res.cookie('auth', newAuthToken, {
+		secure: true,
+		path: '/',
+		domain: process.env.DOMAIN || 'trellzo.tech',
+	});
 	return res.json({
 		message: 'Refreshed',
 	});
