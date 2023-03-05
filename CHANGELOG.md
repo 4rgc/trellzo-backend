@@ -1,3 +1,9 @@
+## v0.5.1 (2023-03-05)
+
+### Fix
+
+- **auth**: set the domain option on the cookies to allow the react app to retrieve them
+
 ## v0.5.0 (2023-03-05)
 
 ### Feat
