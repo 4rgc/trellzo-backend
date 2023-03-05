@@ -15,7 +15,7 @@ export const verifyRefreshToken = (token: string) => {
 	jwt.verify(token, process.env.REFRESH_SECRET_KEY);
 };
 
-export const generateTokens = (userId: string) => {
+export const generateTokens = (userId: string, userName: string) => {
 	if (!process.env.REFRESH_SECRET_KEY)
 		throw new Error('Env variable was undefined');
 	if (userId === '') throw new Error('userId was empty');
@@ -24,7 +24,7 @@ export const generateTokens = (userId: string) => {
 		process.env.REFRESH_SECRET_KEY,
 		{ expiresIn: '7d' }
 	);
-	const authToken = generateAuthToken({ userId });
+	const authToken = generateAuthToken({ userId, userName });
 	return { refreshToken, authToken };
 };
 
