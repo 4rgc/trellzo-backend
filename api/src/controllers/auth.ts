@@ -10,7 +10,10 @@ import { compare } from '../util/crypt.js';
 
 const generateTokens = (_req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { authToken, refreshToken } = genTokens(res.locals.payload);
+		const { authToken, refreshToken } = genTokens(
+			res.locals.payload.userId,
+			res.locals.payload.userName
+		);
 
 		res.cookie('auth', 'JWT ' + authToken, {
 			secure: true,
@@ -75,7 +78,7 @@ const verifyLogin = async (req: Request, res: Response, next: NextFunction) => {
 	if (!pwIsValid)
 		return res.status(401).json({ message: 'Incorrect password' });
 
-	res.locals.payload = user._id;
+	res.locals.payload = { userId: user._id, userName: user.name };
 	return next();
 };
 
