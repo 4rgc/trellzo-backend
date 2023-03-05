@@ -1,3 +1,9 @@
+## v0.5.0 (2023-03-05)
+
+### Feat
+
+- **auth**: include user name when generating an auth token
+
 ## v0.4.2 (2023-03-04)
 
 ### Fix
