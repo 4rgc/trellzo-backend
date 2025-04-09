@@ -78,7 +78,7 @@ jobs:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: Build the stack
-        run: docker-compose up -d
+        run: npm run dev-up
       - name: Sleep for 10s
         run: sleep 10s
       - name: API smoke test
