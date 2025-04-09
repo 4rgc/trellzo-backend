@@ -298,7 +298,7 @@ const corsOptions: cors.CorsOptions = {
 	origin:
 		process.env.LOCAL === 'true'
 			? /http(s)?:\/\/localhost(:[0-9]{2,5})?$/
-			: /https:\/\/trellzo\.tech$/,
+			: /https:\/\/trellzo\.space$/,
 	credentials: true,
 };
 
