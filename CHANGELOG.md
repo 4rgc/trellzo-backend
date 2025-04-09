@@ -1,3 +1,12 @@
+## v0.5.2 (2025-04-09)
+
+### Fix
+
+- **ci**: docker compose command
+- **build**: docker compose command
+- update more references to old domain
+- update default app domain
+
 ## v0.5.1 (2023-03-05)
 
 ### Fix
