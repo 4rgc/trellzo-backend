@@ -3,9 +3,9 @@
   "version": "0.5.1",
   "description": "Trellzo backend.",
   "scripts": {
-    "dev-up": "docker-compose up -d",
-    "dev-down": "docker-compose down && docker volume rm trellzo-backend_mongo_db_data trellzo-backend_mongo_db_config",
-    "seed-remote": "docker-compose -f docker-compose.remote-seed.yml up",
+    "dev-up": "docker compose up -d",
+    "dev-down": "docker compose down && docker volume rm trellzo-backend_mongo_db_data trellzo-backend_mongo_db_config",
+    "seed-remote": "docker compose -f docker-compose.remote-seed.yml up",
     "mongo-build-dev": "npm run build-dev --prefix ./mongo",
     "api-dev": "npm run dev --prefix ./api",
     "api-test": "npm test --prefix ./api",
