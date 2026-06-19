@@ -55,7 +55,7 @@ jobs:
       - name: Build the https-proxy image
         run: npm run https-proxy-build
       - name: Build the API image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           tags: 4rgc/trellzo-backend-api:dev
           file: Dockerfile.api-dev
@@ -63,7 +63,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       - name: Build the Mongo image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           tags: 4rgc/trellzo-backend-mongo:dev
           file: ./mongo/Dockerfile.dev
